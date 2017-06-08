@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">HTML_parsel</string>
+    <string name="start_activity">StartActivity</string>
+    <string name="edit_product">What do you need?</string>
+    <string name="start_text">Hello!</string>
+    <string name="start">Start search!</string>
+    <string name="stop">Stop search</string>
+</resources>
