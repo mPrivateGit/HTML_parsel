@@ -26,8 +26,12 @@ public class RecyclerViewFragment extends Fragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(new ProductAdapter(null, getContext()));
+        mRecyclerView.setAdapter(new ProductAdapter(null, getActivity()));
 
         return v;
+    }
+
+    public void notifyRecycler() {
+        mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 }

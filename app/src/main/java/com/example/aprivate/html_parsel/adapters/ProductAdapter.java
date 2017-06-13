@@ -1,5 +1,6 @@
 package com.example.aprivate.html_parsel.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,22 +23,24 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductHolder> {
     private List<Product> mProducts;
     private SQLiteDatabase mSQL;
+    private Activity mAct;
 
-    public ProductAdapter(List<Product> products, Context context){
+    public ProductAdapter(List<Product> products, Activity activity){
         mProducts = new ArrayList<>();
         for (int i=0;i<30;i++) {
             Product p = new Product();
             p.setProductName("test" + i);
             mProducts.add(p);
         }
-        testingDb(context);
+        testingDb(activity.getApplicationContext());
+        mAct =activity;
     }
 
     @Override
     public ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_view, parent, false);
-        return new ProductHolder(view);
+        return new ProductHolder(view, mAct);
     }
 
     @Override

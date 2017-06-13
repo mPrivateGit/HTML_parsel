@@ -5,4 +5,10 @@
     <string name="start_text">Hello!</string>
     <string name="start">Start search!</string>
     <string name="stop">Stop search</string>
+    <string name="message_text">Edit your favorite product for search</string>
+    <string name="enter_search">Edit for search</string>
+    <string name="product_pice">Edit pice</string>
+    <string name="button_search">Search!</string>
+    <string name="yes">Yes</string>
+    <string name="no">NO</string>
 </resources>
