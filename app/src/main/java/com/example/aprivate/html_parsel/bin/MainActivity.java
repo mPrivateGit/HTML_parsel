@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity implements EditDialogInterfa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        test();
-
         startRecyclerView();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -52,17 +50,6 @@ public class MainActivity extends AppCompatActivity implements EditDialogInterfa
         ft.add(R.id.recycler_view_container, recyclerViewFragment,
                 RecyclerViewFragment.class.getCanonicalName());
         ft.commit();
-    }
-
-    private List<Product> test(){
-        mProducts = new ArrayList<>();
-        for (int i=0;i<30;i++){
-            Product p = new Product();
-            p.setProductName("test" + i);
-            mProducts.add(p);
-        }
-
-        return mProducts;
     }
 
     @Override

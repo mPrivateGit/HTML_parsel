@@ -5,11 +5,11 @@ import java.util.UUID;
 
 public class Product {
     private String mProductName;
-    private UUID mProductId;
+    private String mProductId;
     private String mNeedSearch; //Todo convert to Boolean
 
     public Product(){
-        mProductId = UUID.randomUUID();
+        mProductId = UUID.randomUUID().toString();
     }
 
     public String getProductName() {
@@ -20,7 +20,7 @@ public class Product {
         this.mProductName = mProductName;
     }
 
-    public UUID getProductId() {
+    public String getProductId() {
         return mProductId;
     }
 
@@ -30,5 +30,9 @@ public class Product {
 
     public void setNeedSearch(String mNeedSearch) {
         this.mNeedSearch = mNeedSearch;
+    }
+
+    public void setProductId(String mProductId) {
+        this.mProductId = mProductId;
     }
 }
