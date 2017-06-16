@@ -56,6 +56,7 @@ public class RecyclerViewFragment extends Fragment {
         String projection [] = {
                 BaseShema.Cols.UUID,
                 BaseShema.Cols.PRODUCT_NAME,
+                BaseShema.Cols.PRODUCT_PRICE,
                 BaseShema.Cols.BOOLEAN_SEARCH,
         };
         Cursor cursor = mSQL.query(BaseShema.ProductTable.TABLE_NAME,
@@ -69,23 +70,26 @@ public class RecyclerViewFragment extends Fragment {
         try {
             int targetUUID = cursor.getColumnIndex(BaseShema.Cols.UUID);
             int targetName = cursor.getColumnIndex(BaseShema.Cols.PRODUCT_NAME);
+            int targetPrice = cursor.getColumnIndex(BaseShema.Cols.PRODUCT_PRICE);
             int targetBoolean = cursor.getColumnIndex(BaseShema.Cols.BOOLEAN_SEARCH);
 
             while (cursor.moveToNext()) {
                 String uuid = cursor.getString(targetUUID);
                 String name = cursor.getString(targetName);
+                String price = cursor.getString(targetPrice);
                 String bool = cursor.getString(targetBoolean);
 
                 Product product = new Product();
                 product.setProductId(uuid);
                 product.setProductName(name);
-                product.setNeedSearch(bool);
+                product.setPrice(price);
+                product.convertToBoolean(bool);
 
                 mList.add(product);
 
                 Log.d(">>>>>>>>>-----: ", uuid);
                 Log.d(">>>>>>>>>-----: ", name);
-                Log.d(">>>>>>>>>-----: ", bool + "");
+                Log.d(">>>>>>>>>-----: ", bool);
 
                 Log.d("ITEM------->: ", cursor.getCount()+ "");
             }

@@ -1,16 +1,11 @@
 package com.example.aprivate.html_parsel.dialogs;
 
 
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,57 +13,39 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.aprivate.html_parsel.Product;
 import com.example.aprivate.html_parsel.R;
-import com.example.aprivate.html_parsel.adapters.ProductAdapter;
 import com.example.aprivate.html_parsel.data.BaseHelper;
 import com.example.aprivate.html_parsel.interfaces.EditDialogInterface;
 
-public class EditDialog extends DialogFragment implements DialogInterface.OnClickListener{
+public class EditDialog extends DialogFragment implements View.OnClickListener{
 
     private final static String TAG = "EditDialog";
     private EditText edtProduct;
-    private EditText mSetPice;
-    private Button mButtonSearch;
+    private EditText mSetFavoritePrice;
     private EditDialogInterface editDialogInterface;
-
+    private Button mButtonSearch;
+    private Button mButtonCancel;
+    private TextView mTitle;
 
     @Nullable
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState){
-//    AlertDialog.Builder abd = new AlertDialog.Builder(getActivity());
-//                abd.setTitle("hi");
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.dialog_activity, container, false);
+        mTitle = (TextView)v.findViewById(R.id.text_dialog_title);
+        edtProduct = (EditText) v.findViewById(R.id.search_product);
+        mSetFavoritePrice = (EditText)v.findViewById(R.id.search_product_pice);
+        mButtonSearch = (Button)v.findViewById(R.id.btn_search);
+        mButtonSearch.setOnClickListener(this);
+        mButtonCancel = (Button)v.findViewById(R.id.btn_cancel);
+        mButtonSearch.setOnClickListener(this);
 
-       // View v = inflater.inflate(R.layout.dialog_activity, null);
-//
-//        edtProduct =(EditText)v.findViewById(R.id.search_product);
-//        mSetPice =(EditText)v.findViewById(R.id.search_product_pice);
-
-        edtProduct = new EditText(getActivity());
-        AlertDialog.Builder adb = new AlertDialog.Builder(getActivity())
-                .setTitle("Title!").setPositiveButton(R.string.yes, this)
-                .setView(edtProduct)
-                .setNegativeButton(R.string.no, this)
-                .setMessage(R.string.message_text);
-        return adb.create();
+        return v;
     }
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        Log.d(TAG, "OnClick: " + which);
-        switch (which) {
-            case DialogInterface.BUTTON_NEGATIVE:
-                break;
-            case DialogInterface.BUTTON_POSITIVE:
-                if (TextUtils.isEmpty(edtProduct.getText())) return;
-                Product product = new Product();
-                product.setProductName(edtProduct.getText().toString());
-                BaseHelper baseHelper = new BaseHelper(getActivity());
-                baseHelper.createProduct(product);
-                editDialogInterface.onChanged();
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -80,6 +57,25 @@ public class EditDialog extends DialogFragment implements DialogInterface.OnClic
     public void onDetach() {
         super.onDetach();
         editDialogInterface = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.d(TAG, "OnClick: " + v.getId());
+        switch (v.getId()) {
+            case R.id.btn_cancel:
+                break;
+            case R.id.btn_search:
+                if (TextUtils.isEmpty(edtProduct.getText())) return;
+                Product product = new Product();
+                product.setProductName(edtProduct.getText().toString());
+                product.setPrice(mSetFavoritePrice.getText().toString());
+                product.setNeedSearch(false);
+                BaseHelper baseHelper = new BaseHelper(getActivity());
+                baseHelper.createProduct(product);
+                editDialogInterface.onChanged();
+                break;
+        }
     }
 }
 

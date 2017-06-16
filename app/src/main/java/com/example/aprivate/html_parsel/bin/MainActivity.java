@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity implements EditDialogInterfa
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent i = new Intent(MainActivity.this, StartActivity.class);
-                //startActivity(i);
                 EditDialog editDialog = new EditDialog();
                 getFragmentManager().beginTransaction()
                         .add(editDialog, EditDialog.class.getCanonicalName())

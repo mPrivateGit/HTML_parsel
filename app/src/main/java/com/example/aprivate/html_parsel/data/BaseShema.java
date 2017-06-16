@@ -9,6 +9,7 @@ public class BaseShema {
     public static final class Cols{
         public static final String UUID = "uuid";
         public static final String PRODUCT_NAME = "name";
+        public static final String PRODUCT_PRICE = "price";
         public static final String BOOLEAN_SEARCH = "boolean";
     }
 }

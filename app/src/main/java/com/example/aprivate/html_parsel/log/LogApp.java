@@ -5,7 +5,7 @@ import android.util.Log;
 
 public class LogApp {
 
-    public LogApp(Object o, String str){
-        Log.d(o.toString(), str);
+    public static void Log(String TAG, String str){
+        Log.d(TAG, str);
     }
 }

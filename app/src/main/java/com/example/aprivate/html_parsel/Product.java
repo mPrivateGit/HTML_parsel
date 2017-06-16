@@ -6,6 +6,7 @@ import java.util.UUID;
 public class Product {
     private String mProductName;
     private String mProductId;
+    private String mPrice;
     private String mNeedSearch; //Todo convert to Boolean
 
     public Product(){
@@ -24,15 +25,34 @@ public class Product {
         return mProductId;
     }
 
-    public String getNeedSearch() {
-        return mNeedSearch;
+    public Boolean getNeedSearch() {
+        if (mNeedSearch == "true")return true;
+        else return false;
     }
 
-    public void setNeedSearch(String mNeedSearch) {
-        this.mNeedSearch = mNeedSearch;
+    public void setNeedSearch(Boolean mNeedSearch) {
+        if (mNeedSearch == true){
+            this.mNeedSearch = "true";
+        } else {
+            this.mNeedSearch = "false";
+        }
     }
 
     public void setProductId(String mProductId) {
         this.mProductId = mProductId;
+    }
+
+    public String getPrice() {
+        return mPrice;
+    }
+
+    public void setPrice(String mPrice) {
+        this.mPrice = mPrice;
+    }
+
+    public void convertToBoolean(String str){
+        if (str == "true"){
+            setNeedSearch(true);
+        } else setNeedSearch(false);
     }
 }

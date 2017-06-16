@@ -28,6 +28,7 @@ public class BaseHelper extends SQLiteOpenHelper
                 " _id integer primary key autoincrement, " +
                 BaseShema.Cols.UUID + ", " +
                 BaseShema.Cols.PRODUCT_NAME + ", " +
+                BaseShema.Cols.PRODUCT_PRICE + ", " +
                 BaseShema.Cols.BOOLEAN_SEARCH +
                 ")";
         db.execSQL(mSQL);
@@ -42,7 +43,7 @@ public class BaseHelper extends SQLiteOpenHelper
     public void createProduct(Product product) {
         mSQL = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(BaseShema.Cols.UUID, product.getProductId().toString());
+        contentValues.put(BaseShema.Cols.UUID, product.getProductId());
         contentValues.put(BaseShema.Cols.PRODUCT_NAME, product.getProductName());
         contentValues.put(BaseShema.Cols.BOOLEAN_SEARCH, product.getNeedSearch());
 
