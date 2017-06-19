@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.bin.StartActivity;
 import com.example.aprivate.html_parsel.log.LogApp;
+import com.example.aprivate.html_parsel.network.RequestCreator;
 
 public class ProductHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
@@ -36,6 +37,8 @@ public class ProductHolder extends RecyclerView.ViewHolder
 
     @Override
     public void onClick(View v) {
+        RequestCreator r = new RequestCreator(null);
+        r.execute();
         Intent i = new Intent(v.getContext(), StartActivity.class);
         mAct.startActivity(i);
     }

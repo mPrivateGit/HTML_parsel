@@ -3,7 +3,6 @@ package com.example.aprivate.html_parsel.dialogs;
 
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -15,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.aprivate.html_parsel.Product;
+import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.data.BaseHelper;
 import com.example.aprivate.html_parsel.interfaces.EditDialogInterface;
@@ -67,12 +66,12 @@ public class EditDialog extends DialogFragment implements View.OnClickListener{
                 break;
             case R.id.btn_search:
                 if (TextUtils.isEmpty(edtProduct.getText())) return;
-                Product product = new Product();
-                product.setProductName(edtProduct.getText().toString());
-                product.setPrice(mSetFavoritePrice.getText().toString());
-                product.setNeedSearch(false);
+                SearchProduct searchProduct = new SearchProduct();
+                searchProduct.setProductName(edtProduct.getText().toString());
+                searchProduct.setPrice(mSetFavoritePrice.getText().toString());
+                searchProduct.setNeedSearch(false);
                 BaseHelper baseHelper = new BaseHelper(getActivity());
-                baseHelper.createProduct(product);
+                baseHelper.createProduct(searchProduct);
                 editDialogInterface.onChanged();
                 break;
         }

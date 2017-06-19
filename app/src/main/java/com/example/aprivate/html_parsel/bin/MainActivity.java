@@ -1,6 +1,5 @@
 package com.example.aprivate.html_parsel.bin;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
@@ -9,17 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.example.aprivate.html_parsel.Product;
+import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.dialogs.EditDialog;
 import com.example.aprivate.html_parsel.interfaces.EditDialogInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements EditDialogInterface {
     private final static String TAG = "MainActivity";
-    private List<Product> mProducts;
+    private List<SearchProduct> mSearchProducts;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

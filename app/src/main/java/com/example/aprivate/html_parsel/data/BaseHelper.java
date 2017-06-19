@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.aprivate.html_parsel.Product;
+import com.example.aprivate.html_parsel.SearchProduct;
 
 public class BaseHelper extends SQLiteOpenHelper
         implements IDataBase{
@@ -40,23 +40,23 @@ public class BaseHelper extends SQLiteOpenHelper
     }
 
     @Override
-    public void createProduct(Product product) {
+    public void createProduct(SearchProduct searchProduct) {
         mSQL = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(BaseShema.Cols.UUID, product.getProductId());
-        contentValues.put(BaseShema.Cols.PRODUCT_NAME, product.getProductName());
-        contentValues.put(BaseShema.Cols.BOOLEAN_SEARCH, product.getNeedSearch());
+        contentValues.put(BaseShema.Cols.UUID, searchProduct.getProductId());
+        contentValues.put(BaseShema.Cols.PRODUCT_NAME, searchProduct.getProductName());
+        contentValues.put(BaseShema.Cols.BOOLEAN_SEARCH, searchProduct.getNeedSearch());
 
         mSQL.insert(BaseShema.ProductTable.TABLE_NAME, null, contentValues);
     }
 
     @Override
-    public Product getProductByPosition(int position) {
+    public SearchProduct getProductByPosition(int position) {
         return null;
     }
 
     @Override
-    public void deleteProduct(Product product) {
+    public void deleteProduct(SearchProduct searchProduct) {
         BaseHelper baseHelper = new BaseHelper(mContext);
         mSQL = baseHelper.getWritableDatabase();
         String target = "";
@@ -66,7 +66,7 @@ public class BaseHelper extends SQLiteOpenHelper
     }
 
     @Override
-    public void updateProduct(Product product) {
+    public void updateProduct(SearchProduct searchProduct) {
         BaseHelper baseHelper = new BaseHelper(mContext);
         mSQL = baseHelper.getWritableDatabase();
         String target = "";

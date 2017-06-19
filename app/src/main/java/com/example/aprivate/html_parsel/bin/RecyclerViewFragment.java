@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.aprivate.html_parsel.Product;
+import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.adapters.ProductAdapter;
 import com.example.aprivate.html_parsel.data.BaseHelper;
@@ -46,8 +46,8 @@ public class RecyclerViewFragment extends Fragment {
         mRecyclerView.swapAdapter(new ProductAdapter(getProducts(getContext()), getActivity()), true);
     }
 
-    private List<Product> getProducts(Context context){
-        List<Product> mList = new ArrayList<>();
+    private List<SearchProduct> getProducts(Context context){
+        List<SearchProduct> mList = new ArrayList<>();
         BaseHelper baseHelper = new BaseHelper(context);
 
         //чтение
@@ -79,13 +79,13 @@ public class RecyclerViewFragment extends Fragment {
                 String price = cursor.getString(targetPrice);
                 String bool = cursor.getString(targetBoolean);
 
-                Product product = new Product();
-                product.setProductId(uuid);
-                product.setProductName(name);
-                product.setPrice(price);
-                product.convertToBoolean(bool);
+                SearchProduct searchProduct = new SearchProduct();
+                searchProduct.setProductId(uuid);
+                searchProduct.setProductName(name);
+                searchProduct.setPrice(price);
+                searchProduct.convertToBoolean(bool);
 
-                mList.add(product);
+                mList.add(searchProduct);
 
                 Log.d(">>>>>>>>>-----: ", uuid);
                 Log.d(">>>>>>>>>-----: ", name);

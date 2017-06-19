@@ -3,13 +3,13 @@ package com.example.aprivate.html_parsel;
 
 import java.util.UUID;
 
-public class Product {
+public class SearchProduct {
     private String mProductName;
     private String mProductId;
     private String mPrice;
     private String mNeedSearch; //Todo convert to Boolean
 
-    public Product(){
+    public SearchProduct(){
         mProductId = UUID.randomUUID().toString();
     }
 
