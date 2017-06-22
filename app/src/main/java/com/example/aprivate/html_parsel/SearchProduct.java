@@ -1,7 +1,10 @@
 package com.example.aprivate.html_parsel;
 
 
+
+
 import java.util.UUID;
+
 
 public class SearchProduct {
     private String mProductName;
