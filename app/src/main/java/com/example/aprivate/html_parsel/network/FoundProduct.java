@@ -6,21 +6,25 @@ import java.net.URL;
 import java.util.UUID;
 
 public class FoundProduct {
-    private String mName;
+    private String mProductName;
     private String mPrice;
-    private URL mProductUrl;
-    private String mProductId;
+    private String mUrl;
+    private String mId;
 
-    private FoundProduct(){
-        mProductId = UUID.randomUUID().toString();
+    public FoundProduct(){
+        mId = UUID.randomUUID().toString();
     }
 
-    public String getName() {
-        return mName;
+    public String getProduct() {
+        return mProductName;
     }
 
-    public void setName(String mName) {
-        this.mName = mName;
+    public void setProductName(String mProduct) {
+        this.mProductName = mProduct;
+    }
+
+    public String getmId() {
+        return mId;
     }
 
     public String getPrice() {
@@ -31,19 +35,11 @@ public class FoundProduct {
         this.mPrice = mPrice;
     }
 
-    public URL getProductUrl() {
-        return mProductUrl;
+    public String getUrl() {
+        return mUrl;
     }
 
-    public void setProductUrl(URL mProductUrl) {
-        this.mProductUrl = mProductUrl;
-    }
-
-    public String getPoductId() {
-        return mProductId;
-    }
-
-    public void setPoductId(String mProductId) {
-        this.mProductId = mProductId;
+    public void setUrl(String mUrl) {
+        this.mUrl = mUrl;
     }
 }
