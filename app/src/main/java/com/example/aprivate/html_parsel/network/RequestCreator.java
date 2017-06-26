@@ -60,6 +60,9 @@ public class RequestCreator extends AsyncTask<String, Void, Void> {
     }
 
     private void jsonsCreator() throws IOException, InterruptedException {
+        int count = sum();
+        LogApp.Log("..... Происходит парсинг страниц... ", "Осталось страниц: " + count);
+
         Document doc = Jsoup.connect(BASE_URL + mSearchProduct).get();
         Elements elements = doc.select("div.s-item-container");
         for (int i = 0; i < elements.size(); i++) {
@@ -82,37 +85,38 @@ public class RequestCreator extends AsyncTask<String, Void, Void> {
             product.setUrl(href);
 
             mArr.add(product);
-
-//            if (sum() > 0) {
-//                for (int q = 2; q < sum(); q++) {
-//                    int count = sum() - q;
-//                    LogApp.Log("..... Происходит парсинг страниц... ", "Осталось страниц: " + count);
-//                    sleep(20000);
-//                    String page = "&page=" + q;
-//                    doc = Jsoup.connect(BASE_URL + mSearchProduct + page).get();
-//                    Elements nextElements = doc.select("div.s-item-container");
-//                    for (int w = 0; w < elements.size(); w++) {
-//                        //Достаю имя (титул продукта)
-//                        name = nextElements.get(w).select("[title]").text();
-//                        product.setProductName(name);
-//                        //Достаю цену
-//                        price = elements.get(w).select(".sx-price").text();
-//                        if (!Objects.equals(price, "")) {
-//                            product.setPrice(price);
-//                        } else {
-//                            String miniPrice = elements.get(i).select(".a-size-base").text();
-//                            product.setPrice(miniPrice);
-//                        }
-//                        // достаю URL
-//                        url = elements.get(i).select(".a-text-normal").first();
-//                        href = url.absUrl("href");
-//                        product.setUrl(href);
-//
-//                        mArr.add(product);
-//                    }
-                    LogApp.Log("...Парсинг завершен....", ".");
-//                }
-//            }
         }
+
+        if (sum() > 0) {
+            for (int q = 2; q < sum()+1; q++) {
+                count--;
+                LogApp.Log("..... Происходит парсинг страниц... ", "Осталось страниц: " + count);
+                sleep(20000); //TODO random
+                String page = "&page=" + q;
+                doc = Jsoup.connect(BASE_URL + mSearchProduct + page).get(); //TODO set firefox
+                Elements nextElements = doc.select("div.s-item-container");
+                for (int w = 0; w < nextElements.size(); w++) {
+                    FoundProduct product = new FoundProduct();
+                    //Достаю имя (титул продукта)
+                    String name = nextElements.get(w).select("[title]").text();
+                    product.setProductName(name);
+                    //Достаю цену
+                    String price = nextElements.get(w).select(".sx-price").text();
+                    if (!Objects.equals(price, "")) {
+                        product.setPrice(price);
+                    } else {
+                        String miniPrice = nextElements.get(w).select(".a-size-base").text();
+                        product.setPrice(miniPrice);
+                    }
+                    // достаю URL
+                    Element url = nextElements.get(w).select(".a-text-normal").first();
+                    String href = url.absUrl("href");
+                    product.setUrl(href);
+
+                    mArr.add(product);
+                }
+            }
+        }
+        LogApp.Log("...Парсинг завершен....", ".");
     }
 }
