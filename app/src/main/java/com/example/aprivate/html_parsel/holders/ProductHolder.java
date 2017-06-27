@@ -44,6 +44,7 @@ public class ProductHolder extends RecyclerView.ViewHolder
 //        mAct.startActivity(i);
 
         Intent i = new Intent(v.getContext(), SearchService.class);
+        i.putExtra(mSearchText.getText().toString(), "s");
         mAct.startService(i);
     }
 

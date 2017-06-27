@@ -1,6 +1,7 @@
 package com.example.aprivate.html_parsel.network;
 
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import com.example.aprivate.html_parsel.log.LogApp;
 
@@ -21,7 +22,7 @@ public class RequestCreator extends AsyncTask<String, Void, Void> {
             "https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=";
     private int mPagesCount;
     private String mSearchProduct;  //убрать пустые места между словами и заменить на +
-    protected ArrayList<FoundProduct> mArr = new ArrayList<>();
+    private ArrayList<FoundProduct> mArr = new ArrayList<>();
 
     public RequestCreator(String searchProduct) {
         mSearchProduct = searchProduct;
@@ -36,19 +37,8 @@ public class RequestCreator extends AsyncTask<String, Void, Void> {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
+            viewToLogResults();
         }
-
-        for (int i = 0; i <mArr.size() ; i++) {
-            System.out.println(mArr.get(i).getPrice()
-                    + " "
-                    + mArr.get(i).getProduct()
-                    + "\n"
-                    + mArr.get(i).getUrl());
-        }
-
-        System.out.println(mArr.size());
-
         return null;
     }
 
@@ -72,7 +62,7 @@ public class RequestCreator extends AsyncTask<String, Void, Void> {
             product.setProductName(name);
             //Достаю цену
             String price = elements.get(i).select(".sx-price").text();
-            if (!Objects.equals(price, "")) {
+            if (!TextUtils.isEmpty(price)) {
                 product.setPrice(price);
             } else {
                 String miniPrice = elements.get(i).select(".a-size-base").text();
@@ -101,7 +91,7 @@ public class RequestCreator extends AsyncTask<String, Void, Void> {
                     product.setProductName(name);
                     //Достаю цену
                     String price = nextElements.get(w).select(".sx-price").text();
-                    if (!Objects.equals(price, "")) {
+                    if (!TextUtils.isEmpty(price)) {
                         product.setPrice(price);
                     } else {
                         String miniPrice = nextElements.get(w).select(".a-size-base").text();
@@ -117,5 +107,16 @@ public class RequestCreator extends AsyncTask<String, Void, Void> {
             }
         }
         LogApp.Log("...Парсинг завершен....", ".");
+    }
+
+    private void viewToLogResults(){
+        for (int i = 0; i <mArr.size() ; i++) {
+            System.out.println(mArr.get(i).getPrice()
+                    + " "
+                    + mArr.get(i).getProduct()
+                    + "\n"
+                    + mArr.get(i).getUrl());
+        }
+        System.out.println(mArr.size());
     }
 }

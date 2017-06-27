@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.adapters.ProductAdapter;
-import com.example.aprivate.html_parsel.data.BaseHelper;
+import com.example.aprivate.html_parsel.data.BaseHelperUserProduct;
 import com.example.aprivate.html_parsel.data.BaseShema;
 
 import java.util.ArrayList;
@@ -48,18 +48,18 @@ public class RecyclerViewFragment extends Fragment {
 
     private List<SearchProduct> getProducts(Context context){
         List<SearchProduct> mList = new ArrayList<>();
-        BaseHelper baseHelper = new BaseHelper(context);
+        BaseHelperUserProduct baseHelperUserProduct = new BaseHelperUserProduct(context);
 
         //чтение
-        mSQL = baseHelper.getReadableDatabase();
+        mSQL = baseHelperUserProduct.getReadableDatabase();
 
         String projection [] = {
-                BaseShema.Cols.UUID,
-                BaseShema.Cols.PRODUCT_NAME,
-                BaseShema.Cols.PRODUCT_PRICE,
-                BaseShema.Cols.BOOLEAN_SEARCH,
+                BaseShema.ColsUserProducts.UUID,
+                BaseShema.ColsUserProducts.PRODUCT_NAME,
+                BaseShema.ColsUserProducts.PRODUCT_PRICE,
+                BaseShema.ColsUserProducts.BOOLEAN_SEARCH,
         };
-        Cursor cursor = mSQL.query(BaseShema.ProductTable.TABLE_NAME,
+        Cursor cursor = mSQL.query(BaseShema.UserProductTable.TABLE_NAME,
                 projection,
                 null,
                 null,
@@ -68,10 +68,10 @@ public class RecyclerViewFragment extends Fragment {
                 null);
 
         try {
-            int targetUUID = cursor.getColumnIndex(BaseShema.Cols.UUID);
-            int targetName = cursor.getColumnIndex(BaseShema.Cols.PRODUCT_NAME);
-            int targetPrice = cursor.getColumnIndex(BaseShema.Cols.PRODUCT_PRICE);
-            int targetBoolean = cursor.getColumnIndex(BaseShema.Cols.BOOLEAN_SEARCH);
+            int targetUUID = cursor.getColumnIndex(BaseShema.ColsUserProducts.UUID);
+            int targetName = cursor.getColumnIndex(BaseShema.ColsUserProducts.PRODUCT_NAME);
+            int targetPrice = cursor.getColumnIndex(BaseShema.ColsUserProducts.PRODUCT_PRICE);
+            int targetBoolean = cursor.getColumnIndex(BaseShema.ColsUserProducts.BOOLEAN_SEARCH);
 
             while (cursor.moveToNext()) {
                 String uuid = cursor.getString(targetUUID);

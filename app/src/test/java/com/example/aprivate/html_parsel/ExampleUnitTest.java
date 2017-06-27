@@ -1,13 +1,5 @@
 package com.example.aprivate.html_parsel;
 
-import android.app.Instrumentation;
-import android.content.Context;
-import android.content.pm.InstrumentationInfo;
-import android.test.mock.MockContext;
-
-import com.example.aprivate.html_parsel.data.BaseHelper;
-
-import org.junit.Before;
 import org.junit.Test;
 
 
