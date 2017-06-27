@@ -13,6 +13,7 @@ import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.bin.StartActivity;
 import com.example.aprivate.html_parsel.log.LogApp;
 import com.example.aprivate.html_parsel.network.RequestCreator;
+import com.example.aprivate.html_parsel.services.SearchService;
 
 public class ProductHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
@@ -37,10 +38,13 @@ public class ProductHolder extends RecyclerView.ViewHolder
 
     @Override
     public void onClick(View v) {
-        RequestCreator r = new RequestCreator(null);
-        r.execute();
-        Intent i = new Intent(v.getContext(), StartActivity.class);
-        mAct.startActivity(i);
+//        RequestCreator r = new RequestCreator(null);
+//        r.execute();
+//        Intent i = new Intent(v.getContext(), StartActivity.class);
+//        mAct.startActivity(i);
+
+        Intent i = new Intent(v.getContext(), SearchService.class);
+        mAct.startService(i);
     }
 
     @Override

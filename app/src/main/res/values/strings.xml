@@ -12,4 +12,5 @@
     <string name="yes">Yes</string>
     <string name="no">NO</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="setting_activity">SettingActivity</string>
 </resources>

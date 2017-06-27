@@ -1,7 +1,6 @@
 package com.example.aprivate.html_parsel.network;
 
 import android.os.AsyncTask;
-import android.text.TextUtils;
 
 import com.example.aprivate.html_parsel.log.LogApp;
 
@@ -18,7 +17,7 @@ import static java.lang.Thread.sleep;
 
 
 public class RequestCreator extends AsyncTask<String, Void, Void> {
-    private static final String BASE_URL =
+    private static final String BASE_URL_SEARCH_AMAZON =
             "https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=";
     private int mPagesCount;
     private String mSearchProduct;  //убрать пустые места между словами и заменить на +
@@ -27,7 +26,7 @@ public class RequestCreator extends AsyncTask<String, Void, Void> {
     public RequestCreator(String searchProduct) {
         mSearchProduct = searchProduct;
         mSearchProduct = "macbook+pro";
-        LogApp.Log(RequestCreator.class.getCanonicalName(), BASE_URL + mSearchProduct);
+        LogApp.Log(RequestCreator.class.getCanonicalName(), BASE_URL_SEARCH_AMAZON + mSearchProduct);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class RequestCreator extends AsyncTask<String, Void, Void> {
     }
 
     private int sum() throws IOException {
-        Document doc = Jsoup.connect(BASE_URL + mSearchProduct).get();
+        Document doc = Jsoup.connect(BASE_URL_SEARCH_AMAZON + mSearchProduct).get();
         String target = doc.select("#pagn .pagnDisabled").text();
         return Integer.valueOf(target);
     }
@@ -63,7 +62,7 @@ public class RequestCreator extends AsyncTask<String, Void, Void> {
         int count = sum();
         LogApp.Log("..... Происходит парсинг страниц... ", "Осталось страниц: " + count);
 
-        Document doc = Jsoup.connect(BASE_URL + mSearchProduct).get();
+        Document doc = Jsoup.connect(BASE_URL_SEARCH_AMAZON + mSearchProduct).get();
         Elements elements = doc.select("div.s-item-container");
         for (int i = 0; i < elements.size(); i++) {
             //достань имя, цену, ссылку
@@ -93,7 +92,7 @@ public class RequestCreator extends AsyncTask<String, Void, Void> {
                 LogApp.Log("..... Происходит парсинг страниц... ", "Осталось страниц: " + count);
                 sleep(20000); //TODO random
                 String page = "&page=" + q;
-                doc = Jsoup.connect(BASE_URL + mSearchProduct + page).get(); //TODO set firefox
+                doc = Jsoup.connect(BASE_URL_SEARCH_AMAZON + mSearchProduct + page).get(); //TODO set firefox
                 Elements nextElements = doc.select("div.s-item-container");
                 for (int w = 0; w < nextElements.size(); w++) {
                     FoundProduct product = new FoundProduct();

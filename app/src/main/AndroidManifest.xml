@@ -22,7 +22,11 @@
             android:name=".bin.StartActivity"
             android:label="@string/start_activity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".bin.SetingActivity"></activity>
+        <activity
+            android:name=".bin.SettingActivity"
+            android:label="@string/setting_activity"/>
+        <service android:name=".services.SearchService"
+            android:process=":Second_Process"/>
     </application>
 
 </manifest>

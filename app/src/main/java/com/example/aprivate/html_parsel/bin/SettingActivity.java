@@ -6,7 +6,7 @@ import android.widget.Button;
 
 import com.example.aprivate.html_parsel.R;
 
-public class SetingActivity extends AppCompatActivity {
+public class SettingActivity extends AppCompatActivity {
     private Button mStartButton;
     private Button mStopButton;
 
