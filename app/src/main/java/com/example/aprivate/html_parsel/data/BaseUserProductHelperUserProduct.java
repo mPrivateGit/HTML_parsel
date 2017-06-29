@@ -9,14 +9,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.aprivate.html_parsel.SearchProduct;
 
-public class BaseHelperUserProduct extends SQLiteOpenHelper
-        implements IDataBase{
+public class BaseUserProductHelperUserProduct extends SQLiteOpenHelper
+        implements IDataBaseUserProduct {
     private static final int VERSION = 1;
     private static final String DATABASE_NAME = "products.db";
     private SQLiteDatabase mSQL;
     private Context mContext;
 
-    public BaseHelperUserProduct(Context context) {
+    public BaseUserProductHelperUserProduct(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
         mContext = context;
     }
@@ -56,7 +56,7 @@ public class BaseHelperUserProduct extends SQLiteOpenHelper
 
     @Override
     public void deleteProduct(SearchProduct searchProduct) {
-        BaseHelperUserProduct baseHelperUserProduct = new BaseHelperUserProduct(mContext);
+        BaseUserProductHelperUserProduct baseHelperUserProduct = new BaseUserProductHelperUserProduct(mContext);
         mSQL = baseHelperUserProduct.getWritableDatabase();
         String target = "";
         String command = target +"";
@@ -67,7 +67,7 @@ public class BaseHelperUserProduct extends SQLiteOpenHelper
 
     @Override
     public void updateProduct(SearchProduct searchProduct) {
-        BaseHelperUserProduct baseHelperUserProduct = new BaseHelperUserProduct(mContext);
+        BaseUserProductHelperUserProduct baseHelperUserProduct = new BaseUserProductHelperUserProduct(mContext);
         mSQL = baseHelperUserProduct.getWritableDatabase();
         String target = "";
         String command = target +"";
@@ -78,7 +78,7 @@ public class BaseHelperUserProduct extends SQLiteOpenHelper
 
     @Override
     public int size() {
-        BaseHelperUserProduct baseHelperUserProduct = new BaseHelperUserProduct(mContext);
+        BaseUserProductHelperUserProduct baseHelperUserProduct = new BaseUserProductHelperUserProduct(mContext);
         mSQL = baseHelperUserProduct.getReadableDatabase();
 
         String projection [] = {

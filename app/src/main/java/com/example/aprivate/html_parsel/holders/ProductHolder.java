@@ -38,11 +38,6 @@ public class ProductHolder extends RecyclerView.ViewHolder
 
     @Override
     public void onClick(View v) {
-//        RequestCreator r = new RequestCreator(null);
-//        r.execute();
-//        Intent i = new Intent(v.getContext(), StartActivity.class);
-//        mAct.startActivity(i);
-
         Intent i = new Intent(v.getContext(), SearchService.class);
         i.putExtra(mSearchText.getText().toString(), "s");
         mAct.startService(i);

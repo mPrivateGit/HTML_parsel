@@ -19,7 +19,12 @@ public class FoundProduct {
         return mProductName;
     }
 
+    public void setProductId(String mId) {
+        this.mId = mId;
+    }
+
     public void setProductName(String mProduct) {
+
         this.mProductName = mProduct;
     }
 

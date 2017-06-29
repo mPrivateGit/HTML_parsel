@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.R;
-import com.example.aprivate.html_parsel.data.BaseHelperUserProduct;
+import com.example.aprivate.html_parsel.data.BaseUserProductHelperUserProduct;
 import com.example.aprivate.html_parsel.interfaces.EditDialogInterface;
 
 public class EditDialog extends DialogFragment implements View.OnClickListener{
@@ -70,7 +70,7 @@ public class EditDialog extends DialogFragment implements View.OnClickListener{
                 searchProduct.setProductName(edtProduct.getText().toString());
                 searchProduct.setPrice(mSetFavoritePrice.getText().toString());
                 searchProduct.setNeedSearch(false);
-                BaseHelperUserProduct baseHelperUserProduct = new BaseHelperUserProduct(getActivity());
+                BaseUserProductHelperUserProduct baseHelperUserProduct = new BaseUserProductHelperUserProduct(getActivity());
                 baseHelperUserProduct.createProduct(searchProduct);
                 editDialogInterface.onChanged();
                 break;

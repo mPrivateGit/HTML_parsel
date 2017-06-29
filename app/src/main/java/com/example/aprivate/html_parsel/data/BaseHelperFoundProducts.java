@@ -3,17 +3,16 @@ package com.example.aprivate.html_parsel.data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.aprivate.html_parsel.SearchProduct;
+import com.example.aprivate.html_parsel.network.FoundProduct;
 
 
 public class BaseHelperFoundProducts extends SQLiteOpenHelper
-        implements IDataBase{
+        implements IDataBaseFoundProduct {
     private static final int VERSION = 1;
-    private static final String DATABASE_NAME = "products.db";
+    private static final String DATABASE_NAME = "foundsproducts.db";
     private SQLiteDatabase mSQL;
     private Context mContext;
 
@@ -40,23 +39,23 @@ public class BaseHelperFoundProducts extends SQLiteOpenHelper
     }
 
     @Override
-    public void createProduct(SearchProduct searchProduct) {
+    public void createProduct(FoundProduct foundProduct) {
         mSQL = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(BaseShema.ColsFoundsProduct.UUID, searchProduct.getProductId());
-        contentValues.put(BaseShema.ColsFoundsProduct.PRODUCT_NAME, searchProduct.getProductName());
-        contentValues.put(BaseShema.ColsFoundsProduct.URL, searchProduct.getNeedSearch());
+        contentValues.put(BaseShema.ColsFoundsProduct.UUID, foundProduct.getmId());
+        contentValues.put(BaseShema.ColsFoundsProduct.PRODUCT_NAME, foundProduct.getProduct());
+        contentValues.put(BaseShema.ColsFoundsProduct.URL, foundProduct.getUrl());
 
         mSQL.insert(BaseShema.FoundsProductTable.TABLE_NAME, null, contentValues);
     }
 
     @Override
-    public SearchProduct getProductByPosition(int position) {
+    public FoundProduct getProductByPosition(int position) {
         return null;
     }
 
     @Override
-    public void deleteProduct(SearchProduct searchProduct) {
+    public void deleteProduct(FoundProduct searchProduct) {
         BaseHelperFoundProducts baseHelperFoundProducts = new BaseHelperFoundProducts(mContext);
         mSQL = baseHelperFoundProducts.getWritableDatabase();
         String target = "";
@@ -67,7 +66,7 @@ public class BaseHelperFoundProducts extends SQLiteOpenHelper
     }
 
     @Override
-    public void updateProduct(SearchProduct searchProduct) {
+    public void updateProduct(FoundProduct searchProduct) {
         BaseHelperFoundProducts baseHelperFoundProducts = new BaseHelperFoundProducts(mContext);
         mSQL = baseHelperFoundProducts.getWritableDatabase();
         String target = "";
@@ -76,6 +75,7 @@ public class BaseHelperFoundProducts extends SQLiteOpenHelper
         mSQL.update(BaseShema.UserProductTable.TABLE_NAME, null, command, null);
         //TODO ??? что-то тут не чисто, нужно проверить правильность обновления
     }
+
 
     @Override
     public int size() {
