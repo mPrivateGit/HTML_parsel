@@ -1,14 +1,10 @@
 package com.example.aprivate.html_parsel.network;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.example.aprivate.html_parsel.data.BaseHelperFoundProducts;
-import com.example.aprivate.html_parsel.data.BaseShema;
 import com.example.aprivate.html_parsel.log.LogApp;
 
 import org.jsoup.Jsoup;
@@ -17,46 +13,53 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 import static java.lang.Thread.sleep;
 
 
-public class RequestCreator extends AsyncTask<String, Context, Void> {
+public class RequestCreator extends AsyncTask<Object, Object, String> {
     private static final String BASE_URL_SEARCH_AMAZON =
             "https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=";
+    private static String FINALLY_URL = "";
     private Context mContext;
+    private String mLowPrice;
+    private String mHighPrice;
     private String mSearchProduct;  //убрать пустые места между словами и заменить на +
-    private ArrayList<FoundProduct> mArr = new ArrayList<>();
-    private SQLiteDatabase mSQL;
 
-    public RequestCreator(String searchProduct, Context context) {
+    //Если указан диапазон цены
+    public RequestCreator(Context context, String searchProduct) {
         mContext = context;
         mSearchProduct = searchProduct;
-        mSearchProduct = "macbook+pro";
-        LogApp.Log(RequestCreator.class.getCanonicalName(), BASE_URL_SEARCH_AMAZON + mSearchProduct);
-        //viewToLogResults(getProducts(mContext));
+        FINALLY_URL = BASE_URL_SEARCH_AMAZON + mSearchProduct;
+        LogApp.Log(RequestCreator.class.getCanonicalName(), FINALLY_URL);
+    }
+    //Если диапазон цены не указан
+    public RequestCreator(Context context, String searchProduct, int lowPrice, int highPrice) {
+        mContext = context;
+        mLowPrice = "&low-price="+ lowPrice;
+        mHighPrice = "&high-price=" + highPrice;
+        mSearchProduct = searchProduct;
+        FINALLY_URL = BASE_URL_SEARCH_AMAZON + mSearchProduct + mLowPrice + mHighPrice;
+        LogApp.Log(RequestCreator.class.getCanonicalName(), FINALLY_URL);
     }
 
     @Override
-    protected Void doInBackground(String... params) {
+    protected String doInBackground(Object... params) {
         try {
             jsonsCreator();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            viewToLogResults();
+            notify();
         }
-        return null;
+        return mSearchProduct;
     }
 
-    private int sum() throws IOException {
-        Document doc = Jsoup.connect(BASE_URL_SEARCH_AMAZON + mSearchProduct)
+    private int pagesCount() throws IOException {
+        Document doc = Jsoup.connect(FINALLY_URL)
                 .data("query", "Java")
                 .userAgent("Mozilla")
-                .timeout(3000)
+                .timeout(5000)
                 .get();
         String target = doc.select("#pagn .pagnDisabled").text();
         if (TextUtils.isEmpty(target)){
@@ -67,10 +70,13 @@ public class RequestCreator extends AsyncTask<String, Context, Void> {
 
     private void jsonsCreator() throws IOException, InterruptedException {
         BaseHelperFoundProducts baseHelperFoundProducts = new BaseHelperFoundProducts(mContext);
-        int count = sum();
+        int count = pagesCount();
         LogApp.Log("..... Происходит парсинг страниц... ", "Осталось страниц: " + count);
 
-        Document doc = Jsoup.connect(BASE_URL_SEARCH_AMAZON + mSearchProduct).get();
+        Document doc = Jsoup.connect(FINALLY_URL)
+                .userAgent("Mozilla")
+                .timeout(5000)
+                .get();
         Elements elements = doc.select("div.s-item-container");
         for (int i = 0; i < elements.size(); i++) {
             //достань имя, цену, ссылку
@@ -92,16 +98,18 @@ public class RequestCreator extends AsyncTask<String, Context, Void> {
             product.setUrl(href);
 
             baseHelperFoundProducts.createProduct(product);
-            //mArr.add(product);
         }
 
-        if (sum() > 0) {
-            for (int q = 2; q < sum()+1; q++) {
+        if (pagesCount() > 0) {
+            for (int q = 2; q < pagesCount() + 1; q++) {
                 count--;
                 LogApp.Log("..... Происходит парсинг страниц... ", "Осталось страниц: " + count);
-                sleep(20000); //TODO random
+                stopThread();
                 String page = "&page=" + q;
-                doc = Jsoup.connect(BASE_URL_SEARCH_AMAZON + mSearchProduct + page).get(); //TODO set firefox
+                doc = Jsoup.connect(FINALLY_URL + page)
+                        .userAgent("Mozilla")
+                        .timeout(5000)
+                        .get();
                 Elements nextElements = doc.select("div.s-item-container");
                 for (int w = 0; w < nextElements.size(); w++) {
                     FoundProduct product = new FoundProduct();
@@ -122,134 +130,24 @@ public class RequestCreator extends AsyncTask<String, Context, Void> {
                     product.setUrl(href);
 
                     baseHelperFoundProducts.createProduct(product);
-                    //mArr.add(product);
                 }
             }
         }
         LogApp.Log("...Парсинг завершен....", ".");
+    }
 
-        //чтение
-        mSQL = baseHelperFoundProducts.getReadableDatabase();
-
-        String projection [] = {
-                BaseShema.ColsFoundsProduct.UUID,
-                BaseShema.ColsFoundsProduct.PRODUCT_NAME,
-                BaseShema.ColsFoundsProduct.PRODUCT_PRICE,
-                BaseShema.ColsFoundsProduct.URL,
-        };
-        Cursor cursor = mSQL.query(BaseShema.FoundsProductTable.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null);
-
+    private static synchronized void stopThread(){
+        double a = 13000;
+        double b = 17000;
+        double i;
+        i = a + (Math.random() * b);
+        LogApp.Log("Пауза при парсинге...",
+                "Поток засыавет на " + i/1000 + " секунд...");
         try {
-            int targetUUID = cursor.getColumnIndex(BaseShema.ColsFoundsProduct.UUID);
-            int targetName = cursor.getColumnIndex(BaseShema.ColsFoundsProduct.PRODUCT_NAME);
-            int targetPrice = cursor.getColumnIndex(BaseShema.ColsFoundsProduct.PRODUCT_PRICE);
-            int targetUrl = cursor.getColumnIndex(BaseShema.ColsFoundsProduct.URL);
-
-            while (cursor.moveToNext()) {
-                String uuid = cursor.getString(targetUUID);
-                String name = cursor.getString(targetName);
-                String price = cursor.getString(targetPrice);
-                String url = cursor.getString(targetUrl);
-
-                FoundProduct foundProduct = new FoundProduct();
-                foundProduct.setProductId(uuid);
-                foundProduct.setProductName(name);
-                foundProduct.setPrice(price);
-                foundProduct.setUrl(url);
-
-
-                Log.d(">>>>>>>>>-----: ", uuid +
-                        "\n" +
-                        price +
-                        name +
-                        "\n" +
-                        url);
-
-                Log.d("ITEM------->: ", cursor.getCount()+ "");
-            }
-        } finally {
-            cursor.close();
+            sleep((int) i);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            LogApp.Log(RequestCreator.class.getCanonicalName(), "crush = " + "stopThread()");
         }
-    }
-
-    private void viewToLogResults(){
-//        for (int i = 0; i <mArr.size() ; i++) {
-//            System.out.println(mArr.get(i).getPrice()
-//                    + " "
-//                    + mArr.get(i).getProduct()
-//                    + "\n"
-//                    + mArr.get(i).getUrl());
-//        }
-//        System.out.println(mArr.size());
-    }
-
-    private List<FoundProduct> getProducts(Context context){
-        List<FoundProduct> mList = new ArrayList<>();
-        BaseHelperFoundProducts baseHelperFoundProducts = new BaseHelperFoundProducts(context);
-
-        //чтение
-        mSQL = baseHelperFoundProducts.getReadableDatabase();
-
-        String projection [] = {
-                BaseShema.ColsFoundsProduct.UUID,
-                BaseShema.ColsFoundsProduct.PRODUCT_NAME,
-                BaseShema.ColsFoundsProduct.PRODUCT_PRICE,
-                BaseShema.ColsFoundsProduct.URL,
-        };
-        Cursor cursor = mSQL.query(BaseShema.FoundsProductTable.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null);
-
-        try {
-            int targetUUID = cursor.getColumnIndex(BaseShema.ColsFoundsProduct.UUID);
-            int targetName = cursor.getColumnIndex(BaseShema.ColsFoundsProduct.PRODUCT_NAME);
-            int targetPrice = cursor.getColumnIndex(BaseShema.ColsFoundsProduct.PRODUCT_PRICE);
-            int targetUrl = cursor.getColumnIndex(BaseShema.ColsFoundsProduct.URL);
-
-            while (cursor.moveToNext()) {
-                String uuid = cursor.getString(targetUUID);
-                String name = cursor.getString(targetName);
-                String price = cursor.getString(targetPrice);
-                String url = cursor.getString(targetUrl);
-
-                FoundProduct foundProduct = new FoundProduct();
-                foundProduct.setProductId(uuid);
-                foundProduct.setProductName(name);
-                foundProduct.setPrice(price);
-                foundProduct.setUrl(url);
-
-                mList.add(foundProduct);
-
-                Log.d(">>>>>>>>>-----: ", uuid);
-                Log.d(">>>>>>>>>-----: ", name);
-                Log.d(">>>>>>>>>-----: ", url);
-
-                Log.d("ITEM------->: ", cursor.getCount()+ "");
-            }
-        } finally {
-            cursor.close();
-        }
-        return mList;
-    }
-
-    private void viewToLogResults(List<FoundProduct> mArr){
-        for (int i = 0; i <mArr.size() ; i++) {
-            System.out.println(mArr.get(i).getPrice()
-                    + " "
-                    + mArr.get(i).getProduct()
-                    + "\n"
-                    + mArr.get(i).getUrl());
-        }
-        System.out.println(mArr.size());
     }
 }

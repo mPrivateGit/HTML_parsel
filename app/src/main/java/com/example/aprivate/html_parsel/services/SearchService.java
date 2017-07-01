@@ -8,11 +8,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.example.aprivate.html_parsel.data.BaseHelperFoundProducts;
 import com.example.aprivate.html_parsel.data.BaseShema;
-import com.example.aprivate.html_parsel.log.LogApp;
 import com.example.aprivate.html_parsel.network.FoundProduct;
 import com.example.aprivate.html_parsel.network.RequestCreator;
 
@@ -20,7 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchService extends Service {
-    private SQLiteDatabase mSQL;
+    protected SQLiteDatabase mSQL;
+    protected String mSearchingProduct = "mackbook+pro";
+    protected int mLowPrice = 100;
+    protected int mHighPrice = 200;
+    //TODO Передавай от пользователя данные
 
     @Nullable
     @Override
@@ -30,10 +32,19 @@ public class SearchService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        RequestCreator request = new RequestCreator("Iphone+7+", getApplicationContext());
-        LogApp.Log("Service@", intent.getExtras().toString());
-        request.execute();
-        viewToLogResults(getProducts(getApplicationContext()));
+        //if (TextUtils.isEmpty(mLowPrice)) {
+            RequestCreator request = new RequestCreator(getApplicationContext(),
+                    mSearchingProduct, mLowPrice, mHighPrice);
+            request.execute();
+       // }
+
+
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        viewToLogResults(getProducts(getApplicationContext())); //TODO Застопить пока не выполнен парсинг
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -77,12 +88,6 @@ public class SearchService extends Service {
                 foundProduct.setUrl(url);
 
                 mList.add(foundProduct);
-
-                Log.d(">>>>>>>>>-----: ", uuid);
-                Log.d(">>>>>>>>>-----: ", name);
-                Log.d(">>>>>>>>>-----: ", url);
-
-                Log.d("ITEM------->: ", cursor.getCount()+ "");
             }
         } finally {
             cursor.close();
@@ -99,5 +104,9 @@ public class SearchService extends Service {
                     + mArr.get(i).getUrl());
         }
         System.out.println(mArr.size());
+    }
+
+    private void searchResultForUser(){
+        //TODO
     }
 }
