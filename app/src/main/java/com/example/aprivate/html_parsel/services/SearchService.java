@@ -6,22 +6,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.example.aprivate.html_parsel.data.BaseHelperFoundProducts;
 import com.example.aprivate.html_parsel.data.BaseShema;
+import com.example.aprivate.html_parsel.log.LogApp;
 import com.example.aprivate.html_parsel.network.FoundProduct;
 import com.example.aprivate.html_parsel.network.RequestCreator;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Сервис создается в главном потоке */
 public class SearchService extends Service {
     protected SQLiteDatabase mSQL;
     protected String mSearchingProduct = "mackbook+pro";
     protected int mLowPrice = 100;
     protected int mHighPrice = 200;
+    protected RequestCreator request;
     //TODO Передавай от пользователя данные
 
     @Nullable
@@ -33,22 +38,21 @@ public class SearchService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //if (TextUtils.isEmpty(mLowPrice)) {
-            RequestCreator request = new RequestCreator(getApplicationContext(),
-                    mSearchingProduct, mLowPrice, mHighPrice);
-            request.execute();
-       // }
 
 
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        viewToLogResults(getProducts(getApplicationContext())); //TODO Застопить пока не выполнен парсинг
+        request = new RequestCreator(getApplicationContext(),
+                mSearchingProduct, mLowPrice, mHighPrice);
+        request.execute();
+
+
+        //viewToLogResults(getProducts(getApplicationContext())); //TODO Застопить пока не выполнен парсинг
+//        if (request.getStatus() == RequestCreator.Status.FINISHED){
+
+
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private List<FoundProduct> getProducts(Context context){
+    public List<FoundProduct> getProducts(Context context){
         List<FoundProduct> mList = new ArrayList<>();
         BaseHelperFoundProducts baseHelperFoundProducts = new BaseHelperFoundProducts(context);
 
@@ -95,7 +99,7 @@ public class SearchService extends Service {
         return mList;
     }
 
-    private void viewToLogResults(List<FoundProduct> mArr){
+    public void viewToLogResults(List<FoundProduct> mArr){
         for (int i = 0; i <mArr.size() ; i++) {
             System.out.println(mArr.get(i).getPrice()
                     + " "
@@ -106,7 +110,20 @@ public class SearchService extends Service {
         System.out.println(mArr.size());
     }
 
-    private void searchResultForUser(){
-        //TODO
+    public void searchResultForUser(List<FoundProduct> mArr){
+        for (int i = 0; i <mArr.size() ; i++) {
+            if (Integer.parseInt(mArr.get(i).getPrice())>mLowPrice
+                    & Integer.parseInt(mArr.get(i).getPrice()) < mHighPrice){
+                String finallyResult = mArr.get(i).getUrl();
+                LogApp.Log("searchResultForUser", "************" +
+                        "\n" +
+                        "***********" +
+                        finallyResult +
+                        "\n" +
+                        "***********");
+                BaseHelperFoundProducts base = new BaseHelperFoundProducts(getApplicationContext());
+                base.deleteTable(mSQL);
+            }
+        }
     }
 }

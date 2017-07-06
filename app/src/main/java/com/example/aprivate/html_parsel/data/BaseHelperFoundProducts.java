@@ -100,4 +100,11 @@ public class BaseHelperFoundProducts extends SQLiteOpenHelper
 
         return cursor.getCount();
     }
+
+    @Override
+    public void deleteTable(SQLiteDatabase db){
+        String delete = "DROP TABLE " + BaseShema.FoundsProductTable.TABLE_NAME;
+        db.execSQL(delete);
+    }
+
 }

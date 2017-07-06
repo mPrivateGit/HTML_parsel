@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.example.aprivate.html_parsel.data.BaseHelperFoundProducts;
 import com.example.aprivate.html_parsel.log.LogApp;
+import com.example.aprivate.html_parsel.services.SearchService;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -50,7 +51,7 @@ public class RequestCreator extends AsyncTask<Object, Object, String> {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            notify();
+            //
         }
         return mSearchProduct;
     }
@@ -59,16 +60,16 @@ public class RequestCreator extends AsyncTask<Object, Object, String> {
         Document doc = Jsoup.connect(FINALLY_URL)
                 .data("query", "Java")
                 .userAgent("Mozilla")
-                .timeout(5000)
                 .get();
         String target = doc.select("#pagn .pagnDisabled").text();
+        LogApp.Log(">>>pagesCount>>>", "Всего страниц = " + target );
         if (TextUtils.isEmpty(target)){
             target = "1";
         }
         return Integer.parseInt(target);
     }
 
-    private void jsonsCreator() throws IOException, InterruptedException {
+    private synchronized void jsonsCreator() throws IOException, InterruptedException {
         BaseHelperFoundProducts baseHelperFoundProducts = new BaseHelperFoundProducts(mContext);
         int count = pagesCount();
         LogApp.Log("..... Происходит парсинг страниц... ", "Осталось страниц: " + count);
@@ -100,6 +101,7 @@ public class RequestCreator extends AsyncTask<Object, Object, String> {
             baseHelperFoundProducts.createProduct(product);
         }
 
+        //stopThread();
         if (pagesCount() > 0) {
             for (int q = 2; q < pagesCount() + 1; q++) {
                 count--;
@@ -108,7 +110,6 @@ public class RequestCreator extends AsyncTask<Object, Object, String> {
                 String page = "&page=" + q;
                 doc = Jsoup.connect(FINALLY_URL + page)
                         .userAgent("Mozilla")
-                        .timeout(5000)
                         .get();
                 Elements nextElements = doc.select("div.s-item-container");
                 for (int w = 0; w < nextElements.size(); w++) {
@@ -149,5 +150,12 @@ public class RequestCreator extends AsyncTask<Object, Object, String> {
             e.printStackTrace();
             LogApp.Log(RequestCreator.class.getCanonicalName(), "crush = " + "stopThread()");
         }
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        LogApp.Log("onPostExecute", "RUN");
+        SearchService service = new SearchService();
+        service.viewToLogResults(service.getProducts(mContext));
     }
 }
