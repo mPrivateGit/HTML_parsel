@@ -13,4 +13,10 @@
     <string name="no">NO</string>
     <string name="btn_cancel">Cancel</string>
     <string name="setting_activity">SettingActivity</string>
+    <string name="btn_skip">Skip</string>
+    <string name="str_search_product_full_name">Please, enter correct and full name search product</string>
+    <string name="str_search_product_category">Please, enter category of your prodact or do not write anything</string>
+    <string name="str_low_price">low-price</string>
+    <string name="str_high_price">high-price</string>
+    <string name="str_for_set_price">Please, enter your favorite low and high product price or do not write anything</string>
 </resources>

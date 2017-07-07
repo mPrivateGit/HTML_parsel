@@ -37,18 +37,21 @@ public class RecyclerViewFragment extends Fragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(new ProductAdapter(getProducts(getContext()), getActivity()));
+        mRecyclerView.setAdapter(new ProductAdapter
+                (getProducts(getContext()), getActivity()));
 
         return v;
     }
 
     public void notifyRecycler() {
-        mRecyclerView.swapAdapter(new ProductAdapter(getProducts(getContext()), getActivity()), true);
+        mRecyclerView.swapAdapter(new ProductAdapter
+                (getProducts(getContext()), getActivity()), true);
     }
 
     private List<SearchProduct> getProducts(Context context){
         List<SearchProduct> mList = new ArrayList<>();
-        BaseUserProductHelperUserProduct baseHelperUserProduct = new BaseUserProductHelperUserProduct(context);
+        BaseUserProductHelperUserProduct baseHelperUserProduct =
+                new BaseUserProductHelperUserProduct(context);
 
         //чтение
         mSQL = baseHelperUserProduct.getReadableDatabase();
