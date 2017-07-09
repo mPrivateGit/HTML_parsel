@@ -36,13 +36,14 @@ public class EditDialog extends DialogFragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_activity, container, false);
-        mTitle = (TextView)v.findViewById(R.id.text_dialog_title);
-        edtProduct = (EditText) v.findViewById(R.id.search_product);
-        mSetLowePrice = (EditText)v.findViewById(R.id.search_product_pice);
-        mButtonSearch = (Button)v.findViewById(R.id.btn_search);
-        mButtonSearch.setOnClickListener(this);
-        mButtonCancel = (Button)v.findViewById(R.id.btn_cancel);
-        mButtonSearch.setOnClickListener(this);
+
+//        mTitle = (TextView)v.findViewById(R.id.text_dialog_title);
+//        edtProduct = (EditText) v.findViewById(R.id.search_product);
+//        mSetLowePrice = (EditText)v.findViewById(R.id.search_product_pice);
+//        mButtonSearch = (Button)v.findViewById(R.id.btn_search);
+//        mButtonSearch.setOnClickListener(this);
+//        mButtonCancel = (Button)v.findViewById(R.id.btn_cancel);
+//        mButtonSearch.setOnClickListener(this);
 
 
         return v;
@@ -64,22 +65,22 @@ public class EditDialog extends DialogFragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         Log.d(TAG, "OnClick: " + v.getId());
-        switch (v.getId()) {
-            case R.id.btn_cancel:
-
-                break;
-            case R.id.btn_search:
-                if (TextUtils.isEmpty(edtProduct.getText())) return;
-                SearchProduct searchProduct = new SearchProduct();
-                searchProduct.setProductName(edtProduct.getText().toString());
-                searchProduct.setPrice(mSetLowePrice.getText().toString());
-                searchProduct.setNeedSearch(false);
-                BaseUserProductHelperUserProduct baseHelperUserProduct =
-                        new BaseUserProductHelperUserProduct(getActivity());
-                baseHelperUserProduct.createProduct(searchProduct);
-                editDialogInterface.onChanged();
-                break;
-        }
+//        switch (v.getId()) {
+//            case R.id.btn_cancel:
+//
+//                break;
+//            case R.id.btn_search:
+//                if (TextUtils.isEmpty(edtProduct.getText())) return;
+//                SearchProduct searchProduct = new SearchProduct();
+//                searchProduct.setProductName(edtProduct.getText().toString());
+//                searchProduct.setPrice(mSetLowePrice.getText().toString());
+//                searchProduct.setNeedSearch(false);
+//                BaseUserProductHelperUserProduct baseHelperUserProduct =
+//                        new BaseUserProductHelperUserProduct(getActivity());
+//                baseHelperUserProduct.createProduct(searchProduct);
+//                editDialogInterface.onChanged();
+//                break;
+//        }
     }
 
 

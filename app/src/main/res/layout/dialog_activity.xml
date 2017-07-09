@@ -1,63 +1,203 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <TextView
-        android:id="@+id/text_dialog_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="20dp"
-        android:text="@string/message_text"
-        android:textAppearance="?android:attr/textAppearanceLarge">
-    </TextView>
+    android:orientation="vertical"
+    tools:context="com.example.aprivate.html_parsel.bin.SettingActivity">
 
-
+    <!--Весь Layout-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_gravity="center">
-        <EditText
-            android:id="@+id/search_product"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:hint="@string/enter_search">
-        </EditText>
-        <EditText
-            android:id="@+id/search_product_pice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:hint="@string/product_pice">
-        </EditText>
+        android:layout_weight="0.8">
 
+        <!--Имя продукта-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_cancel"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp">
+            <!--картинка хелп-->
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/btn_cancel"
-                android:layout_weight="1"/>
-
-            <Button
-                android:id="@+id/btn_search"
-                android:layout_width="wrap_content"
+                android:layout_weight="0.2"/>
+            <!--поле ввода имени продукта-->
+            <EditText
+                android:id="@+id/edt_search_product_full_name"
+                android:hint="@string/str_search_product_full_name"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/button_search"
-                android:layout_weight="1">
-            </Button>
+                android:layout_weight="0.8"/>
+        </LinearLayout>
 
+        <!--Выбор категории-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp">
+            <!--текс указания на категорию-->
+            <TextView
+                android:id="@+id/txt_search_category"
+                android:hint="@string/str_search_product_category"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"/>
+            <!--спинер категрии-->
+            <Spinner
+                android:id="@+id/spinner_category"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.01"/>
+        </LinearLayout>
 
+        <!--текст для ввода цены-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/str_for_set_price"/>
+
+        <!--Выбор цены-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp">
+            <!--минимльная цена-->
+            <EditText
+                android:id="@+id/edt_search_product_low_price"
+                android:hint="@string/str_low_price"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0" />
+            <!--отступ между полями-->
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="0.3"/>
+            <!--максимальная цена-->
+            <EditText
+                android:id="@+id/edt_search_product_high_price"
+                android:hint="@string/str_high_price"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"/>
+        </LinearLayout>
+
+        <!--Выбор сайта-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp">
+            <!--текс для выбора сайта-->
+            <TextView
+                android:id="@+id/txt_search_site"
+                android:hint="@string/str_search_product_website"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"/>
+            <!--спинер выбора сайта-->
+            <Spinner
+                android:id="@+id/spinner_search_site"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.01"/>
+        </LinearLayout>
+
+        <!--Выбор цвета-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp">
+            <!--Текс для выбора цвета-->
+            <TextView
+                android:id="@+id/txt_search_product_color"
+                android:hint="@string/str_search_product_color"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"/>
+            <!--Спинер цвета-->
+            <Spinner
+                android:id="@+id/spinner_color"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.01"/>
+        </LinearLayout>
+
+        <!--Выбор даты-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp">
+            <!--Текс для выбора даты-->
+            <TextView
+                android:id="@+id/txt_search_date"
+                android:hint="@string/str_search_product_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"/>
+            <!--Спинер даты-->
+            <Spinner
+                android:id="@+id/spinner_search_date"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.01"/>
+        </LinearLayout>
+
+        <!--Кнопки сохранить/отменить-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp">
+            <!--отменить-->
+            <Button
+                android:id="@+id/cancel_action"
+                android:hint="@string/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"/>
+            <!--сохранить-->
+            <Button
+                android:id="@+id/save_action"
+                android:hint="@string/str_save"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"/>
         </LinearLayout>
 
     </LinearLayout>
+
+
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aprivate.html_parsel.R;
@@ -17,40 +18,34 @@ import com.example.aprivate.html_parsel.network.RequestCreator;
 import com.example.aprivate.html_parsel.services.SearchService;
 
 public class ProductHolder extends RecyclerView.ViewHolder
-        implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+        implements View.OnClickListener {
     private TextView mSearchText;
-    private CheckBox mCheckBoxSearch;
     private Activity mAct;
-    private Boolean mBoolean;
+    private ImageView mSettingImage;
 
     public ProductHolder(View itemView, Activity activity) {
         super(itemView);
         mAct = activity;
         mSearchText = (TextView) itemView.findViewById(R.id.search_product);
         mSearchText.setOnClickListener(this);
-        mCheckBoxSearch = (CheckBox) itemView.findViewById(R.id.checkbox_search_product);
-        mCheckBoxSearch.setOnCheckedChangeListener(this);
+        mSettingImage = (ImageView) itemView.findViewById(R.id.img_search_product);
+        mSettingImage.setOnClickListener(this);
     }
 
-    public void bind(String editText, Boolean bool){
+    public void bind(String editText){
         mSearchText.setText(editText);
-        mCheckBoxSearch.setChecked(bool);
     }
 
     @Override
     public void onClick(View v) {
-        Intent i = new Intent(v.getContext(), SettingActivity.class);
-        mAct.startActivity(i);
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (mCheckBoxSearch.isChecked()){
-            LogApp.Log(ProductHolder.class.getCanonicalName(), "mCheckBoxSearch" + mCheckBoxSearch);
-            mBoolean = true;
-        } else {
-            LogApp.Log(ProductHolder.class.getCanonicalName(), "Oops!!!");
-            mBoolean = false;
+        switch (v.getId()){
+            case R.id.search_product:
+                Intent i = new Intent(v.getContext(), StartActivity.class);
+                mAct.startActivity(i);
+                break;
+            case R.id.img_search_product:
+                Intent u = new Intent(v.getContext(), SettingActivity.class);
+                mAct.startActivity(u);
         }
     }
 }

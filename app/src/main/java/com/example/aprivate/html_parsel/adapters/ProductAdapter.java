@@ -34,8 +34,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductHolder> {
     @Override
     public void onBindViewHolder(ProductHolder holder, int position) {
         String product = mSearchProducts.get(position).getProductName();
-        Boolean bool = mSearchProducts.get(position).getNeedSearch();
-        holder.bind(product, bool);
+        holder.bind(product);
     }
 
     @Override

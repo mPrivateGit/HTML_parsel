@@ -14,9 +14,13 @@
     <string name="btn_cancel">Cancel</string>
     <string name="setting_activity">SettingActivity</string>
     <string name="btn_skip">Skip</string>
-    <string name="str_search_product_full_name">Please, enter correct and full name search product</string>
-    <string name="str_search_product_category">Please, enter category of your prodact or do not write anything</string>
+    <string name="str_search_product_full_name">What to look for? (field not null)</string>
+    <string name="str_search_product_category">Set category (or do not write anything)</string>
     <string name="str_low_price">low-price</string>
     <string name="str_high_price">high-price</string>
-    <string name="str_for_set_price">Please, enter your favorite low and high product price or do not write anything</string>
+    <string name="str_for_set_price">Set product price (digits) or do not write anything</string>
+    <string name="str_search_product_color">Set color (or do not write anything)</string>
+    <string name="str_search_product_date">Date added (or do not write anything)</string>
+    <string name="str_save">Save</string>
+    <string name="str_search_product_website">Please, set website for search</string>
 </resources>

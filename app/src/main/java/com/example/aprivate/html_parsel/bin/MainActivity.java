@@ -1,5 +1,6 @@
 package com.example.aprivate.html_parsel.bin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
@@ -30,10 +31,9 @@ public class MainActivity extends AppCompatActivity implements EditDialogInterfa
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditDialog editDialog = new EditDialog();
-                getFragmentManager().beginTransaction()
-                        .add(editDialog, EditDialog.class.getCanonicalName())
-                        .commitAllowingStateLoss();
+                Intent i = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(i);
+                //TODO Пофиксить нажатия, сделать так, чтобы не важно сколько нажатий был 1 вызов
             }
         });
     }
