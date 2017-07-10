@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/edit_product"
             android:gravity="center"
-            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_gravity="center"
             android:paddingTop="100dp"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"

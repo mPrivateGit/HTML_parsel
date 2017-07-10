@@ -44,19 +44,31 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="10dp">
-            <!--текс указания на категорию-->
-            <TextView
-                android:id="@+id/txt_search_category"
-                android:hint="@string/str_search_product_category"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"/>
             <!--спинер категрии-->
             <Spinner
                 android:id="@+id/spinner_category"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.01"
+                android:entries="@array/category"/>
+        </LinearLayout>
+
+        <!--Подкатгория 1-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="15dp">
+            <!--спинер категрии-->
+            <Spinner
+                android:id="@+id/spinner_under_category"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.01"/>
         </LinearLayout>
@@ -132,18 +144,12 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="10dp">
             <!--Текс для выбора цвета-->
-            <TextView
-                android:id="@+id/txt_search_product_color"
-                android:hint="@string/str_search_product_color"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"/>
             <!--Спинер цвета-->
             <Spinner
                 android:id="@+id/spinner_color"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.01"/>
         </LinearLayout>
@@ -156,19 +162,12 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="10dp">
-            <!--Текс для выбора даты-->
-            <TextView
-                android:id="@+id/txt_search_date"
-                android:hint="@string/str_search_product_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"/>
             <!--Спинер даты-->
             <Spinner
                 android:id="@+id/spinner_search_date"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.01"/>
         </LinearLayout>
@@ -184,14 +183,14 @@
             <!--отменить-->
             <Button
                 android:id="@+id/btn_cancel_action"
-                android:hint="@string/btn_cancel"
+                android:text="@string/btn_cancel"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"/>
             <!--сохранить-->
             <Button
                 android:id="@+id/btn_save_action"
-                android:hint="@string/str_save"
+                android:text="@string/str_save"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"/>

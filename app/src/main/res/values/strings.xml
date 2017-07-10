@@ -22,5 +22,56 @@
     <string name="str_search_product_color">Set color (or do not write anything)</string>
     <string name="str_search_product_date">Date added (or do not write anything)</string>
     <string name="str_save">Save</string>
-    <string name="str_search_product_website">Please, set website for search</string>
+    <string name="str_search_product_website">Set website for search</string>
+
+    <string-array name="category">
+        <item>Set category (or do not write anything)</item>
+        <item>Electronics, Computers &amp; Office</item>
+    </string-array>
+
+    <string-array name="WebSites">
+        <item>www.amazon.com</item>
+    </string-array>
+
+    <string-array name="Colors">
+        <item>Set color (or do not write anything)</item>
+        <item>Red</item>
+        <item>White</item>
+        <item>Dark</item>
+    </string-array>
+
+    <string-array name="SearchDates">
+        <item>Set date added (or do not write anything)</item>
+        <item>For today</item>
+        <item>In 3 days</item>
+        <item>During the week</item>
+        <item>Per month</item>
+        <item>During all this time</item>
+    </string-array>
+
+    <string-array name="Electronics_Computers_or_Office">
+        <item>Set under-category (or do not write anything)</item>
+        <item>"TV &amp; Video"</item>
+        <item>Home Audio &amp; Theater</item>
+        <item>Camera, Photo &amp; Video</item>
+        <item>Cell Phones &amp; Accessories</item>
+        <item>Headphones</item>
+        <item>Video Games</item>
+        <item>Bluetooth &amp; Wireless Speakers</item>
+        <item>Car Electronics</item>
+        <item>Musical Instruments</item>
+        <item>Wearable Technology</item>
+        <item>Electronics Showcase</item>
+        <item>Computers &amp; Tablets</item>
+        <item>Monitors</item>
+        <item>Accessories</item>
+        <item>Networking</item>
+        <item>Drives &amp; Storage</item>
+        <item>Computer Parts &amp; Components</item>
+        <item>Software</item>
+        <item>Printers &amp; Ink</item>
+        <item>Office &amp; School Supplies</item>
+        <item>Trade In Your Electronics</item>
+    </string-array>
+
 </resources>
