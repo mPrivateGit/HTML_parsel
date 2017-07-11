@@ -1,28 +1,19 @@
 package com.example.aprivate.html_parsel.bin;
 
-import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
-import android.content.Intent;
-import android.os.StrictMode;
-import android.support.design.widget.BaseTransientBottomBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.log.LogApp;
-import com.example.aprivate.html_parsel.services.SearchService;
 
 public class SettingActivity extends AppCompatActivity
         implements View.OnClickListener, AdapterView.OnItemSelectedListener, View.OnKeyListener {
@@ -32,7 +23,7 @@ public class SettingActivity extends AppCompatActivity
     protected EditText mEdtLowPrice;
     protected EditText mEdtHighPrice;
     protected Spinner mSpnCategory;
-    protected Spinner mUnderCategory;
+    protected Spinner mSpnUnderCategory;
     protected Spinner mSpnWebSite;
     protected Spinner mSpnColor;
     protected Spinner mSpnSearchDate;
@@ -85,33 +76,41 @@ public class SettingActivity extends AppCompatActivity
         adapterCategory.notifyDataSetChanged();
 
         //Подкатегория
-        mUnderCategory = (Spinner) findViewById(R.id.spinner_under_category);
+        mSpnUnderCategory = (Spinner) findViewById(R.id.spinner_under_category);
+        mSpnUnderCategory.setVisibility(View.GONE);
+        mSpnUnderCategory.setOnItemSelectedListener(this);
         ArrayAdapter<?> adapterUnderCategory =
                 ArrayAdapter.createFromResource(this, R.array.Electronics_Computers_or_Office,
                         android.R.layout.simple_spinner_dropdown_item);
-        mUnderCategory.setAdapter(adapterUnderCategory);
-        mUnderCategory.setVisibility(View.GONE);
+        mSpnUnderCategory.setAdapter(adapterUnderCategory);
+        adapterUnderCategory.notifyDataSetChanged();
 
         //Сайты
         mSpnWebSite = (Spinner) findViewById(R.id.spinner_search_site);
+        mSpnWebSite.setOnItemSelectedListener(this);
         ArrayAdapter<?> adapterWebSiteCategory =
                 ArrayAdapter.createFromResource(this, R.array.WebSites,
                         android.R.layout.simple_spinner_dropdown_item);
         mSpnWebSite.setAdapter(adapterWebSiteCategory);
+        adapterWebSiteCategory.notifyDataSetChanged();
 
         //Цвет
         mSpnColor = (Spinner) findViewById(R.id.spinner_color);
+        mSpnColor.setOnItemSelectedListener(this);
         ArrayAdapter<?> adapterColor =
                 ArrayAdapter.createFromResource(this, R.array.Colors,
                         android.R.layout.simple_spinner_dropdown_item);
         mSpnColor.setAdapter(adapterColor);
+        adapterColor.notifyDataSetChanged();
 
         //Дата поиска
         mSpnSearchDate = (Spinner) findViewById(R.id.spinner_search_date);
+        mSpnSearchDate.setOnItemSelectedListener(this);
         ArrayAdapter<?> adapterSearchDate =
                 ArrayAdapter.createFromResource(this, R.array.SearchDates,
                         android.R.layout.simple_spinner_dropdown_item);
         mSpnSearchDate.setAdapter(adapterSearchDate);
+        adapterSearchDate.notifyDataSetChanged();
     }
 
     @Override
@@ -121,8 +120,8 @@ public class SettingActivity extends AppCompatActivity
             case R.id.spinner_category:
                 String[] mCategories = getResources()
                         .getStringArray(R.array.category);
-                if (position == 1)mUnderCategory.setVisibility(View.VISIBLE);
-                else mUnderCategory.setVisibility(View.GONE);
+                if (position == 1) mSpnUnderCategory.setVisibility(View.VISIBLE);
+                else mSpnUnderCategory.setVisibility(View.GONE);
                 mSearchProductCategory = mCategories[position];
                 if (mSearchProductCategory == mCategories[0]) mSearchProductCategory = null;
                 //TODO запись в БД
@@ -194,6 +193,8 @@ public class SettingActivity extends AppCompatActivity
                 //mSearchProductName = mEdtName.getText().toString();
                 getProductInfo();
 
+                validateData();
+
                 LogApp.Log("~~~~~~~", "\n" +
                         "Name: " + mSearchProductName + "\n" +
                         "Category: " + mSearchProductCategory + "\n" +
@@ -230,9 +231,14 @@ public class SettingActivity extends AppCompatActivity
         //Запись категории
 
 
+        //
 
         //if (TextUtils.isEmpty(mSearchProductLowPrice))
             return goToWork;
+    }
+
+    private boolean validateData(){
+        return false;
     }
 
     @Override
