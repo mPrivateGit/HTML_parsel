@@ -76,9 +76,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="37dp"
+            android:layout_marginRight="37dp"
+            android:layout_marginTop="15dp"
             android:text="@string/str_for_set_price"/>
 
         <!--Выбор цены-->
@@ -96,6 +96,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:inputType="number"
+                android:textColorHint= "#00ff77"
+                android:textColor="#1eb67c"
                 android:maxLength="8"
                 android:maxLines="8"/>
             <!--отступ между полями-->
@@ -111,6 +113,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:inputType="number"
+                android:textColorHint="#00ff77"
+                android:textColor="#1eb67c"
                 android:maxLength="8"
                 android:maxLines="7"/>
         </LinearLayout>
@@ -129,7 +133,9 @@
                 android:hint="@string/str_search_product_website"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"/>
+                android:layout_weight="0.5"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"/>
             <!--спинер выбора сайта-->
             <Spinner
                 android:id="@+id/spinner_search_site"

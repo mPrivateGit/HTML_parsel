@@ -242,6 +242,7 @@ public class SettingActivity extends AppCompatActivity
             unknown.show();
         }
 
+        //контрольная поврка после редактирования полей
         if (TextUtils.isEmpty(mEdtLowPrice.getText().toString())){
             mSearchProductLowPrice = 0;
         }
