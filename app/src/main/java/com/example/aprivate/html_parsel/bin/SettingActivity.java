@@ -1,5 +1,6 @@
 package com.example.aprivate.html_parsel.bin;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.aprivate.html_parsel.R;
+import com.example.aprivate.html_parsel.data.WorkerDataBaseSearchProduct;
 import com.example.aprivate.html_parsel.log.LogApp;
 
 public class SettingActivity extends AppCompatActivity
@@ -175,19 +177,15 @@ public class SettingActivity extends AppCompatActivity
                 break;
             case R.id.btn_save_action:
                 if (validateData()==true) {
-                    LogApp.Log("~~~~~~~", "\n" +
-                            "Name: " + mSearchProductName + "\n" +
-                            "Category: " + mSearchProductCategory + "\n" +
-                            "UnderCategory: " + mSearchProductUnderCategory + "\n" +
-                            "LowPrice: " + mSearchProductLowPrice + "\n" +
-                            "HighPrice: " + mSearchProductHighPrice + "\n" +
-                            "WebSite: " + mSearchProductWebSite + "\n" +
-                            "Color: " + mSearchProductColor + "\n" +
-                            "DateAdded: " + mSearchProductDateAdded);
-
+                    WorkerDataBaseSearchProduct worker = new WorkerDataBaseSearchProduct(this,
+                            mSearchProductName, mSearchProductLowPrice,
+                            mSearchProductHighPrice, mSearchProductCategory,
+                            mSearchProductUnderCategory, mSearchProductWebSite,
+                            mSearchProductDateAdded);
+                    worker.writeObjectInDb();
                     //Todo запись в БД и закрытие активити
-//                Intent ok = new Intent(SettingActivity.this, MainActivity.class);
-//                startActivity(ok);
+                Intent ok = new Intent(SettingActivity.this, MainActivity.class);
+                startActivity(ok);
                 } else {
                     Toast validate = Toast.makeText(this,
                             "validate() java method error!", Toast.LENGTH_LONG);

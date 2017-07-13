@@ -7,10 +7,10 @@ import java.util.UUID;
 
 
 public class SearchProduct {
-    private String mProductName;
     private String mProductId;
-    private String mLowPrice;
-    private String mHighPrice;
+    private String mProductName;
+    private String mLowPrice; //TODO convert to int !!!
+    private String mHighPrice; //TODO convert to int !!!
     private String mCategory;
     private String mUnderCategory;
     private String mDateUserAdded;
@@ -69,7 +69,7 @@ public class SearchProduct {
         return mLowPrice;
     }
 
-    public void setmLowPrice(String mLowPrice) {
+    public void setLowPrice(String mLowPrice) {
         this.mLowPrice = mLowPrice;
     }
 
@@ -85,7 +85,7 @@ public class SearchProduct {
         return mCategory;
     }
 
-    public void setmCategory(String mCategory) {
+    public void setCategory(String mCategory) {
         this.mCategory = mCategory;
     }
 
@@ -101,7 +101,7 @@ public class SearchProduct {
         return mDateUserAdded;
     }
 
-    public void setmDateUserAdded(String mDateUserAdded) {
+    public void setDateUserAdded(String mDateUserAdded) {
         this.mDateUserAdded = mDateUserAdded;
     }
 
@@ -109,7 +109,7 @@ public class SearchProduct {
         return mSearchSite;
     }
 
-    public void setmSearchSite(String mSearchSite) {
+    public void setSearchSite(String mSearchSite) {
         this.mSearchSite = mSearchSite;
     }
 
@@ -117,7 +117,23 @@ public class SearchProduct {
         return mDateAddedOnSite;
     }
 
-    public void setmDateAddedOnSite(String mDateAddedOnSite) {
+    public void setDateAddedOnSite(String mDateAddedOnSite) {
         this.mDateAddedOnSite = mDateAddedOnSite;
+    }
+
+    @Override
+    public String toString() {
+        return "\n" + "SearchProduct{" +
+                "mProductId='" + mProductId + "\n" +
+                "mProductName='" + mProductName + "\n" +
+                "mLowPrice='" + mLowPrice + "\n" +
+                "mHighPrice='" + mHighPrice + "\n" +
+                "mCategory='" + mCategory + "\n" +
+                "mUnderCategory='" + mUnderCategory + "\n" +
+                "mDateUserAdded='" + mDateUserAdded + "\n" +
+                "mSearchSite='" + mSearchSite + "\n" +
+                "mDateAddedOnSite='" + mDateAddedOnSite + "\n" +
+                "mNeedSearch='" + mNeedSearch + "\n" +
+                '}';
     }
 }

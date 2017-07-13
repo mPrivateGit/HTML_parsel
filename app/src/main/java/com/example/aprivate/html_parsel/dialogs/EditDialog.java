@@ -19,7 +19,7 @@ import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.data.BaseUserProductHelperUserProduct;
 import com.example.aprivate.html_parsel.interfaces.EditDialogInterface;
-
+//TODO !!!! БУДЕТ ЗАПУСКАТЬ СЕРВИС И ОСТАНАВЛИВАТЬ!!!!!
 public class EditDialog extends DialogFragment implements View.OnClickListener{
 
     private final static String TAG = "EditDialog";
