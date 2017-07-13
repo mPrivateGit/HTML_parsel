@@ -2,7 +2,9 @@ package com.example.aprivate.html_parsel.bin;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,7 +18,7 @@ import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.log.LogApp;
 
 public class SettingActivity extends AppCompatActivity
-        implements View.OnClickListener, AdapterView.OnItemSelectedListener, View.OnKeyListener {
+        implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     protected Button mBtnCancel;
     protected Button mBtnOk;
     protected EditText mEdtName;
@@ -120,7 +122,12 @@ public class SettingActivity extends AppCompatActivity
             case R.id.spinner_category:
                 String[] mCategories = getResources()
                         .getStringArray(R.array.category);
-                if (position == 1) mSpnUnderCategory.setVisibility(View.VISIBLE);
+                if (position == 0){
+                    mSearchProductCategory = null;
+                    mSearchProductUnderCategory = null;
+                    mSpnUnderCategory.setSelection(0);
+                }
+                if (position > 0) mSpnUnderCategory.setVisibility(View.VISIBLE);
                 else mSpnUnderCategory.setVisibility(View.GONE);
                 mSearchProductCategory = mCategories[position];
                 if (mSearchProductCategory == mCategories[0]) mSearchProductCategory = null;
@@ -130,7 +137,7 @@ public class SettingActivity extends AppCompatActivity
                 String[] mUnderCategories = getResources()
                         .getStringArray(R.array.Electronics_Computers_or_Office);
                 mSearchProductUnderCategory = mUnderCategories[position];
-                if (mSearchProductUnderCategory == mUnderCategories[0]) mSearchProductCategory = null;
+                if (mSearchProductUnderCategory == mUnderCategories[0]) mSearchProductUnderCategory = null;
                 //TODO запись в БД
                 break;
             case R.id.spinner_search_site:
@@ -159,26 +166,6 @@ public class SettingActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        Boolean result = false;
-        switch (v.getId()) {
-            case R.id.edt_search_product_full_name:
-                result = true;
-                break;
-            //TODO запись в БД
-            case R.id.edt_search_product_low_price:
-                result = true;
-                break;
-            //TODO запись в БД
-            case R.id.edt_search_product_high_price:
-                result = true;
-                break;
-            //TODO запись в БД
-            }
-        return result;
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_cancel_action:
@@ -187,63 +174,88 @@ public class SettingActivity extends AppCompatActivity
 
                 break;
             case R.id.btn_save_action:
-                getProductInfo();
-                //mSearchProductLowPrice = Integer.parseInt(mEdtLowPrice.getText().toString());
-                //mSearchProductHighPrice = Integer.parseInt(mEdtHighPrice.getText().toString());
-                //mSearchProductName = mEdtName.getText().toString();
-                getProductInfo();
+                if (validateData()==true) {
+                    LogApp.Log("~~~~~~~", "\n" +
+                            "Name: " + mSearchProductName + "\n" +
+                            "Category: " + mSearchProductCategory + "\n" +
+                            "UnderCategory: " + mSearchProductUnderCategory + "\n" +
+                            "LowPrice: " + mSearchProductLowPrice + "\n" +
+                            "HighPrice: " + mSearchProductHighPrice + "\n" +
+                            "WebSite: " + mSearchProductWebSite + "\n" +
+                            "Color: " + mSearchProductColor + "\n" +
+                            "DateAdded: " + mSearchProductDateAdded);
 
-                validateData();
-
-                LogApp.Log("~~~~~~~", "\n" +
-                        "Name: " + mSearchProductName + "\n" +
-                        "Category: " + mSearchProductCategory + "\n" +
-                        "UnderCategory: " + mSearchProductUnderCategory + "\n" +
-                        "LowPrice: " + mSearchProductLowPrice + "\n" +
-                        "HighPrice: " + mSearchProductHighPrice + "\n" +
-                        "WebSite: " + mSearchProductWebSite + "\n" +
-                        "Color: " + mSearchProductColor + "\n" +
-                        "DateAdded: " + mSearchProductDateAdded);
-
-                //Todo запись в БД
+                    //Todo запись в БД и закрытие активити
 //                Intent ok = new Intent(SettingActivity.this, MainActivity.class);
 //                startActivity(ok);
+                } else {
+                    Toast validate = Toast.makeText(this,
+                            "validate() java method error!", Toast.LENGTH_LONG);
+                    validate.show();
+                }
                 break;
         }
     }
 
-    /**todo этот метод возвращает тру если обязательные поля заполнены, проверяет все поля на нал
-       если тру идет запись в Бд и отображение в ресаклеп, фолсе требует заполнения обязательных полей **/
-    private Boolean getProductInfo() {
-        Boolean goToWork = false;
-
-        //Запись имени + проверка
-        if (TextUtils.isEmpty(mEdtName.getText().toString())) {
-            Toast toast = Toast.makeText(this, "Required field", Toast.LENGTH_SHORT);
-            toast.show();
-            //TODO не работает! не проверяет длинну строки
-        } else if (mEdtName.getText().toString().length()<3 & mEdtName.getText().length()>50){
-            Toast toast = Toast.makeText(this,
-                    "At least two and not more than fifty characters", Toast.LENGTH_SHORT);
-            toast.show();
-        } else mSearchProductName = mEdtName.getText().toString();
-
-        //Запись категории
-
-
-        //
-
-        //if (TextUtils.isEmpty(mSearchProductLowPrice))
-            return goToWork;
-    }
-
     private boolean validateData(){
-        return false;
+        boolean validate;
+        //проверка имени продукта
+        if (TextUtils.isEmpty(mEdtName.getText().toString())){
+            Toast empty = Toast.makeText(this,
+                    "The product name field can not be empty", Toast.LENGTH_LONG);
+            empty.show();
+            validate = false;
+        } else if (mEdtName.getText().length() < 2){
+            Toast smallText = Toast.makeText(this,
+                    "Minimum length of the product name 2 characters", Toast.LENGTH_LONG);
+            smallText.show();
+            validate = false;
+        } else {
+            mSearchProductName = mEdtName.getText().toString();
+            validate = true;
+        }
+
+        //проерка значений минимальной-максимальной цены
+        //сначала проверка заполнены ли поля
+        if (!TextUtils.isEmpty(mEdtLowPrice.getText().toString())&&
+                !TextUtils.isEmpty(mEdtHighPrice.getText().toString())){
+            mSearchProductLowPrice = Integer.parseInt(mEdtLowPrice.getText().toString());
+            mSearchProductHighPrice = Integer.parseInt(mEdtHighPrice.getText().toString());
+            //если заполнены проверяем
+            if (mSearchProductLowPrice>mSearchProductHighPrice){
+                Toast highLow = Toast.makeText(this,
+                        "The minimum price can not be more than the maximum", Toast.LENGTH_LONG);
+                highLow.show();
+                validate = false;
+            }
+        } else if (!TextUtils.isEmpty(mEdtLowPrice.getText().toString())){
+            mSearchProductLowPrice = Integer.parseInt(mEdtLowPrice.getText().toString());
+        } else if (!TextUtils.isEmpty(mEdtHighPrice.getText().toString())){
+            mSearchProductHighPrice = Integer.parseInt(mEdtHighPrice.getText().toString());
+        } else if (TextUtils.isEmpty(mEdtLowPrice.getText().toString())){
+            mSearchProductLowPrice = 0;
+        } else if (TextUtils.isEmpty(mEdtHighPrice.getText().toString())){
+            mSearchProductHighPrice = 0;
+        } else {
+            Toast unknown = Toast.makeText(this,
+                    "Unknown error!", Toast.LENGTH_LONG);
+            unknown.show();
+        }
+
+        if (TextUtils.isEmpty(mEdtLowPrice.getText().toString())){
+            mSearchProductLowPrice = 0;
+        }
+        if (TextUtils.isEmpty(mEdtHighPrice.getText().toString())){
+            mSearchProductHighPrice = 0;
+        }
+
+        return validate;
     }
 
     @Override
     protected void onStop() {
         super.onStop();
     }
+
 
 }
