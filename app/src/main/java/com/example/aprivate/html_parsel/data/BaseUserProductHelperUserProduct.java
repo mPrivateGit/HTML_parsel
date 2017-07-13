@@ -27,7 +27,13 @@ public class BaseUserProductHelperUserProduct extends SQLiteOpenHelper
                 " _id integer primary key autoincrement, " +
                 BaseShema.ColsUserProducts.UUID + ", " +
                 BaseShema.ColsUserProducts.PRODUCT_NAME + ", " +
-                BaseShema.ColsUserProducts.PRODUCT_PRICE + ", " +
+                BaseShema.ColsUserProducts.PRODUCT_LOW_PRICE + ", " +
+                BaseShema.ColsUserProducts.PRODUCT_HIGH_PRICE + ", " +
+                BaseShema.ColsUserProducts.PRODUCT_CATEGORY + ", " +
+                BaseShema.ColsUserProducts.PRODUCT_UNDER_CATEGORY + ", " +
+                BaseShema.ColsUserProducts.DATE_USERS_ADDED + ", " +
+                BaseShema.ColsUserProducts.WEB_SITE + ", " +
+                BaseShema.ColsUserProducts.DATE_ADDED_ON_SITE + ", " +
                 BaseShema.ColsUserProducts.BOOLEAN_SEARCH +
                 ")";
         db.execSQL(mSQL);
@@ -42,9 +48,26 @@ public class BaseUserProductHelperUserProduct extends SQLiteOpenHelper
     public void createProduct(SearchProduct searchProduct) {
         mSQL = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(BaseShema.ColsUserProducts.UUID, searchProduct.getProductId());
-        contentValues.put(BaseShema.ColsUserProducts.PRODUCT_NAME, searchProduct.getProductName());
-        contentValues.put(BaseShema.ColsUserProducts.BOOLEAN_SEARCH, searchProduct.getNeedSearch());
+        contentValues.put(BaseShema.ColsUserProducts.UUID,
+                searchProduct.getProductId());
+        contentValues.put(BaseShema.ColsUserProducts.PRODUCT_NAME,
+                searchProduct.getProductName());
+        contentValues.put(BaseShema.ColsUserProducts.PRODUCT_LOW_PRICE,
+                searchProduct.getLowPrice());
+        contentValues.put(BaseShema.ColsUserProducts.PRODUCT_HIGH_PRICE,
+                searchProduct.getHighPrice());
+        contentValues.put(BaseShema.ColsUserProducts.PRODUCT_CATEGORY,
+                searchProduct.getCategory());
+        contentValues.put(BaseShema.ColsUserProducts.PRODUCT_UNDER_CATEGORY,
+                searchProduct.getUnderCategory());
+        contentValues.put(BaseShema.ColsUserProducts.DATE_USERS_ADDED,
+                searchProduct.getDateUserAdded());
+        contentValues.put(BaseShema.ColsUserProducts.WEB_SITE,
+                searchProduct.getSearchSite());
+        contentValues.put(BaseShema.ColsUserProducts.DATE_ADDED_ON_SITE,
+                searchProduct.getDateAddedOnSite());
+        contentValues.put(BaseShema.ColsUserProducts.BOOLEAN_SEARCH,
+                searchProduct.getNeedSearch());
 
         mSQL.insert(BaseShema.UserProductTable.TABLE_NAME, null, contentValues);
     }
@@ -56,7 +79,8 @@ public class BaseUserProductHelperUserProduct extends SQLiteOpenHelper
 
     @Override
     public void deleteProduct(SearchProduct searchProduct) {
-        BaseUserProductHelperUserProduct baseHelperUserProduct = new BaseUserProductHelperUserProduct(mContext);
+        BaseUserProductHelperUserProduct baseHelperUserProduct =
+                new BaseUserProductHelperUserProduct(mContext);
         mSQL = baseHelperUserProduct.getWritableDatabase();
         String target = "";
         String command = target +"";
@@ -67,7 +91,8 @@ public class BaseUserProductHelperUserProduct extends SQLiteOpenHelper
 
     @Override
     public void updateProduct(SearchProduct searchProduct) {
-        BaseUserProductHelperUserProduct baseHelperUserProduct = new BaseUserProductHelperUserProduct(mContext);
+        BaseUserProductHelperUserProduct baseHelperUserProduct =
+                new BaseUserProductHelperUserProduct(mContext);
         mSQL = baseHelperUserProduct.getWritableDatabase();
         String target = "";
         String command = target +"";
@@ -78,14 +103,11 @@ public class BaseUserProductHelperUserProduct extends SQLiteOpenHelper
 
     @Override
     public int size() {
-        BaseUserProductHelperUserProduct baseHelperUserProduct = new BaseUserProductHelperUserProduct(mContext);
+        BaseUserProductHelperUserProduct baseHelperUserProduct =
+                new BaseUserProductHelperUserProduct(mContext);
         mSQL = baseHelperUserProduct.getReadableDatabase();
 
-        String projection [] = {
-                BaseShema.ColsUserProducts.UUID,
-                BaseShema.ColsUserProducts.PRODUCT_NAME,
-                BaseShema.ColsUserProducts.BOOLEAN_SEARCH
-                    };
+        String projection [] = {BaseShema.ColsUserProducts.UUID};
 
         Cursor cursor = mSQL.query(BaseShema.UserProductTable.TABLE_NAME,
                 projection,

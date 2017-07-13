@@ -73,15 +73,15 @@ public class SearchProduct {
         this.mLowPrice = mLowPrice;
     }
 
-    public String getmHighPrice() {
+    public String getHighPrice() {
         return mHighPrice;
     }
 
-    public void setmHighPrice(String mHighPrice) {
+    public void setHighPrice(String mHighPrice) {
         this.mHighPrice = mHighPrice;
     }
 
-    public String getmCategory() {
+    public String getCategory() {
         return mCategory;
     }
 
@@ -89,15 +89,15 @@ public class SearchProduct {
         this.mCategory = mCategory;
     }
 
-    public String getmUnderCategory() {
+    public String getUnderCategory() {
         return mUnderCategory;
     }
 
-    public void setmUnderCategory(String mUnderCategory) {
+    public void setUnderCategory(String mUnderCategory) {
         this.mUnderCategory = mUnderCategory;
     }
 
-    public String getmDateUserAdded() {
+    public String getDateUserAdded() {
         return mDateUserAdded;
     }
 
@@ -105,7 +105,7 @@ public class SearchProduct {
         this.mDateUserAdded = mDateUserAdded;
     }
 
-    public String getmSearchSite() {
+    public String getSearchSite() {
         return mSearchSite;
     }
 
@@ -113,7 +113,7 @@ public class SearchProduct {
         this.mSearchSite = mSearchSite;
     }
 
-    public String getmDateAddedOnSite() {
+    public String getDateAddedOnSite() {
         return mDateAddedOnSite;
     }
 

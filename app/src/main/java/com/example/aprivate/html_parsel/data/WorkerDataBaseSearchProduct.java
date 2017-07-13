@@ -18,9 +18,9 @@ public class WorkerDataBaseSearchProduct {
         searchProduct = new SearchProduct();
         searchProduct.setProductName(productName);
         searchProduct.setLowPrice(String.valueOf(lowPrice)); //TODO !!!
-        searchProduct.setmHighPrice(String.valueOf(highPrice)); //TODO!!!
+        searchProduct.setHighPrice(String.valueOf(highPrice)); //TODO!!!
         searchProduct.setCategory(category);
-        searchProduct.setmUnderCategory(underCategory);
+        searchProduct.setUnderCategory(underCategory);
         searchProduct.setDateUserAdded("data"); //TODO!!!
         searchProduct.setSearchSite(siteSearch);
         searchProduct.setDateAddedOnSite(addedOnSite);
