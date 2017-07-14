@@ -3,37 +3,67 @@ package com.example.aprivate.html_parsel.holders;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.bin.SettingActivity;
 import com.example.aprivate.html_parsel.bin.StartActivity;
-import com.example.aprivate.html_parsel.log.LogApp;
-import com.example.aprivate.html_parsel.network.RequestCreator;
-import com.example.aprivate.html_parsel.services.SearchService;
 
 public class ProductHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener {
-    private TextView mSearchText;
+    private TextView mTxtSearchProductName;
+    private TextView mTxtDateUsersAdded;
+    private ImageView mImgSetting;
+    private ImageView mImgDelete;
+    private ImageView mImgStartSearch;
+    private ImageView mImgStopSearch;
     private Activity mAct;
-    private ImageView mSettingImage;
 
     public ProductHolder(View itemView, Activity activity) {
         super(itemView);
-        mAct = activity;
-        mSearchText = (TextView) itemView.findViewById(R.id.search_product);
-        mSearchText.setOnClickListener(this);
-        mSettingImage = (ImageView) itemView.findViewById(R.id.img_search_product);
-        mSettingImage.setOnClickListener(this);
+
+        //контекст
+        setContext(activity);
+
+        //текстовые поля
+        viewTextView();
+
+        //изображения
+        viewImageView();
     }
 
-    public void bind(String editText){
-        mSearchText.setText(editText);
+    public void bind(String productName, String dateUserAdded){
+        mTxtSearchProductName.setText(productName);
+        String combined = R.string.str_user_added + dateUserAdded;
+        mTxtDateUsersAdded.setText(combined);
+    }
+
+    private void setContext(Activity act){
+        mAct = act;
+    }
+
+    private void viewTextView(){
+        mTxtSearchProductName = (TextView) itemView.findViewById(R.id.search_product);
+        mTxtSearchProductName.setOnClickListener(this);
+        mTxtDateUsersAdded = (TextView) itemView.findViewById(R.id.txt_date_user_added);
+    }
+
+    private void viewImageView() {
+        mImgSetting = (ImageView) itemView.findViewById(R.id.img_search_product_setting);
+        mImgSetting.setOnClickListener(this);
+        mImgDelete = (ImageView) itemView.findViewById(R.id.img_search_product_delete);
+        mImgDelete.setOnClickListener(this);
+
+        mImgStartSearch = (ImageView) itemView.findViewById(R.id.img_start_search);
+        mImgStartSearch.setOnClickListener(this);
+
+        mImgStopSearch = (ImageView) itemView.findViewById(R.id.img_stop_search);
+        mImgStopSearch.setOnClickListener(this);
+        mImgStopSearch.setVisibility(View.GONE);
     }
 
     @Override
@@ -43,7 +73,7 @@ public class ProductHolder extends RecyclerView.ViewHolder
                 Intent i = new Intent(v.getContext(), StartActivity.class);
                 mAct.startActivity(i);
                 break;
-            case R.id.img_search_product:
+            case R.id.img_search_product_setting:
                 Intent u = new Intent(v.getContext(), SettingActivity.class);
                 mAct.startActivity(u);
         }

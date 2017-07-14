@@ -23,6 +23,7 @@
     <string name="str_search_product_date">Date added (or do not write anything)</string>
     <string name="str_save">Save</string>
     <string name="str_search_product_website">Set website for search</string>
+    <string name="str_user_added">Added by you:</string>
 
     <string-array name="category">
         <item>Set category (or do not write anything)</item>

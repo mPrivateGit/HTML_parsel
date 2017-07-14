@@ -26,7 +26,7 @@ import java.util.List;
 
 public class RecyclerViewFragment extends Fragment {
     private RecyclerView mRecyclerView;
-    private SQLiteDatabase mSQL;
+    protected SQLiteDatabase mSQL;
 
     @Nullable
     @Override
@@ -60,7 +60,13 @@ public class RecyclerViewFragment extends Fragment {
                 BaseShema.ColsUserProducts.UUID,
                 BaseShema.ColsUserProducts.PRODUCT_NAME,
                 BaseShema.ColsUserProducts.PRODUCT_LOW_PRICE,
-                BaseShema.ColsUserProducts.BOOLEAN_SEARCH,
+                BaseShema.ColsUserProducts.PRODUCT_HIGH_PRICE,
+                BaseShema.ColsUserProducts.PRODUCT_CATEGORY,
+                BaseShema.ColsUserProducts.PRODUCT_UNDER_CATEGORY,
+                BaseShema.ColsUserProducts.DATE_USERS_ADDED,
+                BaseShema.ColsUserProducts.WEB_SITE,
+                BaseShema.ColsUserProducts.DATE_ADDED_ON_SITE,
+                BaseShema.ColsUserProducts.BOOLEAN_SEARCH
         };
         Cursor cursor = mSQL.query(BaseShema.UserProductTable.TABLE_NAME,
                 projection,
@@ -71,21 +77,49 @@ public class RecyclerViewFragment extends Fragment {
                 null);
 
         try {
-            int targetUUID = cursor.getColumnIndex(BaseShema.ColsUserProducts.UUID);
-            int targetName = cursor.getColumnIndex(BaseShema.ColsUserProducts.PRODUCT_NAME);
-            int targetPrice = cursor.getColumnIndex(BaseShema.ColsUserProducts.PRODUCT_LOW_PRICE);
-            int targetBoolean = cursor.getColumnIndex(BaseShema.ColsUserProducts.BOOLEAN_SEARCH);
+            int targetUUID = cursor
+                    .getColumnIndex(BaseShema.ColsUserProducts.UUID);
+            int targetName = cursor
+                    .getColumnIndex(BaseShema.ColsUserProducts.PRODUCT_NAME);
+            int targetLowPrice = cursor
+                    .getColumnIndex(BaseShema.ColsUserProducts.PRODUCT_LOW_PRICE);
+            int targetHighPrice = cursor
+                    .getColumnIndex(BaseShema.ColsUserProducts.PRODUCT_HIGH_PRICE);
+            int targetCategory = cursor
+                    .getColumnIndex(BaseShema.ColsUserProducts.PRODUCT_CATEGORY);
+            int targetUnderCategory = cursor
+                    .getColumnIndex(BaseShema.ColsUserProducts.PRODUCT_UNDER_CATEGORY);
+            int targetDateUsersAdded = cursor
+                    .getColumnIndex(BaseShema.ColsUserProducts.DATE_USERS_ADDED);
+            int targetWebSite = cursor
+                    .getColumnIndex(BaseShema.ColsUserProducts.WEB_SITE);
+            int targetAddedOnSite = cursor
+                    .getColumnIndex(BaseShema.ColsUserProducts.DATE_ADDED_ON_SITE);
+            int targetBoolean = cursor
+                    .getColumnIndex(BaseShema.ColsUserProducts.BOOLEAN_SEARCH);
 
             while (cursor.moveToNext()) {
                 String uuid = cursor.getString(targetUUID);
                 String name = cursor.getString(targetName);
-                String price = cursor.getString(targetPrice);
+                String lowPrice = cursor.getString(targetLowPrice);
+                String highPrice = cursor.getString(targetHighPrice);
+                String category = cursor.getString(targetCategory);
+                String underCategory = cursor.getString(targetUnderCategory);
+                String dateUsersAdded = cursor.getString(targetDateUsersAdded);
+                String webSite = cursor.getString(targetWebSite);
+                String addedOnSite = cursor.getString(targetAddedOnSite);
                 String bool = cursor.getString(targetBoolean);
 
                 SearchProduct searchProduct = new SearchProduct();
                 searchProduct.setProductId(uuid);
                 searchProduct.setProductName(name);
-                searchProduct.setPrice(price);
+                searchProduct.setPrice(lowPrice);
+                searchProduct.setHighPrice(highPrice);
+                searchProduct.setCategory(category);
+                searchProduct.setUnderCategory(underCategory);
+                searchProduct.setDateUserAdded(dateUsersAdded);
+                searchProduct.setSearchSite(webSite);
+                searchProduct.setDateAddedOnSite(addedOnSite);
                 searchProduct.convertToBoolean(bool);
 
                 mList.add(searchProduct);

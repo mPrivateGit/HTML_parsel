@@ -19,6 +19,7 @@ import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.data.WorkerDataBaseSearchProduct;
 import com.example.aprivate.html_parsel.log.LogApp;
 
+//TODO защита от переворотов
 public class SettingActivity extends AppCompatActivity
         implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     protected Button mBtnCancel;
@@ -32,14 +33,14 @@ public class SettingActivity extends AppCompatActivity
     protected Spinner mSpnColor;
     protected Spinner mSpnSearchDate;
 
-    protected String mSearchProductName;
-    protected String mSearchProductCategory;
-    protected String mSearchProductUnderCategory;
-    protected String mSearchProductWebSite;
-    protected String mSearchProductColor;
-    protected String mSearchProductDateAdded;
-    protected int mSearchProductLowPrice;
-    protected int mSearchProductHighPrice;
+    private String mSearchProductName;
+    private String mSearchProductCategory;
+    private String mSearchProductUnderCategory;
+    private String mSearchProductWebSite;
+    private String mSearchProductColor;
+    private String mSearchProductDateAdded;
+    private int mSearchProductLowPrice;
+    private int mSearchProductHighPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,14 +133,16 @@ public class SettingActivity extends AppCompatActivity
                 if (position > 0) mSpnUnderCategory.setVisibility(View.VISIBLE);
                 else mSpnUnderCategory.setVisibility(View.GONE);
                 mSearchProductCategory = mCategories[position];
-                if (mSearchProductCategory == mCategories[0]) mSearchProductCategory = null;
+                if (mSearchProductCategory == mCategories[0])
+                    mSearchProductCategory = null;
                 //TODO запись в БД
                 break;
             case R.id.spinner_under_category:
                 String[] mUnderCategories = getResources()
                         .getStringArray(R.array.Electronics_Computers_or_Office);
                 mSearchProductUnderCategory = mUnderCategories[position];
-                if (mSearchProductUnderCategory == mUnderCategories[0]) mSearchProductUnderCategory = null;
+                if (mSearchProductUnderCategory == mUnderCategories[0])
+                    mSearchProductUnderCategory = null;
                 //TODO запись в БД
                 break;
             case R.id.spinner_search_site:
@@ -150,13 +153,15 @@ public class SettingActivity extends AppCompatActivity
             case R.id.spinner_color:
                 String[] colors = getResources().getStringArray(R.array.Colors);
                 mSearchProductColor = colors[position];
-                if (mSearchProductColor == colors[0]) mSearchProductColor = null;
+                if (mSearchProductColor == colors[0])
+                    mSearchProductColor = null;
                 //TODO запись в БД
                 break;
             case R.id.spinner_search_date:
                 String[] dates = getResources().getStringArray(R.array.SearchDates);
                 mSearchProductDateAdded = dates[position];
-                if (mSearchProductDateAdded == dates[0]) mSearchProductDateAdded = null;
+                if (mSearchProductDateAdded == dates[0])
+                    mSearchProductDateAdded = null;
                 //TODO запись в БД
                 break;
         }
