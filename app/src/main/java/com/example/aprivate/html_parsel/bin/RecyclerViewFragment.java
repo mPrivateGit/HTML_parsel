@@ -19,6 +19,7 @@ import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.adapters.ProductAdapter;
 import com.example.aprivate.html_parsel.data.BaseUserProductHelperUserProduct;
 import com.example.aprivate.html_parsel.data.BaseShema;
+import com.example.aprivate.html_parsel.log.LogApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,9 +125,10 @@ public class RecyclerViewFragment extends Fragment {
 
                 mList.add(searchProduct);
 
-                Log.d(">>>>>>>>>-----: ", uuid);
-                Log.d(">>>>>>>>>-----: ", name);
-                Log.d(">>>>>>>>>-----: ", bool);
+                LogApp.Log(">>>>>>>>>-----: ", uuid);
+                LogApp.Log(">>>>>>>>>-----: ", name);
+                LogApp.Log(">>>>>>>>>-----: ", bool);
+                LogApp.Log(">>>>>>>>>-----: ", dateUsersAdded);
 
                 Log.d("ITEM------->: ", cursor.getCount()+ "");
             }

@@ -21,7 +21,6 @@ public class WorkerDataBaseSearchProduct {
         searchProduct.setHighPrice(String.valueOf(highPrice)); //TODO!!!
         searchProduct.setCategory(category);
         searchProduct.setUnderCategory(underCategory);
-        searchProduct.setDateUserAdded("data"); //TODO!!!
         searchProduct.setSearchSite(siteSearch);
         searchProduct.setDateAddedOnSite(addedOnSite);
         searchProduct.setNeedSearch(false);

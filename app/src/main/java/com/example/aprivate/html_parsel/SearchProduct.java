@@ -3,6 +3,10 @@ package com.example.aprivate.html_parsel;
 
 
 
+import com.example.aprivate.html_parsel.log.LogApp;
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -13,13 +17,16 @@ public class SearchProduct {
     private String mHighPrice; //TODO convert to int !!!
     private String mCategory;
     private String mUnderCategory;
-    private String mDateUserAdded;
+    private String mDateUserAdded; //TODO convert to long!!!
     private String mSearchSite;
     private String mDateAddedOnSite;
     private String mNeedSearch; //Todo convert to Boolean
 
     public SearchProduct(){
         mProductId = UUID.randomUUID().toString();
+        Date date = new Date();
+        mDateUserAdded = String.valueOf(date.getTime()); //TODO!!!!
+        LogApp.Log("SearchProduct: ", mDateUserAdded);
     }
 
     public String getProductName() {
@@ -63,10 +70,6 @@ public class SearchProduct {
         if (str == "true"){
             setNeedSearch(true);
         } else setNeedSearch(false);
-    }
-
-    public String getmLowPrice() {
-        return mLowPrice;
     }
 
     public void setLowPrice(String mLowPrice) {

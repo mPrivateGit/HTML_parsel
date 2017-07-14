@@ -17,6 +17,7 @@ public class ProductHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener {
     private TextView mTxtSearchProductName;
     private TextView mTxtDateUsersAdded;
+    private TextView mTxtChosenWebSite;
     private ImageView mImgSetting;
     private ImageView mImgDelete;
     private ImageView mImgStartSearch;
@@ -36,10 +37,14 @@ public class ProductHolder extends RecyclerView.ViewHolder
         viewImageView();
     }
 
-    public void bind(String productName, String dateUserAdded){
+    public void bind(String productName, String dateUserAdded, String webSite){
+        //Имя
         mTxtSearchProductName.setText(productName);
+        //Дата добавления пользователем
         String combined = R.string.str_user_added + dateUserAdded;
         mTxtDateUsersAdded.setText(combined);
+        //Выбранный сайт для поиска
+        mTxtChosenWebSite.setText(webSite);
     }
 
     private void setContext(Activity act){
@@ -50,6 +55,7 @@ public class ProductHolder extends RecyclerView.ViewHolder
         mTxtSearchProductName = (TextView) itemView.findViewById(R.id.search_product);
         mTxtSearchProductName.setOnClickListener(this);
         mTxtDateUsersAdded = (TextView) itemView.findViewById(R.id.txt_date_user_added);
+        mTxtChosenWebSite = (TextView) itemView.findViewById(R.id.txt_chosen_web_site);
     }
 
     private void viewImageView() {
@@ -70,12 +76,28 @@ public class ProductHolder extends RecyclerView.ViewHolder
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.search_product:
-                Intent i = new Intent(v.getContext(), StartActivity.class);
-                mAct.startActivity(i);
+//                Intent i = new Intent(v.getContext(), StartActivity.class);
+//                mAct.startActivity(i);
+                //TODO подумать нужно сдесь это вообще или нет
                 break;
             case R.id.img_search_product_setting:
                 Intent u = new Intent(v.getContext(), SettingActivity.class);
                 mAct.startActivity(u);
+                break;
+            case R.id.img_start_search:
+                mImgStartSearch.setVisibility(View.GONE);
+                mImgStopSearch.setVisibility(View.VISIBLE);
+                //TODO start service
+                break;
+            case R.id.img_stop_search:
+                mImgStopSearch.setVisibility(View.GONE);
+                mImgStartSearch.setVisibility(View.VISIBLE);
+                //TODO stop service
+                break;
+            case R.id.img_search_product_delete:
+                //delete from Db
+
+                break;
         }
     }
 }
