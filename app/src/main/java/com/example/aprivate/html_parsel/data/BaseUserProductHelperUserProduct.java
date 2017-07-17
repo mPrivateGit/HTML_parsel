@@ -82,11 +82,30 @@ public class BaseUserProductHelperUserProduct extends SQLiteOpenHelper
         BaseUserProductHelperUserProduct baseHelperUserProduct =
                 new BaseUserProductHelperUserProduct(mContext);
         mSQL = baseHelperUserProduct.getWritableDatabase();
-        String target = "";
-        String command = target +"";
+        String target = BaseShema.ColsUserProducts.UUID +
+                " =" +
+                "'" +
+                searchProduct.getProductId() +
+                "'";
 
-        mSQL.delete(BaseShema.UserProductTable.TABLE_NAME, command, null);
+        mSQL.delete(BaseShema.UserProductTable.TABLE_NAME, target, null);
         //TODO ??? что-то тут не чисто, нужно проверить правильность удаления
+    }
+
+    @Override
+    public void deleteProductById(String id) {
+        BaseUserProductHelperUserProduct baseHelperUserProduct =
+                new BaseUserProductHelperUserProduct(mContext);
+        mSQL = baseHelperUserProduct.getWritableDatabase();
+
+        mSQL = baseHelperUserProduct.getWritableDatabase();
+        String target = BaseShema.ColsUserProducts.UUID +
+                " =" +
+                "'" +
+                id +
+                "'";
+
+        mSQL.delete(BaseShema.UserProductTable.TABLE_NAME, target, null);
     }
 
     @Override

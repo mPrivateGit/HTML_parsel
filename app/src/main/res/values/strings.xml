@@ -21,11 +21,14 @@
     <string name="str_for_set_price">Set product price (digits) or do not write anything</string>
     <string name="str_search_product_color">Set color (or do not write anything)</string>
     <string name="str_search_product_date">Date added (or do not write anything)</string>
-    <string name="str_save">Save</string>
+    <string name="btn_save">Save</string>
     <string name="str_search_product_website">Set website for search</string>
     <string name="str_user_added">Added by you:</string>
     <string name="str_when_you_added">Added date:</string>
     <string name="str_chosen_web_site">Site for search:</string>
+    <string name="str_dialog_delete">Are you sure?</string>
+    <string name="str_are_you_sure">Are you sure? </string>
+    <string name="str_delete">Delete</string>
 
     <string-array name="category">
         <item>Set category (or do not write anything)</item>

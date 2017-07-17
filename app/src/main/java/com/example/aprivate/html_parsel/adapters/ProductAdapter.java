@@ -33,10 +33,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductHolder> {
 
     @Override
     public void onBindViewHolder(ProductHolder holder, int position) {
-        String productName = mSearchProducts.get(position).getProductName();
-        String dateUsersAdded = mSearchProducts.get(position).getDateUserAdded();
-        String chosenWebSite = mSearchProducts.get(position).getSearchSite();
-        holder.bind(productName, dateUsersAdded, chosenWebSite);
+        holder.bind(mSearchProducts.get(position));
     }
 
     @Override

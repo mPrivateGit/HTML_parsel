@@ -8,6 +8,7 @@ public interface IDataBaseUserProduct {
     void createProduct(SearchProduct searchProduct);
     SearchProduct getProductByPosition(int position);
     void deleteProduct(SearchProduct searchProduct);
+    void deleteProductById(String id);
     void updateProduct(SearchProduct searchProduct);
     int size();
 }

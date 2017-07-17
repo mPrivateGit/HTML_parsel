@@ -22,6 +22,7 @@ import com.example.aprivate.html_parsel.log.LogApp;
 //TODO защита от переворотов
 public class SettingActivity extends AppCompatActivity
         implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+    private static final String KEY_INSTANCE = "index";
     protected Button mBtnCancel;
     protected Button mBtnOk;
     protected EditText mEdtName;
@@ -176,9 +177,8 @@ public class SettingActivity extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_cancel_action:
-//                Intent cancel = new Intent(SettingActivity.this, MainActivity.class);
-//                startActivity(cancel);
-
+                Intent cancel = new Intent(SettingActivity.this, MainActivity.class);
+                startActivity(cancel);
                 break;
             case R.id.btn_save_action:
                 if (validateData()==true) {
@@ -188,9 +188,8 @@ public class SettingActivity extends AppCompatActivity
                             mSearchProductUnderCategory, mSearchProductWebSite,
                             mSearchProductDateAdded);
                     worker.writeObjectInDb();
-                    //Todo запись в БД и закрытие активити
-                Intent ok = new Intent(SettingActivity.this, MainActivity.class);
-                startActivity(ok);
+                    Intent ok = new Intent(SettingActivity.this, MainActivity.class);
+                    startActivity(ok);
                 } else {
                     Toast validate = Toast.makeText(this,
                             "validate() java method error!", Toast.LENGTH_LONG);
@@ -257,9 +256,13 @@ public class SettingActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //todo повороты
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
     }
-
-
 }
