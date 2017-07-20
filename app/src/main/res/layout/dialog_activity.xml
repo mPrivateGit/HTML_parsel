@@ -19,7 +19,7 @@
 
     <!--Титул-->
     <TextView
-        android:id="@+id/txt_title"
+        android:id="@+id/txt_dialog_title"
         android:layout_marginTop="20dp"
         android:textSize="18sp"
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
             android:layout_marginTop="10dp">
             <!--отменить-->
             <Button
-                android:id="@+id/btn_cancel_action"
+                android:id="@+id/btn_dialog_cancel_action"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
@@ -47,7 +47,7 @@
                 android:textColor="#ffffff"/>
             <!--сохранить-->
             <Button
-                android:id="@+id/btn_save_action"
+                android:id="@+id/btn_dialog_save_action"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"

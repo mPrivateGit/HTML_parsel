@@ -3,10 +3,7 @@ package com.example.aprivate.html_parsel.bin;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -66,9 +63,9 @@ public class SettingActivity extends AppCompatActivity
     }
 
     private void viewButtons(){
-        mBtnCancel = (Button) findViewById(R.id.btn_cancel_action);
+        mBtnCancel = (Button) findViewById(R.id.btn_dialog_cancel_action);
         mBtnCancel.setOnClickListener(this);
-        mBtnOk = (Button) findViewById(R.id.btn_save_action);
+        mBtnOk = (Button) findViewById(R.id.btn_dialog_save_action);
         mBtnOk.setOnClickListener(this);
     }
 
@@ -188,11 +185,11 @@ public class SettingActivity extends AppCompatActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_cancel_action:
+            case R.id.btn_dialog_cancel_action:
                 Intent cancel = new Intent(SettingActivity.this, MainActivity.class);
                 startActivity(cancel);
                 break;
-            case R.id.btn_save_action:
+            case R.id.btn_dialog_save_action:
                 if (validateData()==true) {
                     WorkerDataBaseSearchProduct worker = new WorkerDataBaseSearchProduct(this,
                             mSearchProductName, mSearchProductLowPrice,

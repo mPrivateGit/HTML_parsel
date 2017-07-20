@@ -1,11 +1,14 @@
 package com.example.aprivate.html_parsel.bin;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.dialogs.EditDialogExit;
@@ -17,6 +20,7 @@ import com.example.aprivate.html_parsel.sounds.Sound;
 public class StartActivity extends AppCompatActivity
         implements View.OnClickListener{
     private static final String TAG = ">>>StartActivity: ";
+    private static long back_pressed;
     protected TextView mTxtStartSearch;
     protected TextView mTxtHelp;
     protected TextView mTxtSupport;
@@ -73,5 +77,19 @@ public class StartActivity extends AppCompatActivity
                 EditDialogExit exit = new EditDialogExit();
                 exit.show(getFragmentManager(), TAG);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        openQuitDialog();
+    }
+
+    private void openQuitDialog() {
+        if (back_pressed + 2000 > System.currentTimeMillis())
+            super.onBackPressed();
+        else
+            Toast.makeText(getBaseContext(), "Press once again to exit!",
+                    Toast.LENGTH_SHORT).show();
+        back_pressed = System.currentTimeMillis();
     }
 }

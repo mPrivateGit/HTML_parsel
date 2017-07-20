@@ -31,13 +31,13 @@ public class EditDialogDeleteUserProduct extends DialogFragment
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_activity, container, false);
-        mBtnOk = (Button) v.findViewById(R.id.btn_save_action);
+        mBtnOk = (Button) v.findViewById(R.id.btn_dialog_save_action);
         mBtnOk.setOnClickListener(this);
         mBtnOk.setText(R.string.str_delete);
-        mBtnCancel = (Button) v.findViewById(R.id.btn_cancel_action);
+        mBtnCancel = (Button) v.findViewById(R.id.btn_dialog_cancel_action);
         mBtnCancel.setOnClickListener(this);
         mBtnCancel.setText(R.string.btn_cancel);
-        mTxtTitle = (TextView) v.findViewById(R.id.txt_title);
+        mTxtTitle = (TextView) v.findViewById(R.id.txt_dialog_title);
         mTxtTitle.setText(R.string.str_are_you_sure);
         mSearchProductId = getArguments().getString(PRODUCT_USER_ID);
         editDialogInterface = (EditDialogInterface) getActivity();
@@ -55,10 +55,10 @@ public class EditDialogDeleteUserProduct extends DialogFragment
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_cancel_action:
+            case R.id.btn_dialog_cancel_action:
                 dismiss();
                 break;
-            case R.id.btn_save_action:
+            case R.id.btn_dialog_save_action:
                 BaseHelperUserProduct baseHelper =
                         new BaseHelperUserProduct(getActivity());
                 baseHelper.deleteProductById(mSearchProductId);

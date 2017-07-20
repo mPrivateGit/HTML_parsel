@@ -17,7 +17,7 @@ import com.example.aprivate.html_parsel.adapters.ProductAdapter;
 
 public class HelpFragment extends Fragment {
     private RecyclerView mRecyclerView;
-    private TextView mTxtHelp; //TODO in RecyclerView if itd need
+    private TextView mTxtHelp; //TODO in RecyclerView if it need
 
     @Nullable
     @Override
@@ -28,4 +28,9 @@ public class HelpFragment extends Fragment {
         mTxtHelp.setText(R.string.str_help_full_text);
         return v;
     }
+
+    private void destroyFragment(){
+
+    }
+
 }

@@ -197,14 +197,14 @@
             android:layout_marginTop="10dp">
             <!--отменить-->
             <Button
-                android:id="@+id/btn_cancel_action"
+                android:id="@+id/btn_dialog_cancel_action"
                 android:text="@string/btn_cancel"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"/>
             <!--сохранить-->
             <Button
-                android:id="@+id/btn_save_action"
+                android:id="@+id/btn_dialog_save_action"
                 android:text="@string/btn_save"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
