@@ -4,24 +4,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button_start_search"
+    <android.support.v7.widget.AppCompatSpinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/start"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"/>
+        android:layout_gravity="right">
+    </android.support.v7.widget.AppCompatSpinner>
 
     <android.support.v4.widget.Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_weight="5"/>
 
-    <Button
-        android:id="@+id/button_stop_search"
+
+    <TextView
+        android:id="@+id/txt_start_search"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/stop"
+        android:layout_height="0dp"
+        android:text="@string/start"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/txt_help"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/str_help"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/txt_support"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/str_support"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/txt_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/str_exit"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"/>
 
@@ -29,5 +61,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="7"/>
+
+
+    <TextView
+        android:id="@+id/developer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:textColor="#000000"
+        android:text="@string/str_creator"/>
 
 </LinearLayout>

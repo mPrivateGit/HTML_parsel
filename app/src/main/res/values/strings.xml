@@ -7,7 +7,7 @@
     <string name="stop">Stop search</string>
     <string name="message_text">Edit your favorite searchProduct for search</string>
     <string name="enter_search">Edit searchProduct for search</string>
-    <string name="product_pice">Edit pice</string>
+    <string name="product_price">Edit pice</string>
     <string name="button_search">Search!</string>
     <string name="yes">Yes</string>
     <string name="no">NO</string>
@@ -29,6 +29,10 @@
     <string name="str_dialog_delete">Are you sure?</string>
     <string name="str_are_you_sure">Are you sure? </string>
     <string name="str_delete">Delete</string>
+    <string name="str_help">Help</string>
+    <string name="str_exit">Exit</string>
+    <string name="str_support">Support</string>
+    <string name="str_creator">by Dn160493Poa</string>
 
     <string-array name="category">
         <item>Set category (or do not write anything)</item>

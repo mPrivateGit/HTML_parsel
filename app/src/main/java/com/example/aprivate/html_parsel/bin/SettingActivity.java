@@ -22,6 +22,7 @@ import com.example.aprivate.html_parsel.log.LogApp;
 //TODO защита от переворотов
 public class SettingActivity extends AppCompatActivity
         implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+    private static final String PRODUCT_USER_ID = "selected_product_id";
     private static final String KEY_INSTANCE = "index";
     protected Button mBtnCancel;
     protected Button mBtnOk;
@@ -117,6 +118,17 @@ public class SettingActivity extends AppCompatActivity
                         android.R.layout.simple_spinner_dropdown_item);
         mSpnSearchDate.setAdapter(adapterSearchDate);
         adapterSearchDate.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = getIntent();
+        if (intent.hasExtra(PRODUCT_USER_ID)){
+            String str = intent.getExtras().getString(PRODUCT_USER_ID);
+            LogApp.Log(">>>>>>", ">>>>>>>>>>>>>>" + "\n" + str + "\n" + ">>>>>>>>>>>>>>");
+
+        }
     }
 
     @Override

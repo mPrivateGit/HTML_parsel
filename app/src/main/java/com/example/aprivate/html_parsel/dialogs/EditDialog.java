@@ -3,10 +3,8 @@ package com.example.aprivate.html_parsel.dialogs;
 
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.R;
-import com.example.aprivate.html_parsel.data.BaseUserProductHelperUserProduct;
 import com.example.aprivate.html_parsel.interfaces.EditDialogInterface;
 //TODO !!!! БУДЕТ ЗАПУСКАТЬ СЕРВИС И ОСТАНАВЛИВАТЬ!!!!!
 public class EditDialog extends DialogFragment implements View.OnClickListener{
@@ -75,8 +71,8 @@ public class EditDialog extends DialogFragment implements View.OnClickListener{
 //                searchProduct.setProductName(edtProduct.getText().toString());
 //                searchProduct.setPrice(mSetLowePrice.getText().toString());
 //                searchProduct.setNeedSearch(false);
-//                BaseUserProductHelperUserProduct baseHelperUserProduct =
-//                        new BaseUserProductHelperUserProduct(getActivity());
+//                BaseHelperUserProduct baseHelperUserProduct =
+//                        new BaseHelperUserProduct(getActivity());
 //                baseHelperUserProduct.createProduct(searchProduct);
 //                editDialogInterface.onChanged();
 //                break;

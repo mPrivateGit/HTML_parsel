@@ -8,20 +8,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.bin.SettingActivity;
-import com.example.aprivate.html_parsel.data.BaseUserProductHelperUserProduct;
+import com.example.aprivate.html_parsel.data.BaseHelperUserProduct;
 import com.example.aprivate.html_parsel.dialogs.EditDialogDeleteUserProduct;
-import com.example.aprivate.html_parsel.log.LogApp;
+import com.example.aprivate.html_parsel.dialogs.EditDialogStartSearch;
 
 public class ProductHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener {
     private static final String EDIT_DIALOG_TAG = "ProductHolder";
     private static final String PRODUCT_USER_ID = "selected_product_id";
-    private BaseUserProductHelperUserProduct baseHelper;
+    private BaseHelperUserProduct baseHelper;
     private SearchProduct mSearchProduct;
     private TextView mTxtSearchProductName;
     private TextView mTxtDateUsersAdded;
@@ -44,7 +43,7 @@ public class ProductHolder extends RecyclerView.ViewHolder
         //изображения
         viewImageView();
 
-        baseHelper = new BaseUserProductHelperUserProduct(activity);
+        baseHelper = new BaseHelperUserProduct(activity);
     }
 
     public void bind(SearchProduct searchProduct){
@@ -95,33 +94,35 @@ public class ProductHolder extends RecyclerView.ViewHolder
                 break;
             case R.id.img_search_product_setting:
                 Intent u = new Intent(v.getContext(), SettingActivity.class);
+                u.putExtra(PRODUCT_USER_ID, mSearchProduct.getProductId());
                 mAct.startActivity(u);
                 break;
             case R.id.img_start_search:
+                EditDialogStartSearch dialog_start_search = new EditDialogStartSearch();
+                Bundle args_start_search = new Bundle();
+                args_start_search.putSerializable(PRODUCT_USER_ID, mSearchProduct.getProductId());
+                dialog_start_search.setArguments(args_start_search);
+                dialog_start_search.show(mAct.getFragmentManager(), EDIT_DIALOG_TAG);
                 mImgStartSearch.setVisibility(View.GONE);
                 mImgStopSearch.setVisibility(View.VISIBLE);
-                //TODO start service
                 break;
             case R.id.img_stop_search:
+                EditDialogDeleteUserProduct test = new EditDialogDeleteUserProduct();
+                Bundle test1 = new Bundle();
+                test1.putSerializable(PRODUCT_USER_ID, mSearchProduct.getProductId());
+                test.setArguments(test1);
+                test.show(mAct.getFragmentManager(), EDIT_DIALOG_TAG);
                 mImgStopSearch.setVisibility(View.GONE);
                 mImgStartSearch.setVisibility(View.VISIBLE);
                 //TODO stop service
                 break;
             case R.id.img_search_product_delete:
                 //delete from Db
-                EditDialogDeleteUserProduct dialog = new EditDialogDeleteUserProduct();
-                Bundle args = new Bundle();
-                args.putSerializable(PRODUCT_USER_ID, mSearchProduct.getProductId());
-                dialog.setArguments(args);
-                dialog.show(mAct.getFragmentManager(), EDIT_DIALOG_TAG);
-
-                LogApp.Log(">>>",  "\n" + "********************" +
-                            mSearchProduct.getProductId() + "\n" +
-                        "********************");
-
-//                BaseUserProductHelperUserProduct b =
-//                        new BaseUserProductHelperUserProduct(mAct);
-//                b.deleteProduct(mSearchProduct);
+                EditDialogDeleteUserProduct dialog_delete = new EditDialogDeleteUserProduct();
+                Bundle args_delete = new Bundle();
+                args_delete.putSerializable(PRODUCT_USER_ID, mSearchProduct.getProductId());
+                dialog_delete.setArguments(args_delete);
+                dialog_delete.show(mAct.getFragmentManager(), EDIT_DIALOG_TAG);
                 break;
         }
     }

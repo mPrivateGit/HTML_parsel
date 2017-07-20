@@ -29,8 +29,8 @@ public class WorkerDataBaseSearchProduct {
     }
 
     public void writeObjectInDb(){
-        BaseUserProductHelperUserProduct baseHelperUserProduct =
-                        new BaseUserProductHelperUserProduct(mContext);
+        BaseHelperUserProduct baseHelperUserProduct =
+                        new BaseHelperUserProduct(mContext);
         baseHelperUserProduct.createProduct(searchProduct);
     }
 

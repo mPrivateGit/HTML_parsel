@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.adapters.ProductAdapter;
-import com.example.aprivate.html_parsel.data.BaseUserProductHelperUserProduct;
+import com.example.aprivate.html_parsel.data.BaseHelperUserProduct;
 import com.example.aprivate.html_parsel.data.BaseShema;
 import com.example.aprivate.html_parsel.log.LogApp;
 
@@ -51,8 +51,8 @@ public class RecyclerViewFragment extends Fragment {
 
     private List<SearchProduct> getProducts(Context context){
         List<SearchProduct> mList = new ArrayList<>();
-        BaseUserProductHelperUserProduct baseHelperUserProduct =
-                new BaseUserProductHelperUserProduct(context);
+        BaseHelperUserProduct baseHelperUserProduct =
+                new BaseHelperUserProduct(context);
 
         //чтение
         mSQL = baseHelperUserProduct.getReadableDatabase();
