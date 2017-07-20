@@ -105,6 +105,7 @@ public class ProductHolder extends RecyclerView.ViewHolder
                 dialog_start_search.show(mAct.getFragmentManager(), EDIT_DIALOG_TAG);
                 mImgStartSearch.setVisibility(View.GONE);
                 mImgStopSearch.setVisibility(View.VISIBLE);
+                //TODO start service
                 break;
             case R.id.img_stop_search:
                 EditDialogDeleteUserProduct test = new EditDialogDeleteUserProduct();
