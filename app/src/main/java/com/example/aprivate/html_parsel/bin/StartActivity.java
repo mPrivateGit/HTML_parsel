@@ -20,6 +20,7 @@ import com.example.aprivate.html_parsel.sounds.Sound;
 public class StartActivity extends AppCompatActivity
         implements View.OnClickListener{
     private static final String TAG = ">>>StartActivity: ";
+    private static final String CHOSEN_FRAGMENT = "key_fragment";
     private static long back_pressed;
     protected TextView mTxtStartSearch;
     protected TextView mTxtHelp;
@@ -60,18 +61,14 @@ public class StartActivity extends AppCompatActivity
                 startActivity(i);
                 break;
             case R.id.txt_help:
-                HelpFragment helpFragment = new HelpFragment();
-                FragmentManager fmHelpFragment = getSupportFragmentManager();
-                fmHelpFragment.beginTransaction()
-                        .add(R.id.frag_container, helpFragment)
-                        .commit();
+                Intent help = new Intent(StartActivity.this, Menu_Fragment_Activity.class);
+                help.putExtra(CHOSEN_FRAGMENT, 2);
+                startActivity(help);
                 break;
             case R.id.txt_support:
-                SupportFragment supportFragment = new SupportFragment();
-                FragmentManager fmSupportFragment = getSupportFragmentManager();
-                fmSupportFragment.beginTransaction()
-                        .add(R.id.frag_container, supportFragment)
-                        .commit();
+                Intent support = new Intent(StartActivity.this, Menu_Fragment_Activity.class);
+                support.putExtra(CHOSEN_FRAGMENT, 1);
+                startActivity(support);
                 break;
             case R.id.txt_exit:
                 EditDialogExit exit = new EditDialogExit();
