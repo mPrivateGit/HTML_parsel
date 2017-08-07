@@ -52,7 +52,7 @@ public class ProductHolder extends RecyclerView.ViewHolder
         //Имя
         mTxtSearchProductName.setText(searchProduct.getProductName());
         //Дата добавления пользователем
-        String combined = R.string.str_user_added + searchProduct.getDateUserAdded();
+        String combined = "Added by you: " + searchProduct.getDateUserAdded();
         mTxtDateUsersAdded.setText(combined);
         //Выбранный сайт для поиска
         mTxtChosenWebSite.setText(searchProduct.getSearchSite());

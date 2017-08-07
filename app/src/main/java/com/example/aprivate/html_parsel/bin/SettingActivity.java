@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.aprivate.html_parsel.R;
+import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.data.WorkerDataBaseSearchProduct;
 import com.example.aprivate.html_parsel.log.LogApp;
 
@@ -42,6 +43,7 @@ public class SettingActivity extends AppCompatActivity
     private String mSearchProductDateAdded;
     private int mSearchProductLowPrice;
     private int mSearchProductHighPrice;
+    private WorkerDataBaseSearchProduct workerDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,9 +128,12 @@ public class SettingActivity extends AppCompatActivity
         super.onStart();
         Intent intent = getIntent();
         if (intent.hasExtra(PRODUCT_USER_ID)){
-            String str = intent.getExtras().getString(PRODUCT_USER_ID);
-            LogApp.Log(">>>>>>", ">>>>>>>>>>>>>>" + "\n" + str + "\n" + ">>>>>>>>>>>>>>");
+            String strId = intent.getExtras().getString(PRODUCT_USER_ID);
+            LogApp.Log(">>>>>>", ">>>>>>>>>>>>>>" + "\n" + strId + "\n" + ">>>>>>>>>>>>>>");
+            workerDB = new WorkerDataBaseSearchProduct(this, strId);
+            SearchProduct target = workerDB.readObjectFromDb();
 
+            LogApp.Log("onStart() in STA: ", target.toString());
         }
     }
 
@@ -195,12 +200,12 @@ public class SettingActivity extends AppCompatActivity
                 break;
             case R.id.btn_dialog_save_action:
                 if (validateData()==true) {
-                    WorkerDataBaseSearchProduct worker = new WorkerDataBaseSearchProduct(this,
+                    workerDB = new WorkerDataBaseSearchProduct(this,
                             mSearchProductName, mSearchProductLowPrice,
                             mSearchProductHighPrice, mSearchProductCategory,
                             mSearchProductUnderCategory, mSearchProductWebSite,
                             mSearchProductDateAdded);
-                    worker.writeObjectInDb();
+                    workerDB.writeObjectInDb();
                     Intent ok = new Intent(SettingActivity.this, MainActivity.class);
                     startActivity(ok);
                 } else {

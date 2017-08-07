@@ -205,7 +205,7 @@
             <!--сохранить-->
             <Button
                 android:id="@+id/btn_dialog_save_action"
-                android:text="@string/btn_save"
+                android:text="@string/str_ok"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"/>

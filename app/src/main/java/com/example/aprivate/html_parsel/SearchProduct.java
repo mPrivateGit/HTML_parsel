@@ -5,6 +5,7 @@ package com.example.aprivate.html_parsel;
 
 import com.example.aprivate.html_parsel.log.LogApp;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -25,7 +26,8 @@ public class SearchProduct {
     public SearchProduct(){
         mProductId = UUID.randomUUID().toString();
         Date date = new Date();
-        mDateUserAdded = String.valueOf(date.getTime()); //TODO!!!!
+
+        mDateUserAdded = date.toString();
         LogApp.Log("SearchProduct: ", mDateUserAdded);
     }
 
@@ -105,6 +107,8 @@ public class SearchProduct {
     }
 
     public void setDateUserAdded(String mDateUserAdded) {
+        SimpleDateFormat format = new SimpleDateFormat("E yyyy.MM.dd 'и время' hh:mm a zzz");
+//        format.format(mDateUserAdded);
         this.mDateUserAdded = mDateUserAdded;
     }
 
