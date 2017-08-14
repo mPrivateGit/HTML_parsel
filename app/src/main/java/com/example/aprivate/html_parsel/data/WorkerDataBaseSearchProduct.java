@@ -13,20 +13,34 @@ public class WorkerDataBaseSearchProduct {
     private BaseHelperUserProduct baseHelperUserProduct;
     private String mSearchProductId;
 
-    public WorkerDataBaseSearchProduct(Context context, String productName,
-                                       int lowPrice, int highPrice,
-                                       String category, String underCategory,
-                                       String siteSearch, String addedOnSite) {
+    public WorkerDataBaseSearchProduct(Context context, String productId,
+                                       String productName, int lowPrice,
+                                       int highPrice, String category,
+                                       String underCategory, String siteSearch,
+                                       String addedOnSite, String dateCreate) {
         mContext = context;
         searchProduct = new SearchProduct();
-        searchProduct.setProductName(productName);
-        searchProduct.setLowPrice(String.valueOf(lowPrice)); //TODO !!!
-        searchProduct.setHighPrice(String.valueOf(highPrice)); //TODO!!!
-        searchProduct.setCategory(category);
-        searchProduct.setUnderCategory(underCategory);
-        searchProduct.setSearchSite(siteSearch);
-        searchProduct.setDateAddedOnSite(addedOnSite);
-        searchProduct.setNeedSearch(false);
+        if (!TextUtils.isEmpty(productId)){
+            searchProduct.setProductId(productId);
+            searchProduct.setDateUserCreate(dateCreate);
+            searchProduct.setProductName(productName);
+            searchProduct.setLowPrice(String.valueOf(lowPrice)); //TODO !!!
+            searchProduct.setHighPrice(String.valueOf(highPrice)); //TODO!!!
+            searchProduct.setCategory(category);
+            searchProduct.setUnderCategory(underCategory);
+            searchProduct.setSearchSite(siteSearch);
+            searchProduct.setDateAddedOnSite(addedOnSite);
+            searchProduct.setNeedSearch(false);
+        } else {
+            searchProduct.setProductName(productName);
+            searchProduct.setLowPrice(String.valueOf(lowPrice)); //TODO !!!
+            searchProduct.setHighPrice(String.valueOf(highPrice)); //TODO!!!
+            searchProduct.setCategory(category);
+            searchProduct.setUnderCategory(underCategory);
+            searchProduct.setSearchSite(siteSearch);
+            searchProduct.setDateAddedOnSite(addedOnSite);
+            searchProduct.setNeedSearch(false);
+        }
 
         LogApp.Log(">>>>>>", searchProduct.toString());
     }
@@ -44,7 +58,6 @@ public class WorkerDataBaseSearchProduct {
 
     public SearchProduct readObjectFromDb() {
         baseHelperUserProduct = new BaseHelperUserProduct(mContext);
-//        LogApp.Log("This! >>>>>", searchProduct.toString());
         if (TextUtils.isEmpty(baseHelperUserProduct
                 .getProductById(mSearchProductId)
                 .getProductName())) {

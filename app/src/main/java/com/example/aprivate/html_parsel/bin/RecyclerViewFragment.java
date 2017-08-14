@@ -118,7 +118,7 @@ public class RecyclerViewFragment extends Fragment {
                 searchProduct.setHighPrice(highPrice);
                 searchProduct.setCategory(category);
                 searchProduct.setUnderCategory(underCategory);
-                searchProduct.setDateUserAdded(dateUsersAdded);
+                searchProduct.setDateUserCreate(dateUsersAdded);
                 searchProduct.setSearchSite(webSite);
                 searchProduct.setDateAddedOnSite(addedOnSite);
                 searchProduct.convertToBoolean(bool);

@@ -6,14 +6,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+import android.text.TextUtils;
 
+import com.example.aprivate.html_parsel.static_values.StaticImport;
 import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.log.LogApp;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class BaseHelperUserProduct extends SQLiteOpenHelper
         implements IDataBaseUserProduct {
@@ -52,6 +51,12 @@ public class BaseHelperUserProduct extends SQLiteOpenHelper
 
     @Override
     public void createProduct(SearchProduct searchProduct) {
+
+        if (!TextUtils.isEmpty(searchProduct.getProductId())) {
+            deleteProductById(searchProduct.getProductId());
+            LogApp.Log("createProduct: ",  "Дубль! Совападение айди," +
+                    "старый объект удален");
+        }
         mSQL = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(BaseShema.ColsUserProducts.UUID,
@@ -76,6 +81,7 @@ public class BaseHelperUserProduct extends SQLiteOpenHelper
                 searchProduct.getNeedSearch());
 
         mSQL.insert(BaseShema.UserProductTable.TABLE_NAME, null, contentValues);
+        LogApp.Log("createProduct()", "new product has been create!");
     }
 
     @Override
@@ -87,113 +93,68 @@ public class BaseHelperUserProduct extends SQLiteOpenHelper
     public SearchProduct getProductById(String id) {
         BaseHelperUserProduct baseHelperUserProduct =
                 new BaseHelperUserProduct(mContext);
-
-        // Бд и действия с ней (чтение)
-        mSQL = baseHelperUserProduct.getReadableDatabase();
-        LogApp.Log("BD---------", "===== " + id);
-
-        /* TODO: Внимание! Это костыль, желтельно доработать*/
-        // Лист который заполню после чтения
-        List<SearchProduct> mList = new ArrayList<>();
-
-        // Объект
-        SearchProduct target = new SearchProduct();
-
-        //чтение
         mSQL = baseHelperUserProduct.getReadableDatabase();
 
-        String projection [] = {
-                BaseShema.ColsUserProducts.UUID,
-                BaseShema.ColsUserProducts.PRODUCT_NAME,
-                BaseShema.ColsUserProducts.PRODUCT_LOW_PRICE,
-                BaseShema.ColsUserProducts.PRODUCT_HIGH_PRICE,
-                BaseShema.ColsUserProducts.PRODUCT_CATEGORY,
-                BaseShema.ColsUserProducts.PRODUCT_UNDER_CATEGORY,
-                BaseShema.ColsUserProducts.DATE_USERS_ADDED,
-                BaseShema.ColsUserProducts.WEB_SITE,
-                BaseShema.ColsUserProducts.DATE_ADDED_ON_SITE,
-                BaseShema.ColsUserProducts.BOOLEAN_SEARCH
-        };
-        Cursor cursor = mSQL.query(BaseShema.UserProductTable.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null);
+        LogApp.Log(">getProductById: ", "айди объекта который пришел = " + id);
 
-        try {
-            int targetUUID = cursor
-                    .getColumnIndex(BaseShema.ColsUserProducts.UUID);
-            int targetName = cursor
-                    .getColumnIndex(BaseShema.ColsUserProducts.PRODUCT_NAME);
-            int targetLowPrice = cursor
-                    .getColumnIndex(BaseShema.ColsUserProducts.PRODUCT_LOW_PRICE);
-            int targetHighPrice = cursor
-                    .getColumnIndex(BaseShema.ColsUserProducts.PRODUCT_HIGH_PRICE);
-            int targetCategory = cursor
-                    .getColumnIndex(BaseShema.ColsUserProducts.PRODUCT_CATEGORY);
-            int targetUnderCategory = cursor
-                    .getColumnIndex(BaseShema.ColsUserProducts.PRODUCT_UNDER_CATEGORY);
-            int targetDateUsersAdded = cursor
-                    .getColumnIndex(BaseShema.ColsUserProducts.DATE_USERS_ADDED);
-            int targetWebSite = cursor
-                    .getColumnIndex(BaseShema.ColsUserProducts.WEB_SITE);
-            int targetAddedOnSite = cursor
-                    .getColumnIndex(BaseShema.ColsUserProducts.DATE_ADDED_ON_SITE);
-            int targetBoolean = cursor
-                    .getColumnIndex(BaseShema.ColsUserProducts.BOOLEAN_SEARCH);
+        ArrayList<SearchProduct> mProductList = new ArrayList<>();
+        SearchProduct result = new SearchProduct();
 
-            while (cursor.moveToNext()) {
-                String uuid = cursor.getString(targetUUID);
-                String name = cursor.getString(targetName);
-                String lowPrice = cursor.getString(targetLowPrice);
-                String highPrice = cursor.getString(targetHighPrice);
-                String category = cursor.getString(targetCategory);
-                String underCategory = cursor.getString(targetUnderCategory);
-                String dateUsersAdded = cursor.getString(targetDateUsersAdded);
-                String webSite = cursor.getString(targetWebSite);
-                String addedOnSite = cursor.getString(targetAddedOnSite);
-                String bool = cursor.getString(targetBoolean);
+        String query = "SELECT " + BaseShema.ColsUserProducts.UUID + ", "
+                + BaseShema.ColsUserProducts.PRODUCT_NAME + ", "
+                + BaseShema.ColsUserProducts.PRODUCT_LOW_PRICE + ", "
+                + BaseShema.ColsUserProducts.PRODUCT_HIGH_PRICE + ", "
+                + BaseShema.ColsUserProducts.PRODUCT_CATEGORY + ", "
+                + BaseShema.ColsUserProducts.PRODUCT_UNDER_CATEGORY + ", "
+                + BaseShema.ColsUserProducts.DATE_USERS_ADDED + ", "
+                + BaseShema.ColsUserProducts.WEB_SITE + ", "
+                + BaseShema.ColsUserProducts.DATE_ADDED_ON_SITE + ", "
+                + BaseShema.ColsUserProducts.BOOLEAN_SEARCH
+                + " FROM " + BaseShema.UserProductTable.TABLE_NAME;
+        Cursor cursor = mSQL.rawQuery(query, null);
+        LogApp.Log(">getProductById: ", "Найдено объектов в Базе: " +
+                String.valueOf(cursor.getCount()));
 
-                SearchProduct searchProduct = new SearchProduct();
-                searchProduct.setProductId(uuid);
-                searchProduct.setProductName(name);
-                searchProduct.setPrice(lowPrice);
-                searchProduct.setHighPrice(highPrice);
-                searchProduct.setCategory(category);
-                searchProduct.setUnderCategory(underCategory);
-                searchProduct.setDateUserAdded(dateUsersAdded);
-                searchProduct.setSearchSite(webSite);
-                searchProduct.setDateAddedOnSite(addedOnSite);
-                searchProduct.convertToBoolean(bool);
-
-                mList.add(searchProduct);
-
-//                LogApp.Log(">>>>>>>>>-----: ", uuid);
-//                LogApp.Log(">>>>>>>>>-----: ", name);
-//                LogApp.Log(">>>>>>>>>-----: ", bool);
-//                LogApp.Log(">>>>>>>>>-----: ", dateUsersAdded);
-//
-//                Log.d("ITEM------->: ", cursor.getCount()+ "");
-            }
-        } finally {
-            cursor.close();
-        }
-
-        for (int i = 0; i < mList.size() ; i++) {
-            if (Objects.equals(mList.get(i).getProductId(), id)){
-                target = mList.get(i);
-                LogApp.Log("Look!>>>>>>",
-                        "public SearchProduct getProductById(String id) has worked");
-                break;
-            } else {
-                target.setProductId("Is Empty");
-                target.setProductName("null product");
+        if (cursor.getCount()>0) {
+            if (cursor.moveToFirst()) {
+                for (int i = 0; i < cursor.getCount(); i++) {
+                    String idFromCursor = cursor.getString(cursor
+                            .getColumnIndexOrThrow(BaseShema.ColsUserProducts.UUID));
+                    if (idFromCursor.equals(id)) {
+                        result.setProductId(id);
+                        result.setProductName(cursor.getString(cursor
+                                .getColumnIndexOrThrow(BaseShema.ColsUserProducts.PRODUCT_NAME)));
+                        result.setLowPrice(cursor.getString(cursor
+                                .getColumnIndexOrThrow(BaseShema.ColsUserProducts.PRODUCT_LOW_PRICE)));
+                        result.setHighPrice(cursor.getString(cursor
+                                .getColumnIndexOrThrow(BaseShema.ColsUserProducts.PRODUCT_HIGH_PRICE)));
+                        result.setCategory(cursor.getString(cursor
+                                .getColumnIndexOrThrow(BaseShema.ColsUserProducts.PRODUCT_CATEGORY)));
+                        result.setUnderCategory(cursor.getString(cursor
+                                .getColumnIndexOrThrow(BaseShema.ColsUserProducts.PRODUCT_UNDER_CATEGORY)));
+                        result.setDateUserCreate(cursor.getString(cursor
+                                .getColumnIndexOrThrow(BaseShema.ColsUserProducts.DATE_USERS_ADDED)));
+                        result.setSearchSite(cursor.getString(cursor
+                                .getColumnIndexOrThrow(BaseShema.ColsUserProducts.WEB_SITE)));
+                        result.setDateAddedOnSite(cursor.getString(cursor
+                                .getColumnIndexOrThrow(BaseShema.ColsUserProducts.DATE_ADDED_ON_SITE)));
+//                        result.setNeedSearch(cursor.getString(cursor
+//                                .getColumnIndexOrThrow(BaseShema.ColsUserProducts.BOOLEAN_SEARCH)));
+                        break;
+                    } else cursor.moveToNext();
+                }
             }
         }
-        return target;
-        //TODO не доработан
+        cursor.close();
+
+        if (TextUtils.isEmpty(result.getProductName())){
+            LogApp.Log(">getProductById: ", ">>>TextUtils.isEmpty: " +
+                    "error! Product is Empty");
+            result.setProductId(StaticImport.NULL_OBJECT);
+        }
+
+        return result;
+        //TODO не доработан: нужно заменить эквуалс на что-то под 16 АПИ
     }
 
     @Override
@@ -272,5 +233,10 @@ public class BaseHelperUserProduct extends SQLiteOpenHelper
         cursor.close();
 
         return cursor.getCount();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 }

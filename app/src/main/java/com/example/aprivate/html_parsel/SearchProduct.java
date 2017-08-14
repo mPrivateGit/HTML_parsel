@@ -28,7 +28,7 @@ public class SearchProduct {
         Date date = new Date();
 
         mDateUserAdded = date.toString();
-        LogApp.Log("SearchProduct: ", mDateUserAdded);
+        //LogApp.Log("SearchProduct: ", mDateUserAdded);
     }
 
     public String getProductName() {
@@ -106,7 +106,7 @@ public class SearchProduct {
         return mDateUserAdded;
     }
 
-    public void setDateUserAdded(String mDateUserAdded) {
+    public void setDateUserCreate(String mDateUserAdded) {
         SimpleDateFormat format = new SimpleDateFormat("E yyyy.MM.dd 'и время' hh:mm a zzz");
 //        format.format(mDateUserAdded);
         this.mDateUserAdded = mDateUserAdded;

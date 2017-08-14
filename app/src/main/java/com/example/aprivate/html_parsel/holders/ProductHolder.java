@@ -20,7 +20,6 @@ public class ProductHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener {
     private static final String EDIT_DIALOG_TAG = "ProductHolder";
     private static final String PRODUCT_USER_ID = "selected_product_id";
-    private BaseHelperUserProduct baseHelper;
     private SearchProduct mSearchProduct;
     private TextView mTxtSearchProductName;
     private TextView mTxtDateUsersAdded;
@@ -42,8 +41,6 @@ public class ProductHolder extends RecyclerView.ViewHolder
 
         //изображения
         viewImageView();
-
-        baseHelper = new BaseHelperUserProduct(activity);
     }
 
     public void bind(SearchProduct searchProduct){

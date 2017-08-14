@@ -35,11 +35,13 @@ public class SettingActivity extends AppCompatActivity
     protected Spinner mSpnColor;
     protected Spinner mSpnSearchDate;
 
+    private String mSearchProductId;
     private String mSearchProductName;
     private String mSearchProductCategory;
     private String mSearchProductUnderCategory;
     private String mSearchProductWebSite;
     private String mSearchProductColor;
+    private String mDateUserCreateProduct;
     private String mSearchProductDateAdded;
     private int mSearchProductLowPrice;
     private int mSearchProductHighPrice;
@@ -129,11 +131,18 @@ public class SettingActivity extends AppCompatActivity
         Intent intent = getIntent();
         if (intent.hasExtra(PRODUCT_USER_ID)){
             String strId = intent.getExtras().getString(PRODUCT_USER_ID);
-            LogApp.Log(">>>>>>", ">>>>>>>>>>>>>>" + "\n" + strId + "\n" + ">>>>>>>>>>>>>>");
+            LogApp.Log("-----------", "\n");
+            LogApp.Log("onStart in SettingActivity: ", "id - выбраного объекта = "
+                    + strId + "\n");
             workerDB = new WorkerDataBaseSearchProduct(this, strId);
             SearchProduct target = workerDB.readObjectFromDb();
 
-            LogApp.Log("onStart() in STA: ", target.toString());
+            mSearchProductId = target.getProductId();
+            mDateUserCreateProduct = target.getDateUserAdded();
+            mEdtName.setText(target.getProductName());
+            mEdtLowPrice.setText(target.getLowPrice());
+
+            LogApp.Log("onStart() in STA: ", "\n" + target.toString());
         }
     }
 
@@ -201,10 +210,11 @@ public class SettingActivity extends AppCompatActivity
             case R.id.btn_dialog_save_action:
                 if (validateData()==true) {
                     workerDB = new WorkerDataBaseSearchProduct(this,
-                            mSearchProductName, mSearchProductLowPrice,
-                            mSearchProductHighPrice, mSearchProductCategory,
-                            mSearchProductUnderCategory, mSearchProductWebSite,
-                            mSearchProductDateAdded);
+                            mSearchProductId, mSearchProductName,
+                            mSearchProductLowPrice, mSearchProductHighPrice,
+                            mSearchProductCategory, mSearchProductUnderCategory,
+                            mSearchProductWebSite, mSearchProductDateAdded,
+                            mDateUserCreateProduct);
                     workerDB.writeObjectInDb();
                     Intent ok = new Intent(SettingActivity.this, MainActivity.class);
                     startActivity(ok);
