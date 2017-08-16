@@ -30,6 +30,8 @@ public class ProductHolder extends RecyclerView.ViewHolder
     private ImageView mImgStopSearch;
     private Activity mAct;
 
+    private ImageView mImgStartOrStopSearch;
+
     public ProductHolder(View itemView, Activity activity) {
         super(itemView);
 
@@ -47,12 +49,22 @@ public class ProductHolder extends RecyclerView.ViewHolder
         //Собствено сам объект
         mSearchProduct = searchProduct;
         //Имя
-        mTxtSearchProductName.setText(searchProduct.getProductName());
+        String name = searchProduct.getProductName();
+        if (name.length()>11){
+            char [] str = name.toCharArray();
+            name = "";
+            for (int i = 0; i < 9 ; i++) {
+                name = name + String.valueOf(str[i]);
+            }
+            name = name + "...";
+        }
+        mTxtSearchProductName.setText(name);
         //Дата добавления пользователем
-        String combined = "Added by you: " + searchProduct.getDateUserAdded();
+        String combined = "create: " + searchProduct.getDateUserAdded();
         mTxtDateUsersAdded.setText(combined);
         //Выбранный сайт для поиска
-        mTxtChosenWebSite.setText(searchProduct.getSearchSite());
+        String site = "site for search: "+ searchProduct.getSearchSite();
+        mTxtChosenWebSite.setText(site);
         //Id элемента
     }
 
@@ -75,10 +87,16 @@ public class ProductHolder extends RecyclerView.ViewHolder
 
         mImgStartSearch = (ImageView) itemView.findViewById(R.id.img_start_search);
         mImgStartSearch.setOnClickListener(this);
+//        mImgStartSearch.setImageResource(R.drawable.ic_launcher_start);
+        //todo убрать кастыль визибл и разобраться с картинками и папками
 
         mImgStopSearch = (ImageView) itemView.findViewById(R.id.img_stop_search);
         mImgStopSearch.setOnClickListener(this);
         mImgStopSearch.setVisibility(View.GONE);
+
+        /** Введется внедрение более правильной версии
+         *      пока что тествовый режим */
+        //mImgStartOrStopSearch = (ImageView) itemView.findViewById();
     }
 
     @Override

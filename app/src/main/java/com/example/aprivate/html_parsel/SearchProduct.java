@@ -5,6 +5,8 @@ package com.example.aprivate.html_parsel;
 
 import com.example.aprivate.html_parsel.log.LogApp;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,9 +27,14 @@ public class SearchProduct {
 
     public SearchProduct(){
         mProductId = UUID.randomUUID().toString();
-        Date date = new Date();
+        Date date = Calendar.getInstance().getTime();
+        //
+        // Display a date in day, month, year format
+        //
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        mDateUserAdded = formatter.format(date);
 
-        mDateUserAdded = date.toString();
+
         //LogApp.Log("SearchProduct: ", mDateUserAdded);
     }
 
@@ -107,8 +114,6 @@ public class SearchProduct {
     }
 
     public void setDateUserCreate(String mDateUserAdded) {
-        SimpleDateFormat format = new SimpleDateFormat("E yyyy.MM.dd 'и время' hh:mm a zzz");
-//        format.format(mDateUserAdded);
         this.mDateUserAdded = mDateUserAdded;
     }
 

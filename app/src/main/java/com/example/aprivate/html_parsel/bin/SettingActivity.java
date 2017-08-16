@@ -2,8 +2,10 @@ package com.example.aprivate.html_parsel.bin;
 
 import android.content.Context;
 import android.content.Intent;
+import android.renderscript.ScriptGroup;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -60,14 +62,25 @@ public class SettingActivity extends AppCompatActivity
 
         /*Спинеры*/
         viewSpinners();
-
-
     }
 
     private void viewEditTexts(){
+        int maxLengthProductName = 33;
+        int maxLengthLowPrice = 7;
+        int maxLengthHighPrice = 7;
+        InputFilter [] inputFiltersName = new InputFilter[1];
+        InputFilter [] inputFiltersLowPrice = new InputFilter[1];
+        InputFilter [] inputFiltersHighPrice = new InputFilter[1];
+        inputFiltersName[0] = new InputFilter.LengthFilter(maxLengthProductName);
+        inputFiltersLowPrice[0] = new InputFilter.LengthFilter(maxLengthLowPrice);
+        inputFiltersHighPrice[0] = new InputFilter.LengthFilter(maxLengthHighPrice);
+
         mEdtName = (EditText) findViewById(R.id.edt_search_product_full_name);
+        mEdtName.setFilters(inputFiltersName);
         mEdtLowPrice = (EditText) findViewById(R.id.edt_search_product_low_price);
+        mEdtLowPrice.setFilters(inputFiltersLowPrice);
         mEdtHighPrice = (EditText) findViewById(R.id.edt_search_product_high_price);
+        mEdtHighPrice.setFilters(inputFiltersHighPrice);
     }
 
     private void viewButtons(){
@@ -161,43 +174,38 @@ public class SettingActivity extends AppCompatActivity
                 if (position > 0) mSpnUnderCategory.setVisibility(View.VISIBLE);
                 else mSpnUnderCategory.setVisibility(View.GONE);
                 mSearchProductCategory = mCategories[position];
-                if (mSearchProductCategory == mCategories[0])
+                if (mSearchProductCategory.equals(mCategories[0]))
                     mSearchProductCategory = null;
-                //TODO запись в БД
                 break;
             case R.id.spinner_under_category:
                 String[] mUnderCategories = getResources()
                         .getStringArray(R.array.Electronics_Computers_or_Office);
                 mSearchProductUnderCategory = mUnderCategories[position];
-                if (mSearchProductUnderCategory == mUnderCategories[0])
+                if (mSearchProductUnderCategory.equals(mUnderCategories[0]))
                     mSearchProductUnderCategory = null;
-                //TODO запись в БД
                 break;
             case R.id.spinner_search_site:
                 String[] mWebSites = getResources().getStringArray(R.array.WebSites);
                 mSearchProductWebSite = mWebSites[position];
-                //TODO запись в БД
                 break;
             case R.id.spinner_color:
                 String[] colors = getResources().getStringArray(R.array.Colors);
                 mSearchProductColor = colors[position];
-                if (mSearchProductColor == colors[0])
+                if (mSearchProductColor.equals(colors[0]))
                     mSearchProductColor = null;
-                //TODO запись в БД
                 break;
             case R.id.spinner_search_date:
                 String[] dates = getResources().getStringArray(R.array.SearchDates);
                 mSearchProductDateAdded = dates[position];
-                if (mSearchProductDateAdded == dates[0])
+                if (mSearchProductDateAdded.equals(dates[0]))
                     mSearchProductDateAdded = null;
-                //TODO запись в БД
                 break;
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        // метод идет в связке
     }
 
     @Override
@@ -208,7 +216,7 @@ public class SettingActivity extends AppCompatActivity
                 startActivity(cancel);
                 break;
             case R.id.btn_dialog_save_action:
-                if (validateData()==true) {
+                if (validateData()) {
                     workerDB = new WorkerDataBaseSearchProduct(this,
                             mSearchProductId, mSearchProductName,
                             mSearchProductLowPrice, mSearchProductHighPrice,
@@ -219,9 +227,8 @@ public class SettingActivity extends AppCompatActivity
                     Intent ok = new Intent(SettingActivity.this, MainActivity.class);
                     startActivity(ok);
                 } else {
-                    Toast validate = Toast.makeText(this,
-                            "validate() java method error!", Toast.LENGTH_LONG);
-                    validate.show();
+                    LogApp.Log("validate() java method error!",
+                            "ПОЛЬЗОВАТЕЛЬ ПЫТАЕТСЯ ВВЕСТИ НЕКОРРЕКТНЫЕ ДАННЫЕ");
                 }
                 break;
         }
