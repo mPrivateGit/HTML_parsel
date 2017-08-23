@@ -38,7 +38,7 @@ public class EditDialogDeleteUserProduct extends DialogFragment
         mBtnCancel.setOnClickListener(this);
         mBtnCancel.setText(R.string.btn_cancel);
         mTxtTitle = (TextView) v.findViewById(R.id.txt_dialog_title);
-        mTxtTitle.setText(R.string.str_are_you_sure);
+        mTxtTitle.setText(R.string.str_are_you_sure_start);
         mSearchProductId = getArguments().getString(PRODUCT_USER_ID);
         editDialogInterface = (EditDialogInterface) getActivity();
 

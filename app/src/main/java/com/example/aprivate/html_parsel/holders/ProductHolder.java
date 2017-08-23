@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,8 +13,9 @@ import android.widget.TextView;
 import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.bin.SettingActivity;
+import com.example.aprivate.html_parsel.data.BaseHelperUserProduct;
 import com.example.aprivate.html_parsel.dialogs.EditDialogDeleteUserProduct;
-import com.example.aprivate.html_parsel.dialogs.EditDialogStartSearch;
+import com.example.aprivate.html_parsel.dialogs.EditDialogStartOrStopSearch;
 import com.example.aprivate.html_parsel.log.LogApp;
 
 public class ProductHolder extends RecyclerView.ViewHolder
@@ -42,9 +44,18 @@ public class ProductHolder extends RecyclerView.ViewHolder
 
         //изображения
         viewImageView();
+
+
+
     }
 
-    public void bind(SearchProduct searchProduct) {
+    public void bind(String searchProductId) {
+        BaseHelperUserProduct baseHelperUserProduct = new BaseHelperUserProduct(mAct);
+        SearchProduct searchProduct = baseHelperUserProduct
+                .getProductById(searchProductId);
+
+        Log.d(". . . . . . . . ", searchProduct.toString());
+
         //Собствено сам объект
         mSearchProduct = searchProduct;
         //Имя
@@ -67,6 +78,13 @@ public class ProductHolder extends RecyclerView.ViewHolder
         //
         mNeedSearch = searchProduct.getNeedSearch();
         LogApp.Log("<<<<<<<< - >>>>>>>>", String.valueOf(mNeedSearch));
+
+        if (String.valueOf(mNeedSearch).equals("1")) {
+            LogApp.Log("viewImageView ()", "In holder" + "\n" + "Ятут!" + "\n");
+            mImgStopSearch.setImageResource(R.drawable.ic_launcher_stop);
+        } else if (String.valueOf(mNeedSearch).equals("0")) {
+            mImgStartSearch.setImageResource(R.drawable.ic_launcher_start);
+        }
     }
 
     private void setContext(Activity act){
@@ -88,22 +106,9 @@ public class ProductHolder extends RecyclerView.ViewHolder
 
         mImgStartSearch = (ImageView) itemView.findViewById(R.id.img_start_search);
         mImgStartSearch.setOnClickListener(this);
-        mImgStartSearch.setImageResource(R.drawable.ic_launcher_start);
-        mImgStartSearch.setVisibility(View.GONE);
 
         mImgStopSearch = (ImageView) itemView.findViewById(R.id.img_stop_search);
         mImgStopSearch.setOnClickListener(this);
-        mImgStopSearch.setImageResource(R.drawable.ic_launcher_stop);
-        mImgStopSearch.setVisibility(View.GONE);
-
-
-        if (mNeedSearch==1){
-            mImgStartSearch.setVisibility(View.GONE);
-            mImgStopSearch.setVisibility(View.VISIBLE);
-        } else {
-            mImgStopSearch.setVisibility(View.GONE);
-            mImgStartSearch.setVisibility(View.VISIBLE);
-        }
 
         //LogApp.Log("ProductHolder: ", "viewImageView (): " + mSearchProduct.getNeedSearch());
 
@@ -123,7 +128,7 @@ public class ProductHolder extends RecyclerView.ViewHolder
                 mAct.startActivity(u);
                 break;
             case R.id.img_start_search:
-                EditDialogStartSearch dialog_start_search = new EditDialogStartSearch();
+                EditDialogStartOrStopSearch dialog_start_search = new EditDialogStartOrStopSearch();
                 Bundle args_start_search = new Bundle();
                 args_start_search.putSerializable(PRODUCT_USER_ID, mSearchProduct.getProductId());
                 dialog_start_search.setArguments(args_start_search);
@@ -131,11 +136,11 @@ public class ProductHolder extends RecyclerView.ViewHolder
                 //TODO start service
                 break;
             case R.id.img_stop_search:
-                EditDialogDeleteUserProduct test = new EditDialogDeleteUserProduct();
-                Bundle test1 = new Bundle();
-                test1.putSerializable(PRODUCT_USER_ID, mSearchProduct.getProductId());
-                test.setArguments(test1);
-                test.show(mAct.getFragmentManager(), EDIT_DIALOG_TAG);
+                EditDialogStartOrStopSearch dialog_stop_search = new EditDialogStartOrStopSearch();
+                Bundle args_stop_search = new Bundle();
+                args_stop_search.putSerializable(PRODUCT_USER_ID, mSearchProduct.getProductId());
+                dialog_stop_search.setArguments(args_stop_search);
+                dialog_stop_search.show(mAct.getFragmentManager(), EDIT_DIALOG_TAG);
 //                //TODO stop service
                 break;
             case R.id.img_search_product_delete:

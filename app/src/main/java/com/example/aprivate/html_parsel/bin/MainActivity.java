@@ -11,9 +11,6 @@ import android.view.View;
 
 import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.R;
-import com.example.aprivate.html_parsel.dialogs.EditDialog;
-import com.example.aprivate.html_parsel.dialogs.EditDialogDeleteUserProduct;
-import com.example.aprivate.html_parsel.dialogs.EditDialogStartSearch;
 import com.example.aprivate.html_parsel.interfaces.EditDialogInterface;
 
 import java.util.List;

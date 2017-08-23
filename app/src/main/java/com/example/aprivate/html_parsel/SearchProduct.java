@@ -122,17 +122,17 @@ public class SearchProduct {
 
     @Override
     public String toString() {
-        return "\n" + "SearchProduct{" +
-                "mProductId='" + mProductId + "\n" +
-                "mProductName='" + mProductName + "\n" +
-                "mLowPrice='" + mLowPrice + "\n" +
-                "mHighPrice='" + mHighPrice + "\n" +
-                "mCategory='" + mCategory + "\n" +
-                "mUnderCategory='" + mUnderCategory + "\n" +
-                "mDateUserAdded='" + mDateUserAdded + "\n" +
-                "mSearchSite='" + mSearchSite + "\n" +
-                "mDateAddedOnSite='" + mDateAddedOnSite + "\n" +
-                "mNeedSearch='" + mNeedSearch + "\n" +
+        return  "SearchProduct{" + "\n" +
+                "mProductId=  " + mProductId + "\n" +
+                "mProductName = " + mProductName + "\n" +
+                "mLowPrice = " + mLowPrice + "\n" +
+                "mHighPrice = " + mHighPrice + "\n" +
+                "mCategory = " + mCategory + "\n" +
+                "mUnderCategory = " + mUnderCategory + "\n" +
+                "mDateUserAdded = " + mDateUserAdded + "\n" +
+                "mSearchSite = " + mSearchSite + "\n" +
+                "mDateAddedOnSite = " + mDateAddedOnSite + "\n" +
+                "mNeedSearch = " + mNeedSearch + "\n" +
                 '}';
     }
 }

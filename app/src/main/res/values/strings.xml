@@ -4,7 +4,7 @@
     <string name="edit_product">What do you need?</string>
     <string name="start_text">Hello!</string>
     <string name="start">Start search!</string>
-    <string name="stop">Stop search</string>
+    <string name="stop">Stop</string>
     <string name="message_text">Edit your favorite searchProduct for search</string>
     <string name="enter_search">Edit searchProduct for search</string>
     <string name="product_price">Edit pice</string>
@@ -27,7 +27,7 @@
     <string name="str_when_you_added">Added date:</string>
     <string name="str_chosen_web_site">Site for search:</string>
     <string name="str_dialog_delete">Are you sure?</string>
-    <string name="str_are_you_sure">Are you sure? </string>
+    <string name="str_are_you_sure_start">Do you want to start a search?</string>
     <string name="str_delete">Delete</string>
     <string name="str_help">Help</string>
     <string name="str_exit">Exit</string>
@@ -40,6 +40,7 @@
     <string name="str_no">No</string>
     <string name="str_null_price">no value</string>
     <string name="str_start_search">Start</string>
+    <string name="str_are_you_sure_stop">Do you want to stop the search?</string>
 
     <string-array name="category">
         <item>Set category (or do not write anything)</item>

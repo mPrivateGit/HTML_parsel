@@ -124,11 +124,11 @@ public class RecyclerViewFragment extends Fragment {
                 searchProduct.setNeedSearch(bool);
 
                 mList.add(searchProduct);
-//
-//                LogApp.Log(">>>>>>>>>-----: ", uuid);
-//                LogApp.Log(">>>>>>>>>-----: ", name);
-//                LogApp.Log(">>>>>>>>>-----: ", String.valueOf(bool));
-//                LogApp.Log(">>>>>>>>>-----: ", dateUsersAdded);
+
+                LogApp.Log(">>>>>>>>>-----: ", uuid);
+                LogApp.Log(">>>>>>>>>-----: ", name);
+                LogApp.Log(">>>>>>>>>-----: ", String.valueOf(bool));
+                LogApp.Log(">>>>>>>>>-----: ", dateUsersAdded);
 
                 Log.d("ITEM------->: ", cursor.getCount()+ "");
             }
