@@ -80,6 +80,12 @@ public class BaseHelperUserProduct extends SQLiteOpenHelper
         contentValues.put(BaseShema.ColsUserProducts.BOOLEAN_SEARCH,
                 searchProduct.getNeedSearch());
 
+        LogApp.Log("createProduct()", "\n" +
+                    "\n" + "______________________" +
+                    searchProduct.getNeedSearch() +
+                    "______________________" + "\n" +
+                    "\n");
+
         mSQL.insert(BaseShema.UserProductTable.TABLE_NAME, null, contentValues);
         LogApp.Log("createProduct()", "new product has been create!");
     }
@@ -124,9 +130,9 @@ public class BaseHelperUserProduct extends SQLiteOpenHelper
                         result.setProductId(id);
                         result.setProductName(cursor.getString(cursor
                                 .getColumnIndexOrThrow(BaseShema.ColsUserProducts.PRODUCT_NAME)));
-                        result.setLowPrice(cursor.getString(cursor
+                        result.setLowPrice(cursor.getInt(cursor
                                 .getColumnIndexOrThrow(BaseShema.ColsUserProducts.PRODUCT_LOW_PRICE)));
-                        result.setHighPrice(cursor.getString(cursor
+                        result.setHighPrice(cursor.getInt(cursor
                                 .getColumnIndexOrThrow(BaseShema.ColsUserProducts.PRODUCT_HIGH_PRICE)));
                         result.setCategory(cursor.getString(cursor
                                 .getColumnIndexOrThrow(BaseShema.ColsUserProducts.PRODUCT_CATEGORY)));
@@ -138,8 +144,8 @@ public class BaseHelperUserProduct extends SQLiteOpenHelper
                                 .getColumnIndexOrThrow(BaseShema.ColsUserProducts.WEB_SITE)));
                         result.setDateAddedOnSite(cursor.getString(cursor
                                 .getColumnIndexOrThrow(BaseShema.ColsUserProducts.DATE_ADDED_ON_SITE)));
-//                        result.setNeedSearch(cursor.getString(cursor
-//                                .getColumnIndexOrThrow(BaseShema.ColsUserProducts.BOOLEAN_SEARCH)));
+                        result.setNeedSearch(cursor.getInt(cursor
+                                .getColumnIndexOrThrow(BaseShema.ColsUserProducts.BOOLEAN_SEARCH)));
                         break;
                     } else cursor.moveToNext();
                 }

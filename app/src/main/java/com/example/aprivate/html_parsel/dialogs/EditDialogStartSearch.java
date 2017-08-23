@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.aprivate.html_parsel.R;
+import com.example.aprivate.html_parsel.SearchProduct;
+import com.example.aprivate.html_parsel.data.WorkerDataBaseSearchProduct;
 import com.example.aprivate.html_parsel.interfaces.EditDialogInterface;
 
 public class EditDialogStartSearch extends DialogFragment
@@ -24,6 +26,9 @@ public class EditDialogStartSearch extends DialogFragment
     protected TextView mTxtTitle;
     protected String mSearchProductId;
     private EditDialogInterface editDialogInterface;
+    private SearchProduct mSearchProduct;
+    private int mNeedSearch;
+    private WorkerDataBaseSearchProduct worker;
 
     @Nullable
     @Override
@@ -32,7 +37,7 @@ public class EditDialogStartSearch extends DialogFragment
         View v = inflater.inflate(R.layout.dialog_activity, container, false);
         mBtnOk = (Button) v.findViewById(R.id.btn_dialog_save_action);
         mBtnOk.setOnClickListener(this);
-        mBtnOk.setText(R.string.str_delete);
+        mBtnOk.setText(R.string.str_start_search);
         mBtnCancel = (Button) v.findViewById(R.id.btn_dialog_cancel_action);
         mBtnCancel.setOnClickListener(this);
         mBtnCancel.setText(R.string.btn_cancel);
@@ -41,7 +46,8 @@ public class EditDialogStartSearch extends DialogFragment
         mSearchProductId = getArguments().getString(PRODUCT_USER_ID);
         editDialogInterface = (EditDialogInterface) getActivity();
 
-        mSearchProductId = getArguments().toString(); //TODO зачем?!
+        //Поиск объекта
+        mSearchProductId = getArguments().toString();
 
         return v;
     }
@@ -56,11 +62,39 @@ public class EditDialogStartSearch extends DialogFragment
 
     @Override
     public void onClick(View v) {
+        worker = new WorkerDataBaseSearchProduct(
+                getActivity(), mSearchProductId);
+        mNeedSearch = worker.readObjectFromDb().getNeedSearch();
+
         switch (v.getId()){
             case R.id.btn_dialog_cancel_action:
                 dismiss();
                 break;
             case R.id.btn_dialog_save_action:
+                if (mNeedSearch == 1){
+                    mNeedSearch = 0;
+                    mSearchProduct.setNeedSearch(mNeedSearch);
+                    mSearchProduct = worker.readObjectFromDb();
+                    worker = new WorkerDataBaseSearchProduct(getActivity(),
+                            mSearchProduct.getProductId(), mSearchProduct.getProductName(),
+                            mSearchProduct.getLowPrice(), mSearchProduct.getHighPrice(),
+                            mSearchProduct.getCategory(), mSearchProduct.getUnderCategory(),
+                            mSearchProduct.getSearchSite(), mSearchProduct.getDateAddedOnSite(),
+                            mSearchProduct.getDateUserAdded(), mSearchProduct.getNeedSearch());
+                    worker.writeObjectInDb();
+                } else {
+                    mNeedSearch = 1;
+                    mSearchProduct = worker.readObjectFromDb();
+                    mSearchProduct.setNeedSearch(mNeedSearch);
+                    mSearchProduct = worker.readObjectFromDb();
+                    worker = new WorkerDataBaseSearchProduct(getActivity(),
+                            mSearchProduct.getProductId(), mSearchProduct.getProductName(),
+                            mSearchProduct.getLowPrice(), mSearchProduct.getHighPrice(),
+                            mSearchProduct.getCategory(), mSearchProduct.getUnderCategory(),
+                            mSearchProduct.getSearchSite(), mSearchProduct.getDateAddedOnSite(),
+                            mSearchProduct.getDateUserAdded(), mSearchProduct.getNeedSearch());
+                    worker.writeObjectInDb();
+                }
                 editDialogInterface.onChanged();
                 dismiss();
                 break;

@@ -17,29 +17,30 @@ public class WorkerDataBaseSearchProduct {
                                        String productName, int lowPrice,
                                        int highPrice, String category,
                                        String underCategory, String siteSearch,
-                                       String addedOnSite, String dateCreate) {
+                                       String addedOnSite, String dateCreate,
+                                       int needSearch) {
         mContext = context;
         searchProduct = new SearchProduct();
         if (!TextUtils.isEmpty(productId)){
             searchProduct.setProductId(productId);
             searchProduct.setDateUserCreate(dateCreate);
             searchProduct.setProductName(productName);
-            searchProduct.setLowPrice(String.valueOf(lowPrice)); //TODO !!!
-            searchProduct.setHighPrice(String.valueOf(highPrice)); //TODO!!!
+            searchProduct.setLowPrice(lowPrice);
+            searchProduct.setHighPrice(highPrice);
             searchProduct.setCategory(category);
             searchProduct.setUnderCategory(underCategory);
             searchProduct.setSearchSite(siteSearch);
             searchProduct.setDateAddedOnSite(addedOnSite);
-            searchProduct.setNeedSearch(false);
+            searchProduct.setNeedSearch(needSearch);
         } else {
             searchProduct.setProductName(productName);
-            searchProduct.setLowPrice(String.valueOf(lowPrice)); //TODO !!!
-            searchProduct.setHighPrice(String.valueOf(highPrice)); //TODO!!!
+            searchProduct.setLowPrice(lowPrice);
+            searchProduct.setHighPrice(highPrice);
             searchProduct.setCategory(category);
             searchProduct.setUnderCategory(underCategory);
             searchProduct.setSearchSite(siteSearch);
             searchProduct.setDateAddedOnSite(addedOnSite);
-            searchProduct.setNeedSearch(false);
+            searchProduct.setNeedSearch(0);
         }
 
         LogApp.Log(">>>>>>", searchProduct.toString());

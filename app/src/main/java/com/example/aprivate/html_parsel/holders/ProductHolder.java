@@ -12,9 +12,9 @@ import android.widget.TextView;
 import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.bin.SettingActivity;
-import com.example.aprivate.html_parsel.data.BaseHelperUserProduct;
 import com.example.aprivate.html_parsel.dialogs.EditDialogDeleteUserProduct;
 import com.example.aprivate.html_parsel.dialogs.EditDialogStartSearch;
+import com.example.aprivate.html_parsel.log.LogApp;
 
 public class ProductHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener {
@@ -29,8 +29,7 @@ public class ProductHolder extends RecyclerView.ViewHolder
     private ImageView mImgStartSearch;
     private ImageView mImgStopSearch;
     private Activity mAct;
-
-    private ImageView mImgStartOrStopSearch;
+    private int mNeedSearch;
 
     public ProductHolder(View itemView, Activity activity) {
         super(itemView);
@@ -45,15 +44,15 @@ public class ProductHolder extends RecyclerView.ViewHolder
         viewImageView();
     }
 
-    public void bind(SearchProduct searchProduct){
+    public void bind(SearchProduct searchProduct) {
         //Собствено сам объект
         mSearchProduct = searchProduct;
         //Имя
         String name = searchProduct.getProductName();
-        if (name.length()>11){
-            char [] str = name.toCharArray();
+        if (name.length() > 11) {
+            char[] str = name.toCharArray();
             name = "";
-            for (int i = 0; i < 9 ; i++) {
+            for (int i = 0; i < 9; i++) {
                 name = name + String.valueOf(str[i]);
             }
             name = name + "...";
@@ -63,9 +62,11 @@ public class ProductHolder extends RecyclerView.ViewHolder
         String combined = "create: " + searchProduct.getDateUserAdded();
         mTxtDateUsersAdded.setText(combined);
         //Выбранный сайт для поиска
-        String site = "site for search: "+ searchProduct.getSearchSite();
+        String site = "site for search: " + searchProduct.getSearchSite();
         mTxtChosenWebSite.setText(site);
-        //Id элемента
+        //
+        mNeedSearch = searchProduct.getNeedSearch();
+        LogApp.Log("<<<<<<<< - >>>>>>>>", String.valueOf(mNeedSearch));
     }
 
     private void setContext(Activity act){
@@ -87,16 +88,25 @@ public class ProductHolder extends RecyclerView.ViewHolder
 
         mImgStartSearch = (ImageView) itemView.findViewById(R.id.img_start_search);
         mImgStartSearch.setOnClickListener(this);
-//        mImgStartSearch.setImageResource(R.drawable.ic_launcher_start);
-        //todo убрать кастыль визибл и разобраться с картинками и папками
+        mImgStartSearch.setImageResource(R.drawable.ic_launcher_start);
+        mImgStartSearch.setVisibility(View.GONE);
 
         mImgStopSearch = (ImageView) itemView.findViewById(R.id.img_stop_search);
         mImgStopSearch.setOnClickListener(this);
+        mImgStopSearch.setImageResource(R.drawable.ic_launcher_stop);
         mImgStopSearch.setVisibility(View.GONE);
 
-        /** Введется внедрение более правильной версии
-         *      пока что тествовый режим */
-        //mImgStartOrStopSearch = (ImageView) itemView.findViewById();
+
+        if (mNeedSearch==1){
+            mImgStartSearch.setVisibility(View.GONE);
+            mImgStopSearch.setVisibility(View.VISIBLE);
+        } else {
+            mImgStopSearch.setVisibility(View.GONE);
+            mImgStartSearch.setVisibility(View.VISIBLE);
+        }
+
+        //LogApp.Log("ProductHolder: ", "viewImageView (): " + mSearchProduct.getNeedSearch());
+
     }
 
     @Override
@@ -118,8 +128,6 @@ public class ProductHolder extends RecyclerView.ViewHolder
                 args_start_search.putSerializable(PRODUCT_USER_ID, mSearchProduct.getProductId());
                 dialog_start_search.setArguments(args_start_search);
                 dialog_start_search.show(mAct.getFragmentManager(), EDIT_DIALOG_TAG);
-                mImgStartSearch.setVisibility(View.GONE);
-                mImgStopSearch.setVisibility(View.VISIBLE);
                 //TODO start service
                 break;
             case R.id.img_stop_search:
@@ -128,9 +136,7 @@ public class ProductHolder extends RecyclerView.ViewHolder
                 test1.putSerializable(PRODUCT_USER_ID, mSearchProduct.getProductId());
                 test.setArguments(test1);
                 test.show(mAct.getFragmentManager(), EDIT_DIALOG_TAG);
-                mImgStopSearch.setVisibility(View.GONE);
-                mImgStartSearch.setVisibility(View.VISIBLE);
-                //TODO stop service
+//                //TODO stop service
                 break;
             case R.id.img_search_product_delete:
                 //delete from Db

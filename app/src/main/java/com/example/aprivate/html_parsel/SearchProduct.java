@@ -16,14 +16,14 @@ import java.util.UUID;
 public class SearchProduct {
     private String mProductId;
     private String mProductName;
-    private String mLowPrice; //TODO convert to int !!!
-    private String mHighPrice; //TODO convert to int !!!
     private String mCategory;
     private String mUnderCategory;
-    private String mDateUserAdded; //TODO convert to long!!!
+    private String mDateUserAdded;
     private String mSearchSite;
     private String mDateAddedOnSite;
-    private String mNeedSearch; //Todo convert to Boolean
+    private int mNeedSearch;
+    private int mLowPrice;
+    private int mHighPrice;
 
     public SearchProduct(){
         mProductId = UUID.randomUUID().toString();
@@ -33,9 +33,7 @@ public class SearchProduct {
         //
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         mDateUserAdded = formatter.format(date);
-
-
-        //LogApp.Log("SearchProduct: ", mDateUserAdded);
+        mNeedSearch = 0;
     }
 
     public String getProductName() {
@@ -50,46 +48,27 @@ public class SearchProduct {
         return mProductId;
     }
 
-    public Boolean getNeedSearch() {
-        if (mNeedSearch == "true")return true;
-        else return false;
-    }
-
-    public void setNeedSearch(Boolean mNeedSearch) {
-        if (mNeedSearch == true){
-            this.mNeedSearch = "true";
-        } else {
-            this.mNeedSearch = "false";
-        }
-    }
-
     public void setProductId(String mProductId) {
         this.mProductId = mProductId;
     }
 
-    public String getLowPrice() {
+    public int getLowPrice() {
         return mLowPrice;
     }
 
-    public void setPrice(String mPrice) {
+    public void setPrice(int mPrice) {
         this.mLowPrice = mPrice;
     }
 
-    public void convertToBoolean(String str){
-        if (str == "true"){
-            setNeedSearch(true);
-        } else setNeedSearch(false);
-    }
-
-    public void setLowPrice(String mLowPrice) {
+    public void setLowPrice(int mLowPrice) {
         this.mLowPrice = mLowPrice;
     }
 
-    public String getHighPrice() {
+    public int getHighPrice() {
         return mHighPrice;
     }
 
-    public void setHighPrice(String mHighPrice) {
+    public void setHighPrice(int mHighPrice) {
         this.mHighPrice = mHighPrice;
     }
 
@@ -131,6 +110,14 @@ public class SearchProduct {
 
     public void setDateAddedOnSite(String mDateAddedOnSite) {
         this.mDateAddedOnSite = mDateAddedOnSite;
+    }
+
+    public int getNeedSearch() {
+        return mNeedSearch;
+    }
+
+    public void setNeedSearch(int mNeedSearch) {
+        this.mNeedSearch = mNeedSearch;
     }
 
     @Override

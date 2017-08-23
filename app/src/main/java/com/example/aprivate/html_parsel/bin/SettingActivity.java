@@ -1,14 +1,11 @@
 package com.example.aprivate.html_parsel.bin;
 
-import android.content.Context;
 import android.content.Intent;
-import android.renderscript.ScriptGroup;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -45,6 +42,7 @@ public class SettingActivity extends AppCompatActivity
     private String mSearchProductColor;
     private String mDateUserCreateProduct;
     private String mSearchProductDateAdded;
+    private int mNeedSearch = 0;
     private int mSearchProductLowPrice;
     private int mSearchProductHighPrice;
     private WorkerDataBaseSearchProduct workerDB;
@@ -66,8 +64,8 @@ public class SettingActivity extends AppCompatActivity
 
     private void viewEditTexts(){
         int maxLengthProductName = 33;
-        int maxLengthLowPrice = 7;
-        int maxLengthHighPrice = 7;
+        int maxLengthLowPrice = 8;
+        int maxLengthHighPrice = 8;
         InputFilter [] inputFiltersName = new InputFilter[1];
         InputFilter [] inputFiltersLowPrice = new InputFilter[1];
         InputFilter [] inputFiltersHighPrice = new InputFilter[1];
@@ -150,10 +148,22 @@ public class SettingActivity extends AppCompatActivity
             workerDB = new WorkerDataBaseSearchProduct(this, strId);
             SearchProduct target = workerDB.readObjectFromDb();
 
+            //ID
             mSearchProductId = target.getProductId();
+            //Date create
             mDateUserCreateProduct = target.getDateUserAdded();
+            //Name product
             mEdtName.setText(target.getProductName());
-            mEdtLowPrice.setText(target.getLowPrice());
+            //low price
+            if (target.getLowPrice() != 0) {
+                mEdtLowPrice.setText(String.valueOf(target.getLowPrice()));
+            } else mEdtLowPrice.setHint(R.string.str_null_price);
+            //High price
+            if (target.getHighPrice() != 0){
+                mEdtHighPrice.setText(String.valueOf(target.getHighPrice()));
+            } else mEdtHighPrice.setHint(R.string.str_null_price);
+            // Need Search
+            mNeedSearch = target.getNeedSearch();
 
             LogApp.Log("onStart() in STA: ", "\n" + target.toString());
         }
@@ -222,7 +232,7 @@ public class SettingActivity extends AppCompatActivity
                             mSearchProductLowPrice, mSearchProductHighPrice,
                             mSearchProductCategory, mSearchProductUnderCategory,
                             mSearchProductWebSite, mSearchProductDateAdded,
-                            mDateUserCreateProduct);
+                            mDateUserCreateProduct, mNeedSearch);
                     workerDB.writeObjectInDb();
                     Intent ok = new Intent(SettingActivity.this, MainActivity.class);
                     startActivity(ok);
@@ -258,8 +268,11 @@ public class SettingActivity extends AppCompatActivity
                 !TextUtils.isEmpty(mEdtHighPrice.getText().toString())){
             mSearchProductLowPrice = Integer.parseInt(mEdtLowPrice.getText().toString());
             mSearchProductHighPrice = Integer.parseInt(mEdtHighPrice.getText().toString());
+            LogApp.Log("SettingActivity: ", "validateData()" + "\n" +
+                        "mSearchProductLowPrice = " + mSearchProductLowPrice + "\n" +
+                        "mSearchProductHighPrice = " + mSearchProductHighPrice);
             //если заполнены проверяем
-            if (mSearchProductLowPrice>mSearchProductHighPrice){
+            if (mSearchProductLowPrice > mSearchProductHighPrice){
                 Toast highLow = Toast.makeText(this,
                         "The minimum price can not be more than the maximum", Toast.LENGTH_LONG);
                 highLow.show();

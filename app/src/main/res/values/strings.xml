@@ -38,6 +38,8 @@
     <string name="str_ok">OK</string>
     <string name="str_yes">Yes</string>
     <string name="str_no">No</string>
+    <string name="str_null_price">no value</string>
+    <string name="str_start_search">Start</string>
 
     <string-array name="category">
         <item>Set category (or do not write anything)</item>

@@ -102,14 +102,14 @@ public class RecyclerViewFragment extends Fragment {
             while (cursor.moveToNext()) {
                 String uuid = cursor.getString(targetUUID);
                 String name = cursor.getString(targetName);
-                String lowPrice = cursor.getString(targetLowPrice);
-                String highPrice = cursor.getString(targetHighPrice);
+                int lowPrice = cursor.getInt(targetLowPrice);
+                int highPrice = cursor.getInt(targetHighPrice);
                 String category = cursor.getString(targetCategory);
                 String underCategory = cursor.getString(targetUnderCategory);
                 String dateUsersAdded = cursor.getString(targetDateUsersAdded);
                 String webSite = cursor.getString(targetWebSite);
                 String addedOnSite = cursor.getString(targetAddedOnSite);
-                String bool = cursor.getString(targetBoolean);
+                int bool = cursor.getInt(targetBoolean);
 
                 SearchProduct searchProduct = new SearchProduct();
                 searchProduct.setProductId(uuid);
@@ -121,14 +121,14 @@ public class RecyclerViewFragment extends Fragment {
                 searchProduct.setDateUserCreate(dateUsersAdded);
                 searchProduct.setSearchSite(webSite);
                 searchProduct.setDateAddedOnSite(addedOnSite);
-                searchProduct.convertToBoolean(bool);
+                searchProduct.setNeedSearch(bool);
 
                 mList.add(searchProduct);
-
-                LogApp.Log(">>>>>>>>>-----: ", uuid);
-                LogApp.Log(">>>>>>>>>-----: ", name);
-                LogApp.Log(">>>>>>>>>-----: ", bool);
-                LogApp.Log(">>>>>>>>>-----: ", dateUsersAdded);
+//
+//                LogApp.Log(">>>>>>>>>-----: ", uuid);
+//                LogApp.Log(">>>>>>>>>-----: ", name);
+//                LogApp.Log(">>>>>>>>>-----: ", String.valueOf(bool));
+//                LogApp.Log(">>>>>>>>>-----: ", dateUsersAdded);
 
                 Log.d("ITEM------->: ", cursor.getCount()+ "");
             }
