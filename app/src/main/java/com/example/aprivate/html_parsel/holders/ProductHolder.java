@@ -73,14 +73,15 @@ public class ProductHolder extends RecyclerView.ViewHolder
         String combined = "create: " + searchProduct.getDateUserAdded();
         mTxtDateUsersAdded.setText(combined);
         //Выбранный сайт для поиска
-        String site = "site for search: " + searchProduct.getSearchSite();
+        String site = "search in: " + searchProduct.getSearchSite();
         mTxtChosenWebSite.setText(site);
         //
         mNeedSearch = searchProduct.getNeedSearch();
         LogApp.Log("<<<<<<<< - >>>>>>>>", String.valueOf(mNeedSearch));
 
         if (String.valueOf(mNeedSearch).equals("1")) {
-            LogApp.Log("viewImageView ()", "In holder" + "\n" + "Ятут!" + "\n");
+            LogApp.Log("viewImageView ()", "In holder" + "\n" + "ЁЁЁЁ~~~~ штучка для " +
+                    "смены картинки стоп или старт" + "\n");
             mImgStopSearch.setImageResource(R.drawable.ic_launcher_stop);
         } else if (String.valueOf(mNeedSearch).equals("0")) {
             mImgStartSearch.setImageResource(R.drawable.ic_launcher_start);

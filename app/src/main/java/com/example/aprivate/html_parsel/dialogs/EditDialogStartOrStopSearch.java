@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.aprivate.html_parsel.R;
 import com.example.aprivate.html_parsel.SearchProduct;
+import com.example.aprivate.html_parsel.bin.SettingActivity;
 import com.example.aprivate.html_parsel.data.BaseHelperUserProduct;
 import com.example.aprivate.html_parsel.data.WorkerDataBaseSearchProduct;
 import com.example.aprivate.html_parsel.interfaces.EditDialogInterface;
@@ -86,6 +87,11 @@ public class EditDialogStartOrStopSearch extends DialogFragment
                             .getProductById(mSearchProductId);
                     searchProduct.setNeedSearch(mNeedSearch);
                     baseHelperUserProduct.createProduct(searchProduct);
+
+
+                    Intent service = new Intent(getActivity(), SearchService.class);
+                    getActivity().stopService(service);
+
                     //todo Stop Service
                 } else if (mNeedSearch == 0){
                     mNeedSearch = 1;
@@ -95,7 +101,12 @@ public class EditDialogStartOrStopSearch extends DialogFragment
                     searchProduct.setNeedSearch(mNeedSearch);
                     baseHelperUserProduct.createProduct(searchProduct);
 
-                    getActivity().startService(new Intent(getActivity(), SearchService.class));
+                    Intent service = new Intent(getActivity(), SearchService.class);
+                    Bundle args_start_service = new Bundle();
+                    args_start_service.putSerializable(PRODUCT_USER_ID, mSearchProductId);
+                    service.putExtra(PRODUCT_USER_ID, mSearchProductId);
+                    getActivity().startService(service);
+
 
                     //todo Start Service
                 }

@@ -9,8 +9,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
+import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.data.BaseHelperFoundProducts;
+import com.example.aprivate.html_parsel.data.BaseHelperUserProduct;
 import com.example.aprivate.html_parsel.data.BaseShema;
 import com.example.aprivate.html_parsel.log.LogApp;
 import com.example.aprivate.html_parsel.network.FoundProduct;
@@ -22,11 +25,12 @@ import java.util.List;
 
 /** Сервис создается в главном потоке */
 public class SearchService extends Service {
+    private static final String PRODUCT_USER_ID = "selected_product_id";
     protected SQLiteDatabase mSQL;
-    protected String mSearchingProduct = "mackbook+pro";
-    protected int mLowPrice = 100;
-    protected int mHighPrice = 200;
+    protected SearchProduct mSearchingProduct;
     protected RequestCreator request;
+    protected String iProductId;
+
     //TODO Передавай от пользователя данные
 
     @Nullable
@@ -37,11 +41,22 @@ public class SearchService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if(intent.hasExtra(PRODUCT_USER_ID)) {
+            iProductId = intent.getStringExtra(PRODUCT_USER_ID);
+            Log.d("РБОТАЕТ СЕРВИС: ", "Айди объекта который пришел в сервис"
+                    + iProductId);
+            BaseHelperUserProduct baseHelperUserProduct = new
+                    BaseHelperUserProduct(getApplicationContext());
+            mSearchingProduct = baseHelperUserProduct
+                    .getProductById(iProductId);
+        } else Log.d("EPIC ", "FAIL");
+
+
+
         //if (TextUtils.isEmpty(mLowPrice)) {
 
-
         request = new RequestCreator(getApplicationContext(),
-                mSearchingProduct, mLowPrice, mHighPrice);
+                mSearchingProduct.getProductName());
         request.execute();
 
 
@@ -112,8 +127,8 @@ public class SearchService extends Service {
 
     public void searchResultForUser(List<FoundProduct> mArr){
         for (int i = 0; i <mArr.size() ; i++) {
-            if (Integer.parseInt(mArr.get(i).getPrice())>mLowPrice
-                    & Integer.parseInt(mArr.get(i).getPrice()) < mHighPrice){
+            if (Integer.parseInt(mArr.get(i).getPrice())>mSearchingProduct.getLowPrice()
+                    & Integer.parseInt(mArr.get(i).getPrice()) < mSearchingProduct.getHighPrice()){
                 String finallyResult = mArr.get(i).getUrl();
                 LogApp.Log("searchResultForUser", "************" +
                         "\n" +
@@ -125,5 +140,11 @@ public class SearchService extends Service {
                 base.deleteTable(mSQL);
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogApp.Log("SearchService: ", "SearchService is stopped");
     }
 }

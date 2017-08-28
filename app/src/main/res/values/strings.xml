@@ -25,7 +25,7 @@
     <string name="str_search_product_website">Set website for search</string>
     <string name="str_user_added">Added by you:</string>
     <string name="str_when_you_added">Added date:</string>
-    <string name="str_chosen_web_site">Site for search:</string>
+    <string name="str_chosen_web_site">search in:</string>
     <string name="str_dialog_delete">Are you sure?</string>
     <string name="str_are_you_sure_start">Do you want to start a search?</string>
     <string name="str_delete">Delete</string>
