@@ -18,10 +18,11 @@ import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.data.WorkerDataBaseSearchProduct;
 import com.example.aprivate.html_parsel.log.LogApp;
 
-//TODO защита от переворотов
+
 public class SettingActivity extends AppCompatActivity
         implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private static final String PRODUCT_USER_ID = "selected_product_id";
+    private static final String KEY_INSTANCE_NAME = "name";
     private static final String KEY_INSTANCE = "index";
     protected Button mBtnCancel;
     protected Button mBtnOk;
@@ -302,13 +303,7 @@ public class SettingActivity extends AppCompatActivity
 
         return validate;
     }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //todo повороты
-    }
-
+    
     @Override
     protected void onStop() {
         super.onStop();

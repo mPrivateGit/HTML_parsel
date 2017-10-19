@@ -31,8 +31,6 @@ public class SearchService extends Service {
     protected RequestCreator request;
     protected String iProductId;
 
-    //TODO Передавай от пользователя данные
-
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -41,9 +39,10 @@ public class SearchService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        LogApp.Log("SearchService", "Старт работы сервиса...");
         if(intent.hasExtra(PRODUCT_USER_ID)) {
             iProductId = intent.getStringExtra(PRODUCT_USER_ID);
-            Log.d("РБОТАЕТ СЕРВИС: ", "Айди объекта который пришел в сервис"
+            Log.d("РАБОТАЕТ СЕРВИС: ", "Айди объекта который пришел в сервис = "
                     + iProductId);
             BaseHelperUserProduct baseHelperUserProduct = new
                     BaseHelperUserProduct(getApplicationContext());
@@ -56,7 +55,7 @@ public class SearchService extends Service {
         //if (TextUtils.isEmpty(mLowPrice)) {
 
         request = new RequestCreator(getApplicationContext(),
-                mSearchingProduct.getProductName());
+                mSearchingProduct.getProductId());
         request.execute();
 
 

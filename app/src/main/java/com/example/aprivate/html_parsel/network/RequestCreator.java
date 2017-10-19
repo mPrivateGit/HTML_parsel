@@ -4,9 +4,12 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
+import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.data.BaseHelperFoundProducts;
+import com.example.aprivate.html_parsel.data.BaseHelperUserProduct;
 import com.example.aprivate.html_parsel.log.LogApp;
 import com.example.aprivate.html_parsel.services.SearchService;
+import com.example.aprivate.html_parsel.static_values.StaticImport;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,24 +26,38 @@ public class RequestCreator extends AsyncTask<Object, Object, String> {
             "https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=";
     private static String FINALLY_URL = "";
     private Context mContext;
+    private SearchProduct mSearchingProduct;
+    private int mDocLogOut = 0;
     private String mLowPrice;
     private String mHighPrice;
     private String mSearchProduct;  //убрать пустые места между словами и заменить на +
 
     //Если указан диапазон цены
-    public RequestCreator(Context context, String searchProduct) {
+    public RequestCreator(Context context, String searchProduct, String string) {
         mContext = context;
         mSearchProduct = searchProduct;
         FINALLY_URL = BASE_URL_SEARCH_AMAZON + mSearchProduct;
         LogApp.Log(RequestCreator.class.getCanonicalName(), FINALLY_URL);
     }
+
     //Если диапазон цены не указан
-    public RequestCreator(Context context, String searchProduct, int lowPrice, int highPrice) {
+    public RequestCreator(Context context, String searchProductId) {
         mContext = context;
-        mLowPrice = "&low-price="+ lowPrice;
-        mHighPrice = "&high-price=" + highPrice;
-        mSearchProduct = searchProduct;
-        FINALLY_URL = BASE_URL_SEARCH_AMAZON + mSearchProduct + mLowPrice + mHighPrice;
+        BaseHelperUserProduct baseHelperUserProduct = new
+                BaseHelperUserProduct(context);
+        mSearchingProduct = baseHelperUserProduct.getProductById(searchProductId);
+
+        LogApp.Log("***********", "***********************************");
+        LogApp.Log("searchProductId: ", searchProductId);
+        LogApp.Log("--------------", "\n" + mSearchingProduct.getProductName() + "\n");
+
+        FINALLY_URL = BASE_URL_SEARCH_AMAZON
+                + mSearchingProduct.getProductName();
+                //+ mSearchingProduct.getLowPrice()
+                //+ mSearchingProduct.getHighPrice();
+
+        // iUrlCreator();
+
         LogApp.Log(RequestCreator.class.getCanonicalName(), FINALLY_URL);
     }
 
@@ -59,10 +76,18 @@ public class RequestCreator extends AsyncTask<Object, Object, String> {
     private int pagesCount() throws IOException {
         Document doc = Jsoup.connect(FINALLY_URL)
                 .data("query", "Java")
-                .userAgent("Mozilla")
+                .userAgent("Google")
                 .get();
         String target = doc.select("#pagn .pagnDisabled").text();
         LogApp.Log(">>>pagesCount>>>", "Всего страниц = " + target );
+
+        if (mDocLogOut == 0) {
+        LogApp.Log("***************", "***********************");
+        LogApp.Log("HTML: ", doc.body().toString());
+        LogApp.Log("***************", "***********************");
+            mDocLogOut+=1;
+        }
+
         if (TextUtils.isEmpty(target)){
             target = "1";
         }
@@ -75,7 +100,7 @@ public class RequestCreator extends AsyncTask<Object, Object, String> {
         LogApp.Log("..... Происходит парсинг страниц... ", "Осталось страниц: " + count);
 
         Document doc = Jsoup.connect(FINALLY_URL)
-                .userAgent("Mozilla")
+                .userAgent("Google")
                 .timeout(5000)
                 .get();
         Elements elements = doc.select("div.s-item-container");
@@ -88,9 +113,15 @@ public class RequestCreator extends AsyncTask<Object, Object, String> {
             //Достаю цену
             String price = elements.get(i).select(".sx-price").text();
             if (!TextUtils.isEmpty(price)) {
+                price = formatPrice(price);
+//                price = price.replace("$", "");
+//                price = price.replace(" ", ".");
                 product.setPrice(price);
+                LogApp.Log("ЗАПИСАНА ЦЕНА: ", price);
             } else {
                 String miniPrice = elements.get(i).select(".a-size-base").text();
+                miniPrice = miniPrice.replace("$", "");
+                miniPrice = miniPrice.replace(" ", ".");
                 product.setPrice(miniPrice);
             }
             // достаю URL
@@ -119,6 +150,7 @@ public class RequestCreator extends AsyncTask<Object, Object, String> {
                     product.setProductName(name);
                     //Достаю цену
                     String price = nextElements.get(w).select(".sx-price").text();
+                    LogApp.Log("------->", price);
                     if (!TextUtils.isEmpty(price)) {
                         product.setPrice(price);
                     } else {
@@ -157,5 +189,19 @@ public class RequestCreator extends AsyncTask<Object, Object, String> {
         LogApp.Log("onPostExecute", "RUN");
         SearchService service = new SearchService();
         service.viewToLogResults(service.getProducts(mContext));
+    }
+
+    private String formatPrice(String priceSite){
+        priceSite.replaceAll("$", "");
+        return priceSite;
+    }
+
+    private void iUrlCreator(){
+        if (!TextUtils.isEmpty(mSearchingProduct.getCategory())){
+            FINALLY_URL = FINALLY_URL + mSearchingProduct.getCategory();
+            if (!TextUtils.isEmpty(mSearchingProduct.getUnderCategory())){
+                FINALLY_URL = FINALLY_URL + mSearchingProduct.getUnderCategory();
+            }
+        }
     }
 }
