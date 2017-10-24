@@ -263,7 +263,7 @@ public class SettingActivity extends AppCompatActivity
             validate = true;
         }
 
-        //проерка значений минимальной-максимальной цены
+        //проверка значений минимальной-максимальной цены
         //сначала проверка заполнены ли поля
         if (!TextUtils.isEmpty(mEdtLowPrice.getText().toString())&&
                 !TextUtils.isEmpty(mEdtHighPrice.getText().toString())){

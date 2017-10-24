@@ -115,13 +115,15 @@ public class SearchService extends Service {
 
     public void viewToLogResults(List<FoundProduct> mArr){
         for (int i = 0; i <mArr.size() ; i++) {
+            Log.d("---------", "----------------------------------------------------------");
             System.out.println(mArr.get(i).getPrice()
-                    + " "
+                    + "\n"
                     + mArr.get(i).getProduct()
                     + "\n"
                     + mArr.get(i).getUrl());
+            Log.d("---------", "----------------------------------------------------------");
         }
-        System.out.println(mArr.size());
+        System.out.println("найдено объектов: " + mArr.size());
     }
 
     public void searchResultForUser(List<FoundProduct> mArr){
@@ -129,6 +131,7 @@ public class SearchService extends Service {
             if (Integer.parseInt(mArr.get(i).getPrice())>mSearchingProduct.getLowPrice()
                     & Integer.parseInt(mArr.get(i).getPrice()) < mSearchingProduct.getHighPrice()){
                 String finallyResult = mArr.get(i).getUrl();
+                Log.d("---------", "----------------------------------------------------------");
                 LogApp.Log("searchResultForUser", "************" +
                         "\n" +
                         "***********" +
@@ -137,6 +140,7 @@ public class SearchService extends Service {
                         "***********");
                 BaseHelperFoundProducts base = new BaseHelperFoundProducts(getApplicationContext());
                 base.deleteTable(mSQL);
+                Log.d("---------", "----------------------------------------------------------");
             }
         }
     }

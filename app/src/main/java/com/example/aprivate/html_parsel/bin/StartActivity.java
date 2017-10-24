@@ -7,6 +7,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,9 +19,9 @@ import com.example.aprivate.html_parsel.fragments.HelpFragment;
 import com.example.aprivate.html_parsel.fragments.SupportFragment;
 import com.example.aprivate.html_parsel.sounds.BeatBox;
 import com.example.aprivate.html_parsel.sounds.Sound;
-
+//todo logic for after choose language
 public class StartActivity extends AppCompatActivity
-        implements View.OnClickListener{
+        implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private static final String TAG = ">>>StartActivity: ";
     private static final String CHOSEN_FRAGMENT = "key_fragment";
     private static long back_pressed;
@@ -26,20 +29,24 @@ public class StartActivity extends AppCompatActivity
     protected TextView mTxtHelp;
     protected TextView mTxtSupport;
     protected TextView mTxtExit;
-    private Sound mSound;
     protected BeatBox mBeatBox;
+    protected Spinner mSpn_Language;
+    private Sound mSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        //tODO Sound play
+        //tODO Sound play // need?
         mBeatBox = new BeatBox(getApplicationContext());
         mBeatBox.play(mBeatBox.getSounds().get(0));
 
+         /*Text(ы)*/
         viewTextView();
 
+        /*Спинеры*/
+        viewSpinners();
     }
 
     private void viewTextView (){
@@ -51,6 +58,16 @@ public class StartActivity extends AppCompatActivity
         mTxtSupport.setOnClickListener(this);
         mTxtExit = (TextView) findViewById(R.id.txt_exit);
         mTxtExit.setOnClickListener(this);
+    }
+
+    private void viewSpinners(){
+        mSpn_Language = (Spinner) findViewById(R.id.spn_language);
+        mSpn_Language.setOnItemSelectedListener(this);
+        ArrayAdapter<?> spn_language_adapter =
+                ArrayAdapter.createFromResource(this, R.array.arr_languages,
+                        android.R.layout.simple_spinner_dropdown_item);
+        mSpn_Language.setAdapter(spn_language_adapter);
+        spn_language_adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -89,4 +106,16 @@ public class StartActivity extends AppCompatActivity
                     Toast.LENGTH_SHORT).show();
         back_pressed = System.currentTimeMillis();
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent,
+                               View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }
+//248

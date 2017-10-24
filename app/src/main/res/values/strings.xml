@@ -42,6 +42,11 @@
     <string name="str_start_search">Start</string>
     <string name="str_are_you_sure_stop">Do you want to stop the search?</string>
 
+    <string-array name="arr_languages">
+        <item>ENG</item>
+        <item>RU</item>
+    </string-array>
+
     <string-array name="category">
         <item>Set category (or do not write anything)</item>
         <item>Electronics, Computers &amp; Office</item>

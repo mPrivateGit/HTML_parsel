@@ -44,6 +44,7 @@ public class BaseHelperFoundProducts extends SQLiteOpenHelper
         ContentValues contentValues = new ContentValues();
         contentValues.put(BaseShema.ColsFoundsProduct.UUID, foundProduct.getmId());
         contentValues.put(BaseShema.ColsFoundsProduct.PRODUCT_NAME, foundProduct.getProduct());
+        contentValues.put(BaseShema.ColsFoundsProduct.PRODUCT_PRICE, foundProduct.getPrice());
         contentValues.put(BaseShema.ColsFoundsProduct.URL, foundProduct.getUrl());
 
         mSQL.insert(BaseShema.FoundsProductTable.TABLE_NAME, null, contentValues);
