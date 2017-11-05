@@ -42,7 +42,7 @@ public class BaseHelperFoundProducts extends SQLiteOpenHelper
     public void createProduct(FoundProduct foundProduct) {
         mSQL = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(BaseShema.ColsFoundsProduct.UUID, foundProduct.getmId());
+        contentValues.put(BaseShema.ColsFoundsProduct.UUID, foundProduct.getId());
         contentValues.put(BaseShema.ColsFoundsProduct.PRODUCT_NAME, foundProduct.getProduct());
         contentValues.put(BaseShema.ColsFoundsProduct.PRODUCT_PRICE, foundProduct.getPrice());
         contentValues.put(BaseShema.ColsFoundsProduct.URL, foundProduct.getUrl());
@@ -57,12 +57,16 @@ public class BaseHelperFoundProducts extends SQLiteOpenHelper
 
     @Override
     public void deleteProduct(FoundProduct searchProduct) {
-        BaseHelperFoundProducts baseHelperFoundProducts = new BaseHelperFoundProducts(mContext);
+        BaseHelperFoundProducts baseHelperFoundProducts =
+                new BaseHelperFoundProducts(mContext);
         mSQL = baseHelperFoundProducts.getWritableDatabase();
-        String target = "";
-        String command = target +"";
+        String target = BaseShema.ColsFoundsProduct.UUID +
+                " =" +
+                "'" +
+                searchProduct.getId() +
+                "'";
 
-        mSQL.delete(BaseShema.UserProductTable.TABLE_NAME, command, null);
+        mSQL.delete(BaseShema.FoundsProductTable.TABLE_NAME, target, null);
         //TODO ??? что-то тут не чисто, нужно проверить правильность удаления
     }
 

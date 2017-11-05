@@ -160,7 +160,6 @@ public class BaseHelperUserProduct extends SQLiteOpenHelper
         }
 
         return result;
-        //TODO не доработан: нужно заменить эквуалс на что-то под 16 АПИ
     }
 
     @Override

@@ -1,12 +1,14 @@
 package com.example.aprivate.html_parsel.network;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.example.aprivate.html_parsel.SearchProduct;
 import com.example.aprivate.html_parsel.data.BaseHelperFoundProducts;
 import com.example.aprivate.html_parsel.data.BaseHelperUserProduct;
 import com.example.aprivate.html_parsel.log.LogApp;
+import com.example.aprivate.html_parsel.services.SearchLogic;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,11 +16,11 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
+import static java.lang.Thread.currentThread;
 import static java.lang.Thread.sleep;
 
 
-
-public class RequestCreator extends Thread {
+public class RequestCreatorAsynctask extends AsyncTask<Boolean, Object, Boolean> {
     private static final String BASE_URL_SEARCH_AMAZON =
             "https://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=";
     private static String FINALLY_URL = "";
@@ -29,7 +31,25 @@ public class RequestCreator extends Thread {
     private String mHighPrice;
     private String mSearchProduct;  //убрать пустые места между словами и заменить на +
 
-    public RequestCreator(Context context, String searchProductId) {
+    //Если указан диапазон цены
+//    public RequestCreatorAsynctask(Context context, String searchProduct, String string) {
+//        mContext = context;
+//        mSearchProduct = searchProduct;
+//        FINALLY_URL = BASE_URL_SEARCH_AMAZON + mSearchProduct;
+//        LogApp.Log(RequestCreatorAsynctask.class.getCanonicalName(), FINALLY_URL);
+//    }
+
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        Thread t = currentThread();
+        t.setName("ASYNCTASK THREAD - ");
+        LogApp.Log("Поток Асинтаска", t.getName() + t.toString());
+    }
+
+    //Если диапазон цены не указан
+    public RequestCreatorAsynctask(Context context, String searchProductId) {
         mContext = context;
         BaseHelperUserProduct baseHelperUserProduct = new
                 BaseHelperUserProduct(context);
@@ -41,27 +61,24 @@ public class RequestCreator extends Thread {
 
         FINALLY_URL = BASE_URL_SEARCH_AMAZON
                 + mSearchingProduct.getProductName();
-        //+ mSearchingProduct.getLowPrice()
-        //+ mSearchingProduct.getHighPrice();
+                //+ mSearchingProduct.getLowPrice()
+                //+ mSearchingProduct.getHighPrice();
 
         // iUrlCreator();
 
         LogApp.Log(RequestCreatorAsynctask.class.getCanonicalName(), FINALLY_URL);
-
     }
 
     @Override
-    public void run() {
-        LogApp.Log("RequestCreator", "имитация работы...");
+    protected Boolean doInBackground(Boolean... params) {
         try {
-           jsonsCreator();
-        } catch (InterruptedException e) {
+            jsonsCreator();
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } finally {
+            //
         }
-        LogApp.Log("RequestCreator", "Работа выполнена!");
-
+        return true;
     }
 
     private int pagesCount() throws IOException {
@@ -73,9 +90,9 @@ public class RequestCreator extends Thread {
         LogApp.Log(">>>pagesCount>>>", "Всего страниц = " + target );
 
         if (mDocLogOut == 0) {
-            LogApp.Log("***************", "***********************");
-            LogApp.Log("HTML: ", doc.body().toString());
-            LogApp.Log("***************", "***********************");
+        LogApp.Log("***************", "***********************");
+        LogApp.Log("HTML: ", doc.body().toString());
+        LogApp.Log("***************", "***********************");
             mDocLogOut+=1;
         }
 
@@ -116,6 +133,7 @@ public class RequestCreator extends Thread {
             String url = elements.get(i).select(".a-text-normal").text();
             //String href = url.absUrl("href");
             product.setUrl(url);
+
 
             baseHelperFoundProducts.createProduct(product);
         }
@@ -158,7 +176,6 @@ public class RequestCreator extends Thread {
             }
         }
         LogApp.Log("...Парсинг завершен....", ".");
-        notify();
         //onPostExecute("out");
     }
 
@@ -177,6 +194,14 @@ public class RequestCreator extends Thread {
         }
     }
 
+    @Override
+    protected void onPostExecute(Boolean s) {
+        LogApp.Log("onPostExecute", "RUN");
+        SearchLogic logic = new SearchLogic();
+        //logic.searchResultForUser(mContext, mSearchingProduct);
+
+    }
+
     private String formatPrice(String priceSite){
         String result = "";
 
@@ -190,8 +215,17 @@ public class RequestCreator extends Thread {
             }
         }
         if (result.isEmpty()){
-            return " this price is null :(";
+            return "this is null :(";
         }
         return result;
+    }
+
+    private void iUrlCreator(){
+        if (!TextUtils.isEmpty(mSearchingProduct.getCategory())){
+            FINALLY_URL = FINALLY_URL + mSearchingProduct.getCategory();
+            if (!TextUtils.isEmpty(mSearchingProduct.getUnderCategory())){
+                FINALLY_URL = FINALLY_URL + mSearchingProduct.getUnderCategory();
+            }
+        }
     }
 }

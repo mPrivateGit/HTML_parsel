@@ -28,7 +28,7 @@ public class FoundProduct {
         this.mProductName = mProduct;
     }
 
-    public String getmId() {
+    public String getId() {
         return mId;
     }
 
